@@ -1,6 +1,6 @@
 # Catering
 
-The project is in  development.
+The project is still in  development.
 Python, PyQt5 and database PostgreSQL.
 
 The target of the project is a cashregister for catering purposes, including tablemanagement for 100 seats, 
