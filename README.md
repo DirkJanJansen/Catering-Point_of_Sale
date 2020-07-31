@@ -7,9 +7,9 @@ with buttons for 10 maingroups of producttypes and 5 subgroups with 18 choices, 
 
 Below you can see mainscreen- and table-revervationscreen screenshots for the time being.
 
-![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/Mainscreen.png)
+![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/MainScreen.png)
 
-[Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/table_management.png)
+[Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/Table_management.png)
 
 
 
