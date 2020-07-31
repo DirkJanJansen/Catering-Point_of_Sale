@@ -7,7 +7,7 @@ Also a user manual will be provided.
 
 The target of the project is a cashregister for catering purposes, including tablemanagement for 100 seats, 
 with buttons for 10 maingroups of producttypes and 5 subgroups with 18 choices, so 900 products in total.
-Besides it's possible to scan barcodes for logon and product with barcode.
+Besides it's possible to scan barcodes for logon and products with barcode applied.
 
 Below you can see mainscreen- and table-management screenshots for the time being.
 
