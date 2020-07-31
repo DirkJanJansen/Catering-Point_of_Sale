@@ -9,7 +9,7 @@ Below you can see mainscreen- and table-revervationscreen screenshots for the ti
 
 ![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/MainScreen.png)
 
-[Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/Table_management.png)
+[Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/table_management.png)
 
 
 
