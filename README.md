@@ -2,6 +2,7 @@
 
 The project is still in  development.
 Python, PyQt5 and database PostgreSQL.
+So code and database follows then it's ready for publishing.
 
 The target of the project is a cashregister for catering purposes, including tablemanagement for 100 seats, 
 with buttons for 10 maingroups of producttypes and 5 subgroups with 18 choices, so 900 products in total.
