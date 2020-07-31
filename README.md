@@ -8,7 +8,7 @@ with buttons for 10 maingroups of producttypes and 5 subgroups with 18 choices, 
 
 Below you can see mainscreen- and table-management screenshots for the time being.
 
-# Keep in Touch!
+# Keep in Touch and stay tuned!
 
 ![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/MainScreen.png)
 
