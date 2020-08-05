@@ -11,8 +11,8 @@ Below you can see mainscreen- and table-management screenshots for the time bein
 
 # Mainscreen
 ![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/MainScreen.png)
-# Table management
 
+# Table management
 ![Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/table_management.png)
 
 # Big display
