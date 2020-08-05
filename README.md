@@ -1,23 +1,20 @@
 # Catering
 
-The project is still in  development.
+The project is in  development.
 Python, PyQt5 and database PostgreSQL.
-So code and database follows then it's ready for publishing.
-Also a user manual will be provided.
 
-The target of the project is a cashregister for catering purposes as a open source project, including tablemanagement for 100 seats, 
-20 tables with 2 places and 15 tables with 4 places. Splitting and combining of tables and seats. Client assigned to tables and seats
-for accounting reasons.
-Buttons for 10 maingroups of producttypes and 5 subgroups with 18 choices, so 900 products in total.
-Besides it's possible to scan barcodes for logon, for switching between clients and productscanning for products with barcode provided.
+The target of the project is a cashregister for catering purposes as a open source project, including tablemanagement for 100 seats, 20 tables with 2 places and 15 tables with 4 places. Splitting and combining of tables and seats. Client assigned to tables and seats for accounting reasons. Buttons for 10 maingroups of producttypes and 5 subgroups with 18 choices, so 900 products in total. Besides it's possible to scan barcodes for logon, for switching between clients and productscanning for products with barcode provided.
 
 Below you can see mainscreen- and table-management screenshots for the time being.
 
 # Keep in touch and stay tuned!
 
-![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/mainScreen.png)
+![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/MainScreen.png)
 
 ![Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/table_management.png)
+
+![Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/bigDisplay.png)
+
 
 
 
