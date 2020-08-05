@@ -9,10 +9,13 @@ Below you can see mainscreen- and table-management screenshots for the time bein
 
 # Keep in touch and stay tuned!
 
+# Mainscreen
 ![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/MainScreen.png)
+# Table management
 
 ![Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/table_management.png)
 
+# Big display
 ![Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/bigDisplay.png)
 
 
