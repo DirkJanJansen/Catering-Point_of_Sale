@@ -771,12 +771,12 @@ def groupButtons():
                                  message= 'No more then 5 lines allowed'
                                  alertText(message)
                                  break
-                    
-                        updbtn = update(groupbuttons).where(groupbuttons.c.groupID == groupbuttonnr).\
-                               values(buttongrouptext = mbuttontext)
-                        con.execute(updbtn)
-                        insertOK()
-                        self.close()
+                            else:
+                                updbtn = update(groupbuttons).where(groupbuttons.c.groupID == groupbuttonnr).\
+                                       values(buttongrouptext = mbuttontext)
+                                con.execute(updbtn)
+                                insertOK()
+                                self.close()
                                                                   
                     grid = QGridLayout()
                     grid.setSpacing(20)
