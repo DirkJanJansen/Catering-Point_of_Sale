@@ -1988,11 +1988,11 @@ def articleRequest(mflag):
                     grid.addWidget(lbl3, 6, 0, 1, 3, Qt.AlignCenter)
                    
                     def insBtnText():
-                        mhighl = self.cBox.checkState()
+                        maccent = self.cBox.checkState()
                         if self.cBox.checkState():
-                            mhighl = 1
+                            maccent = 1
                         else:
-                            mhighl = 0
+                            maccent = 0
                         if not self.q2Edit.text():
                             message = 'No buttonnumber filled in!'
                             alertText(message)
@@ -2012,7 +2012,7 @@ def articleRequest(mflag):
                                  break
                         else:
                             updbtn = update(buttons).where(buttons.c.buttonID==mbtnnr).\
-                             values(barcode=str(mbarcode), buttontext=mbtntext, accent=mhighl)
+                             values(barcode=str(mbarcode), buttontext=mbtntext, accent=maccent)
                             con.execute(updbtn)
                             insertOK()
                             self.close()
@@ -3262,9 +3262,9 @@ def newBarcode():
                 mvat = self.q12Edit.currentText()
                 mbtnnr =self.q13Edit.text()
                 if self.cBox.checkState():
-                    mhighl = 1
+                    maccent = 1
                 else:
-                    mhighl = 0
+                    maccent = 0
                 if not self.q13Edit.text():
                     message = 'No buttonnumber filled in!'
                     alertText(message)
@@ -3293,7 +3293,7 @@ def newBarcode():
                            thumbnail=mthumb,category=mcat,VAT=mvat)
                         con.execute(insart)
                         updbtn = update(buttons).where(buttons.c.buttonID==mbtnnr).\
-                         values(barcode=str(mbarcode), buttontext=mbtntext, accent = mhighl)
+                         values(barcode=str(mbarcode), buttontext=mbtntext, accent = maccent)
                         con.execute(updbtn)
                         if sys.platform == 'win32':
                             ean.save('.\\Barcodes\\Articles\\'+str(mbarcode))
@@ -3999,7 +3999,7 @@ def heading(self, mpage):
     '==================================================================================================\n')
     return(kop)
 
-def printBon(self):
+def printReceipt(self):
     msgBox=QMessageBox()
     msgBox.setStyleSheet("color: black;  background-color: gainsboro")
     msgBox.setWindowIcon(QIcon('./logos/logo.jpg')) 
@@ -4013,9 +4013,10 @@ def printBon(self):
     msgBox.setDefaultButton(QMessageBox.Yes)
     if(msgBox.exec_() == QMessageBox.Yes):
         metadata = MetaData()
-        sales = Table('sales', metadata,
-            Column('salesID', Integer(), primary_key=True),
-            Column('receiptnumber', Integer),
+        order_lines = Table('order_lines', metadata,
+            Column('ID', Integer(), primary_key=True),
+            Column('clientID', Integer),
+            Column('callname', String),
             Column('barcode', String),
             Column('description', String),
             Column('number', Float),
@@ -4025,10 +4026,12 @@ def printBon(self):
         
         engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
         con = engine.connect()
-        delbal = delete(sales).where(and_(sales.c.number == 0,\
-                       sales.c.receiptnumber == self.mreceipt))
+        delbal = delete(order_lines).where(and_(order_lines.c.number == 0,\
+                       order_lines.c.clientID == self.mclient, order_lines.c.callname ==\
+                       self.mcallname))
         con.execute(delbal)
-        selb = select([sales]).where(sales.c.receiptnumber == self.mreceipt).order_by(sales.c.barcode)
+        selb = select([order_lines]).where(and_(order_lines.c.clientID == self.mclient,\
+                    order_lines.c.callname== self.mcallname)).order_by(order_lines.c.barcode)
         rpb = con.execute(selb)
         mpage = 0
         rgl = 0
@@ -4048,12 +4051,12 @@ def printBon(self):
                 open(fbarc, 'a').write(heading(self, mpage))
                 rgl += 4
                 
-            martnr = row[2]
-            mdescr = row[3]
-            mnumber = row[4]
-            mprice = row[5]
-            msubtotal = row[6]
-            msubtotvat = row[7]
+            martnr = row[3]
+            mdescr = row[4]
+            mnumber = row[5]
+            mprice = row[6]
+            msubtotal = row[7]
+            msubtotvat = row[8]
             open(fbarc,'a').write(str(martnr) +'  '+'{:<40s}'.format(mdescr)+' '+'{:>6d}'\
                      .format(int(mnumber))+'{:>12.2f}'.format(float(mprice))+'{:>12.2f}'\
                      .format(float(msubtotal))+'{:>12.2f}'\
@@ -4063,7 +4066,7 @@ def printBon(self):
         ('===================================================================================================\n'+
          'Total  amount to pay inclusive VAT and amount VAT                         '+'{:>12.2f}'.format(self.mtotal)+'{:>12.2f}'.format(self.mtotvat)+' \n'+
          '===================================================================================================\n'+\
-         'Employee : '+self.mcallname+' \n')
+         'Employee : '+self.mcallname+' - Thank you for visiting our restaurant.\n') 
         if rgl > 0:
             open(fbarc,'a').write(tail) 
             if sys.platform == 'win32':
@@ -4125,8 +4128,8 @@ def payed(self):
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
  
-    delsal = delete(sales).where(and_(sales.c.number == 0,\
-              sales.c.receiptnumber == self.mreceipt))
+    delsal = delete(order_lines).where(and_(order_lines.c.number == 0,\
+              order_lines.c.clientID == self.mclient, order_lines.c.callname == self.mcallname))
     con.execute(delsal)
     if self.mtotal != int(0):
         try:
@@ -4159,7 +4162,7 @@ def payed(self):
            
         insdr = insert(payments).values(payID = mpaynr, bookdate = mbookd,\
               kind = 'VAT payment    ', basis = mtotal, amount = mtotal_vat, instance = 'Tax authorities',\
-              ovorderID = int(self.mreceipt), accountnumber = 'NL10 ABNA 9999999977')
+              ovorderID = mrcptnr, accountnumber = 'NL10 ABNA 9999999977')
         con.execute(insdr)
         dellines = delete(order_lines).where(and_(order_lines.c.callname == self.mcallname,\
                      order_lines.c.clientID == self.mclient))
@@ -4379,122 +4382,6 @@ def set_barcodenr(self):
     
     self.q1Edit.setSelection(0,13)
     self.qspin.setValue(1)
-    
-def printReceipt(self):   
-    mcallname = self.mcallname
-    mclient = self.mclient
-    albl = self.albl
-    if mclient == 0:
-        self.albl.setText('First choose a clientnumber')
-        return
-    class widget(QDialog):
-        def __init__(self):
-            super(widget,self).__init__()
-            
-            self.setWindowTitle("Client orderlines")
-            self.setWindowIcon(QIcon('./logos/logo.jpg'))
-            self.setWindowFlags(self.windowFlags()| Qt.WindowSystemMenuHint |
-                                Qt.WindowMinimizeButtonHint) #Qt.WindowMinMaxButtonsHint
-            self.setWindowFlag(Qt.WindowCloseButtonHint, False)
-            
-            self.setStyleSheet("background-color: #D9E1DF")
-            self.setFont(QFont("Consolas", 8))
-            
-            grid = QGridLayout()
-            grid.setSpacing(0)
-            
-            self.albl = albl
-            self.mclient = mclient
-            self.mcallname = mcallname
-            
-            self.mkoptext = 'Articlenumber Description                              Number  Item_price    Subtotal         VAT'
-                        
-            self.view = QTextEdit()
-            self.view.setStyleSheet('color: black; background-color: #F8F7EE')  
-            self.view.setText('')
-            self.view.setFont(QFont("Consolas", 8))
-            self.view.setFocusPolicy(Qt.NoFocus)
-            self.view.setFixedSize(700, 800)  
-            
-            mtotal = 0.00
-            mtotvat = 0.00
-            self.qtailtext = 'Clientnumber: '+str(self.mclient)+'  Total  incl. VAT'+'\u2000'*57+'{:\u2000>12.2f}'.format(mtotal)+'{:\u2000>12.2f}'.format(mtotvat)
-                        
-            metadata = MetaData()
-            order_lines = Table('order_lines', metadata,
-                Column('ID', Integer(), primary_key=True),
-                Column('barcode', String),
-                Column('description', String),
-                Column('number', Float),
-                Column('item_price', Float),
-                Column('sub_total', Float),
-                Column('sub_vat', Float),
-                Column('callname', String),
-                Column('mutation_date', String),
-                Column('clientID', Integer),
-                Column('callname', String))
-            engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
-            con = engine.connect()
-                     
-            sellines = select([order_lines]).where(and_(order_lines.c.callname == self.mcallname,\
-                    order_lines.c.clientID == self.mclient))
-            rplines = con.execute(sellines)           
-            self.albl.setText('Client '+str(self.mclient))
-            x = 0
-            self.view.append('='*97+'\n'+self.mkoptext+'\n'+'='*97)
-            for row in rplines:
-                martnr = row[1]
-                mdescr = row[2]
-                mnumber = row[3]
-                mprice = row[4]
-                msubtot = row[5]
-                msubvat = row[6]
-                self.view.append('{:<14s}'.format(martnr)+'{:<40s}'.format(mdescr)+' {:>6d}'\
-                 .format(int(mnumber))+'{:>12.2f}'.format(mprice)+'{:>12.2f}'\
-                 .format(msubtot)+'{:>12.2f}'.format(msubvat))
-                mtotal += msubtot
-                mtotvat += msubvat
-                x += 1 
-            self.qtailtext = 'Clientnumber: '+str(self.mclient)+'  Total  incl. VAT'+'\u2000'*40+'{:\u2000>12.2f}'.format(mtotal)+'{:\u2000>12.2f}'.format(mtotvat)
-            self.mkoptext = ('Articlenumber Description                              Number  Item_price    Subtotal         VAT')
-            self.view.append('='*97+'\n'+self.qtailtext+'\n'+'='*97)
-            
-            grid.addWidget(self.view, 0 ,0, 1, 6, Qt.AlignRight)
-            
-            def handlePrint(self):
-                dialog = QPrintDialog()
-                if dialog.exec_() == QDialog.Accepted:
-                    self.view.document().print_(dialog.printer())
-            
-            printBtn = QPushButton('Print')
-            printBtn.clicked.connect(lambda: handlePrint(self))
-            printBtn.setFont(QFont("Arial",12))
-            printBtn.setFocusPolicy(Qt.NoFocus)
-            printBtn.setFixedWidth(150)
-            printBtn.setStyleSheet("color: black; background-color: gainsboro")
-            
-            grid.addWidget(printBtn, 1, 5, 1, 1, Qt.AlignRight )
-                            
-            closeBtn = QPushButton('Close')
-            closeBtn.clicked.connect(self.close)
-            closeBtn.setFont(QFont("Arial",12))
-            closeBtn.setFocusPolicy(Qt.NoFocus)
-            closeBtn.setFixedWidth(150)
-            closeBtn.setStyleSheet("color: black; background-color: gainsboro")
-
-            grid.addWidget(closeBtn, 1, 4, 1, 1, Qt.AlignRight)
-            
-            lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
-            lbl3.setFont(QFont("Arial", 10))
-            lbl3.setFixedHeight(40)
-            grid.addWidget(lbl3, 3, 0, 1, 6, Qt.AlignCenter)
-                                      
-            self.setLayout(grid)
-            self.setGeometry(100, 60, 700, 800)
-            
-    window = widget()
-    window.exec_()
-
 
 def bigDisplay(self):
     mcallname = self.mcallname
@@ -4812,9 +4699,9 @@ def seatsArrange(self):
             def gettable_seat(tindex):
                 seatlist.append(tindex) 
             
-            seatlist.sort(reverse=True)
             # remove seats with even occurences
             seatlist = [seat for seat, count in collections.Counter(seatlist).items() if count%2 == 1]
+            seatlist.sort(reverse=True)
                                 
             qcbEdit = QComboBox()
             qcbEdit.addItem('Open new table')
@@ -4830,7 +4717,7 @@ def seatsArrange(self):
                 qcbEdit.addItem('Change seats client '+str(row[0]))
                 tablelist.append(row[1])
                 
-            qcbEdit.setFixedWidth(200)
+            qcbEdit.setFixedSize(200, 40)
             qcbEdit.setStyleSheet('font: 18px bold; color:black; background-color: #F8F7EE')
             grid.addWidget(qcbEdit, 2, 10, 1, 4)
             
@@ -4963,7 +4850,6 @@ def barcodeScan():
                 
             self.mvatl = rppar[0][2]
             self.mvath = rppar[1][2]
-            self.mreceipt = int(rppar[2][2])
             rounding = rppar[6][2]
 
             grid = QGridLayout()
