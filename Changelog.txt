@@ -9,4 +9,5 @@
            Writing documentation.
            Remember is a first preview version, the program is in development and not fully tested!
 2020-08-09 xdotools in LINUX dir not work for ESC changed in Escape problem solved
+2020-08-09 selection QPlaintext by groupbuttons adjusted wrong method used, solved!
            
