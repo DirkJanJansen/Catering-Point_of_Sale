@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Catering
+Comment=Point of Sales for catering purposes
+Path=/home/postgres/Catering
+Exec=python3 catering.py
+Icon=register.png
+Terminal=false
+Type=Application
+Categories=Application;
