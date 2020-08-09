@@ -3944,23 +3944,22 @@ def info():
         With the spinbox the correct number can be chosen for scanning, this can be done by the arrows of 
         the spinbox or with the mouse wheel. After every scan, the number is reset to 1.
         Selecting can also been done with the productbuttons for unpackaged products.
-        When scanning is started, the close button is blocked until the button 'Next customer' is pressed.
+        When scanning is started, the close button is blocked until the button 'TRANSFER PAYED' is pressed.
         The print button and the customer button are blocked until the first transaction is posted.
-        In the following cases, an error message appears in red below the display screen. An acoustic alarm 
-        will also sound for the following 5 cases.  
+        In the following cases, an error message appears in red in the Notification Area. An acoustic alarm 
+        will also sound for the following 3 cases.  
         
         1. If a read error occurs when scanning the barcode.
         2. If there is insufficient stock to deliver the order, current stock will also been showed.
         3. If the product is not (yet) included in the range.
-        4. If not logged in.
-        5. If the employee is not allowed for operation.
-             
+        All other errors of notification will appear in red in the Notification Area.
+                    
         If the item cannot be scanned, it is possible to insert the barcode manually after inserting press 
         <Enter> on the keyboard.
                            
         The receipt can be printed after scanning is finished.
-        Before exiting the program, first press the customer button, so the close button is released.
-        This will make the necessary bookings and prepare the order for the next customer.
+        Before exiting the program, first press the TRANSFER PAYED button, so the close button is released.
+        This will make the necessary bookings and prepare the POS for the next customer.
         ''')
             grid.addWidget(infolbl, 1, 0)
                            
@@ -4338,6 +4337,7 @@ def set_barcodenr(self):
             self.albl.setText('Please logon with your barcodecard!')
         else:
             self.albl.setText('Article not in assortment!')
+            giveAlarm()
                   
         self.closeBtn.setDisabled(True)
         self.closeBtn.setStyleSheet("color: grey; background-color: #B0C4DE")
@@ -4372,7 +4372,7 @@ def set_barcodenr(self):
     elif not self.mcallname:
         self.albl.setText('Please logon with your barcodecard!')
     elif self.mclient == 0:
-            self.albl.setText('First compose or chose existing table-arrangement!')
+            self.albl.setText('First compose or choose existing table-arrangement!')
     else:
         #alarm if barcode scan failed
         self.albl.setText('Scanning error barcode!')
