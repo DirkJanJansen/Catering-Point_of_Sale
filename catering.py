@@ -758,26 +758,25 @@ def groupButtons():
                     self.q3Edit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
                     self.q3Edit.setFont(QFont("Consolas", 10, 75))
                     self.q3Edit.setStyleSheet('color: black; background-color: #F8F7EE')
-                    mbuttontext = self.q3Edit.toPlainText()
-                    mlist = mbuttontext.split('\n')
-                    for line in mlist:
-                        if len(line) > 14:
-                             message = 'No more then 14 characters per line allowed'
-                             alertText(message)
-                             break
-                        elif len(mlist) > 5:
-                             message= 'No more then 5 lines allowed'
-                             alertText(message)
-                             break
                          
                     def updGroupbutton(self):
-                         mbuttontext = self.q3Edit.text()   
-                            
-                         updbtn = update(groupbuttons).where(groupbuttons.c.groupID == groupbuttonnr).\
+                        mbuttontext = self.q3Edit.toPlainText()
+                        mlist = mbuttontext.split('\n')
+                        for line in mlist:
+                            if len(line) > 14:
+                                 message = 'No more then 14 characters per line allowed'
+                                 alertText(message)
+                                 break
+                            elif len(mlist) > 5:
+                                 message= 'No more then 5 lines allowed'
+                                 alertText(message)
+                                 break
+                    
+                        updbtn = update(groupbuttons).where(groupbuttons.c.groupID == groupbuttonnr).\
                                values(buttongrouptext = mbuttontext)
-                         con.execute(updbtn)
-                         insertOK()
-                         self.close()
+                        con.execute(updbtn)
+                        insertOK()
+                        self.close()
                                                                   
                     grid = QGridLayout()
                     grid.setSpacing(20)
