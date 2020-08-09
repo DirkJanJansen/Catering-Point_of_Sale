@@ -4723,7 +4723,7 @@ def choseClient(self):
             if sys.platform == 'win32':
                 keyboard.press_and_release('esc')                          #Windows
             else:
-               subprocess.call(["xdotool", "key", "Esc"]) #Linux
+               subprocess.call(["xdotool", "key", "Escape"]) #Linux
     win = Widget(data_list, header)
     win.exec_()
     
