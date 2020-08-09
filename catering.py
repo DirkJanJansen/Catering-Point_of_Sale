@@ -771,12 +771,12 @@ def groupButtons():
                                  message= 'No more then 5 lines allowed'
                                  alertText(message)
                                  break
-                            else:
-                                updbtn = update(groupbuttons).where(groupbuttons.c.groupID == groupbuttonnr).\
-                                       values(buttongrouptext = mbuttontext)
-                                con.execute(updbtn)
-                                insertOK()
-                                self.close()
+                        else:
+                            updbtn = update(groupbuttons).where(groupbuttons.c.groupID == groupbuttonnr).\
+                                   values(buttongrouptext = mbuttontext)
+                            con.execute(updbtn)
+                            insertOK()
+                            self.close()
                                                                   
                     grid = QGridLayout()
                     grid.setSpacing(20)
@@ -1926,7 +1926,7 @@ def articleRequest(mflag):
                     self.q2Edit = QLineEdit()
                     self.q2Edit.setFixedWidth(40)
                     self.q2Edit.setStyleSheet('color: black; background-color: #F8F7EE')
-                    self.q2Edit.setFont(QFont("Arial",10))
+                    self.q2Edit.setFont(QFont("Consolas",10, 75))
                     reg_ex = QRegExp("^[0-9]{0,3}$")
                     input_validator = QRegExpValidator(reg_ex, self.q2Edit)
                     self.q2Edit.setValidator(input_validator)
@@ -1955,12 +1955,12 @@ def articleRequest(mflag):
                     grid.addWidget(self.q1Edit, 1, 1)
                      
                     lbl2 = QLabel('Button-Number')
-                    lbl2.setFont(QFont("Arial", 10))
+                    lbl2.setFont(QFont("Consolas", 10, 75))
                     grid.addWidget(lbl2, 2, 0, 1, 1, Qt.AlignRight)
                     grid.addWidget(self.q2Edit, 2, 1)
                     
                     lbl3 = QLabel('Button-Text')
-                    lbl3.setFont(QFont("Arial", 10))
+                    lbl3.setFont(QFont("Consolas", 10, 75))
                     grid.addWidget(lbl3, 3, 0, 1, 1, Qt.AlignRight)
                     grid.addWidget(self.q3Edit, 3, 1)
                     
@@ -3107,7 +3107,7 @@ def newBarcode():
             self.q13Edit = QLineEdit()
             self.q13Edit.setFixedWidth(40)
             self.q13Edit.setStyleSheet('color: black; background-color: #F8F7EE')
-            self.q13Edit.setFont(QFont("Arial",10))
+            self.q13Edit.setFont(QFont("Consolas",10, 75))
             reg_ex = QRegExp("^[0-9]{0,3}$")
             input_validator = QRegExpValidator(reg_ex, self.q13Edit)
             self.q13Edit.setValidator(input_validator)
