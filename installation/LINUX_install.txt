@@ -35,25 +35,22 @@ lpoptions -o page-left=18 -o page-right=0 -o page-top=25 -o page-bottom=80 -o cp
 Follow these settings exactly for printlists with more pages
 
 Barcode enabling in linux: (if your barcodescanner stops working by thirst scan like mine)
-
-The solution for enabling the barcodereader is changed for it's not working anymore for Ubuntu 20.04
-I changed as follows.
 Copy file .usbkbd.sh from folder installation in folder /home/postgres ($HOME)
 chmod 755 .usbkbd.sh
 If the password changed for Ubuntu from postgres45 change it too in .usbkbd.sh
-Thats all. The script is called with starting Sales.py and the barcodescanner works again.
+Thats all. The script is called with starting Catering.py and the barcodescanner works again.
 
 Enable error sounds in linux terminal:
 sudo apt install sox
 
-For adding Return after a buttonpress and adding esc after choosing clients in Linux - install:
+For adding Return after a buttonpress and adding Esc after choosing clients in Linux - install:
 sudo apt install xdotool
 
 Installing database:
-In pgadmin4 tree create a server LocalHost and a empty database:  cashregister, right click databases (login with postgres45) 
-set password in pgadmin4: postgres45 with making tree cashregister
-In tree pgadmin4 Localhost-Databases-cashregister restore from cashregister.backup, right click cashregister and browse to cashregister.backup 
-Copy Sales with folder structures in /home/postgres so you get /home/postgres/Sales
+In pgadmin4 tree create a server LocalHost and a empty database:  catering, right click databases (login with postgres45) 
+set password in pgadmin4: postgres45 with making tree catering
+In tree pgadmin4 Localhost-Databases-cashregister restore from catering.backup, right click catering and browse to catering.backup 
+Copy Catering with folder structures in /home/postgres so you get /home/postgres/Catering
 
 The fonts in Linux differ from Windows. (Install Arial, Comic Sans MS, Times, Sans Serif and Consolas)
 https://www.ostechnix.com/install-microsoft-windows-fonts-ubuntu-16-04/
@@ -63,15 +60,15 @@ install Ubuntu tweak tools and increase font  size for optimal views
    
 startup files in Linux:
 Copy register.png from folder Installation in folder /home/postgres/.icons
-Copy Sales.desktop from folder Installation in /home/postgres/.local/share/applications
+Copy Catering.desktop from folder Installation in /home/postgres/.local/share/applications
 
 All settings that differ from executing in Windows are automatically adjusted for Ubuntu
 
 By problems reading importfiles from windows, copy these lines in Linux plain text, because windows adds control characters.
 
-To compile Sales.py script in Python:
+To compile Catering.py script in Python:
 Open Terminal Ctrl+Alt+t
 
-cd Sales
+cd Catering
 python3 -m compileall ./
 
