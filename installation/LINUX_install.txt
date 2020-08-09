@@ -46,7 +46,7 @@ Thats all. The script is called with starting Sales.py and the barcodescanner wo
 Enable error sounds in linux terminal:
 sudo apt install sox
 
-For adding Return after a buttonpress and adding esc after choosing clients in Linux install:
+For adding Return after a buttonpress and adding esc after choosing clients in Linux - install:
 sudo apt install xdotool
 
 Installing database:
