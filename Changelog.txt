@@ -11,4 +11,6 @@
 2020-08-09 xdotools in LINUX did not work for ESC changed in Escape problem solved
 2020-08-09 selection QPlaintext by groupbuttons adjusted wrong method used, solved!
 2020-08-09 printing receipt changed to plain printing, QPrintDialog method removed.
+2020-08-10 method added for selecting client by barcodescan, besides current selectionmethod, not yet activated, for
+           have yet to finish a printmodule for printing clientbarcodes in good resolution for scanning
            
