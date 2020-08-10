@@ -4072,9 +4072,9 @@ def printReceipt(self):
         mpage = 0
         rgl = 0
         if sys.platform == 'win32':
-            fbarc = '.\\forms\\Barcodelists\\'+str(self.mclient)+'.txt'
+            fbarc = '.\\forms\\Orderlines\\'+str(self.mclient)+'.txt'
         else:
-            fbarc = './forms//Barcodelists/'+str(self.mclient)+'.txt'
+            fbarc = './forms//Orderlines/'+str(self.mclient)+'.txt'
         
         for row in rpb:
             rgl += 1
@@ -4429,7 +4429,7 @@ def bigDisplay(self):
         def __init__(self):
             super(widget,self).__init__()
             
-            self.setWindowTitle("Client orderlines")
+            self.setWindowTitle("Client Orderlines")
             self.setWindowIcon(QIcon('./logos/logo.jpg'))
             self.setWindowFlags(self.windowFlags()| Qt.WindowSystemMenuHint |
                                 Qt.WindowMinimizeButtonHint) #Qt.WindowMinMaxButtonsHint
