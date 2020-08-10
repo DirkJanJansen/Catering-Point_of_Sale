@@ -3,10 +3,11 @@ from math import sqrt
 from barcode.writer import ImageWriter 
 from PyQt5.QtCore import Qt, QSize, QRegExp, QAbstractTableModel
 from PyQt5.QtGui import QIcon, QFont, QPixmap, QMovie, QRegExpValidator, QColor,\
-           QImage
+           QImage, QPainter
 from PyQt5.QtWidgets import QLineEdit, QGridLayout, QDialog, QLabel, QPushButton,\
         QMessageBox, QSpinBox, QComboBox, QTextEdit, QApplication, QWidget,\
         QVBoxLayout, QTableView, QStyledItemDelegate, QCheckBox, QPlainTextEdit
+from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 from sqlalchemy import Table, Column, Integer, String, Boolean, MetaData, create_engine,\
                      Float, select, update,insert, delete, func, and_, ForeignKey
 
@@ -3872,13 +3873,19 @@ def checkClient(self):
     engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
     con = engine.connect()
     selcl = select([clients]).where(clients.c.barcode == self.checknr)
-    rpcl = con.execute(selcl).first()  
-    self.mclient = rpcl[0]
-    selcl = select([order_lines]).where(order_lines.c.clientID == self.mclient)
-    rpcl = con.execute(selcl)
-    if not rpcl:
-        self.albl.setText('No records!')
+    rpcl = con.execute(selcl).first() 
+    if rpcl:
+        self.mclient = rpcl[0]
+        selord = select([order_lines]).where(order_lines.c.clientID == self.mclient)
+        rpord = con.execute(selord)
+        if not rpord:
+            self.albl.setText('No records!')
+            return
+    else:
+        self.mclient = ''
+        self.albl.setText('No match clientnumber - barcodenumber found!')
         return
+
     self.view.setText('')   
     self.mtotal = 0
     self.mvat = 0
@@ -4205,9 +4212,7 @@ def payed(self):
         self.closeBtn.setStyleSheet("color: black; background-color:  #B0C4DE")
         self.printBtn.setDisabled(True)
         self.printBtn.setStyleSheet("color: grey; background-color: #00FFFF")
-        self.nextBtn.setDisabled(True)
-        self.nextBtn.setStyleSheet("color: grey; background-color: #00FFFF")
-       
+        
         self.mtotal = 0.00
         self.mtotvat = 0.00
         self.mlist = []
@@ -4395,11 +4400,11 @@ def set_barcodenr(self):
             self.checknr = barcodenr
             logon(self, barcodenr)
             self.albl.setText('')
-    elif len(barcodenr) == 8 and self.mcallname  and barcodenr[0] == '0' :
+    elif len(barcodenr) == 8 and self.mcallname and barcodenr and barcodenr[0] == '0' :
         self.q1Edit.setStyleSheet("color:#F8F7EE;  background-color: #F8F7EE")
         self.q1Edit.setText('')
         self.checknr = barcodenr
-        checkClient(self)
+        #checkClient(self)
     elif not self.mcallname:
         self.albl.setText('Please logon with your barcodecard!')
     elif self.mclient == 0:
@@ -4655,10 +4660,21 @@ def printClient_barcode(mbarcode):
     msgBox.setStyleSheet("color: black;  background-color: gainsboro")
     msgBox.setDefaultButton(QMessageBox.Yes)
     if(msgBox.exec_() == QMessageBox.Yes):
-       if sys.platform == 'win32':
-           os.startfile('.\\Barcodes\\clients\\'+str(mbarcode)+'.png', "print")
-       else:
-           os.system("lpr "+'./Barcodes/clients/'+str(mbarcode)+'.png')
+        printer = QPrinter(QPrinter.HighResolution)
+        printer.setPageSize(QPrinter.A4) 
+        form = QPrintDialog(printer) 
+        if form.exec_():
+            mbarcode = '00001007'
+            painter = QPainter(printer)
+            rect = painter.viewport()
+            if sys.platform == 'win32':
+                image = QImage('.\\Barcodes\\clients\\'+str(mbarcode)+'.png')
+            else:
+                image = QImage('./Barcodes/clients/'+str(mbarcode)+'.png')
+            size = image.size()
+            size.scale(rect.size(), Qt.KeepAspectRatio)
+            painter.setViewport(rect.x(), rect.y(), size.width(), size.height()) 
+            painter.drawImage(0, 0, image)
          
 def seatsArrange(self):
     if not self.mcallname:
@@ -4831,7 +4847,7 @@ def seatsArrange(self):
                         insidx=insert(clients).values(clientID=mclientnr, employee=self.mcallname,\
                         barcode = mbarcode)
                         con.execute(insidx)
-                        #printClient_barcode(mbarcode)
+                        printClient_barcode(mbarcode)
                         
             clientBtn = QPushButton('Apply\nSeats')
             clientBtn.clicked.connect(lambda: connectClient(self))
