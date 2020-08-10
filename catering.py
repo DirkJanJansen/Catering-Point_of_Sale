@@ -4701,8 +4701,12 @@ def seatsArrange(self):
             grid.setSpacing(0)
              
             self.lblseats = QLabel(' ')
-            self.lblseats.setStyleSheet('font: 24px bold; color:red')  
-            grid.addWidget(self.lblseats, 12, 0, 1,  11, Qt.AlignCenter)
+            self.lblseats.setFont(QFont("Arial", 12, 75))
+            self.lblseats.setText("Notification Bar")
+            self.lblseats.setAlignment(Qt.AlignCenter)
+            self.lblseats.setStyleSheet("color: red ; background-color : #39CCCC")
+            self.lblseats.setFixedSize(1200, 40)
+            grid.addWidget(self.lblseats, 12, 0, 1,  12, Qt.AlignTop)
              
             metadata = MetaData()
             tables_layout = Table('tables_layout', metadata,
