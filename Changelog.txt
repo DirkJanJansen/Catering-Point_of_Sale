@@ -14,4 +14,5 @@
 2020-08-10 method added for selecting client by barcodescan, besides current selectionmethod, not yet activated, for
            have yet to finish a printmodule for printing clientbarcodes in good resolution for scanning
 2020-08-10 disabling button after TRANSFER PAYED Removed, for changing clients after paying.
+2020-08-10 catering.backup database changed for adding column barcode into table clients
            
