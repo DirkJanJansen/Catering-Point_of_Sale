@@ -18,5 +18,6 @@
 2020-08-11 printing barcodes images established for scanning clients (bypass for menuchoice choose client)
            printing of barcode is asked after opening tables in open/change table/seats 
 2020-08-11 catering.backup database changed due to numbering buttons started with 0 must be 1 solved
+2020-08-11 catering.py adjusted for iterating over buttons due to above correction
            
 
