@@ -1,12 +1,13 @@
 import sys, random, barcode, datetime, os, subprocess, keyboard, collections
 from math import sqrt
 from barcode.writer import ImageWriter 
-from PyQt5.QtCore import Qt, QSize, QRegExp, QAbstractTableModel
+from PyQt5.QtCore import Qt, QSize, QRegExp, QAbstractTableModel, QPoint
 from PyQt5.QtGui import QIcon, QFont, QPixmap, QMovie, QRegExpValidator, QColor,\
            QImage, QPainter
 from PyQt5.QtWidgets import QLineEdit, QGridLayout, QDialog, QLabel, QPushButton,\
         QMessageBox, QSpinBox, QComboBox, QTextEdit, QApplication, QWidget,\
-        QVBoxLayout, QTableView, QStyledItemDelegate, QCheckBox, QPlainTextEdit
+        QVBoxLayout, QTableView, QStyledItemDelegate, QCheckBox, QPlainTextEdit,\
+        QFileDialog
 from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 from sqlalchemy import Table, Column, Integer, String, Boolean, MetaData, create_engine,\
                      Float, select, update,insert, delete, func, and_, ForeignKey
@@ -4660,22 +4661,15 @@ def printClient_barcode(mbarcode):
     msgBox.setStyleSheet("color: black;  background-color: gainsboro")
     msgBox.setDefaultButton(QMessageBox.Yes)
     if(msgBox.exec_() == QMessageBox.Yes):
+        printer = QPrinter()
         printer = QPrinter(QPrinter.HighResolution)
-        printer.setPageSize(QPrinter.A4) 
-        form = QPrintDialog(printer) 
-        if form.exec_():
-            #mbarcode = '01000023'
-            painter = QPainter(printer)
-            rect = painter.viewport()
-            if sys.platform == 'win32':
-                image = QImage('.\\Barcodes\\clients\\'+str(mbarcode)+'.png')
-            else:
-                image = QImage('./Barcodes/clients/'+str(mbarcode)+'.png')
-            size = image.size()
-            size.scale(rect.size(), Qt.KeepAspectRatio)
-            painter.setViewport(rect.x(), rect.y(), size.width(), size.height()) 
-            painter.drawImage(0, 0, image)
-         
+        dialog = QPrintDialog(printer)
+        if dialog.exec_() == QPrintDialog.Accepted:
+             image = QImage('/Barcodes/clients/'+str(mbarcode)+'png')
+             painter = QPainter(printer)
+             painter.drawImage(QPoint(0,0),image)
+             painter.end()
+           
 def seatsArrange(self):
     if not self.mcallname:
         self.albl.setText('Please logon with your barcodecard!')
