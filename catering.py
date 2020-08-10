@@ -3889,7 +3889,7 @@ def checkClient(self):
     self.view.setText('')   
     self.mtotal = 0
     self.mvat = 0
-    for row in rpcl:
+    for row in rpord:
         mnumber = row[4]
         mprice = row[5]
         mdescr = row[2]
@@ -4404,7 +4404,7 @@ def set_barcodenr(self):
         self.q1Edit.setStyleSheet("color:#F8F7EE;  background-color: #F8F7EE")
         self.q1Edit.setText('')
         self.checknr = barcodenr
-        #checkClient(self)
+        checkClient(self)
     elif not self.mcallname:
         self.albl.setText('Please logon with your barcodecard!')
     elif self.mclient == 0:
@@ -4664,7 +4664,7 @@ def printClient_barcode(mbarcode):
         printer.setPageSize(QPrinter.A4) 
         form = QPrintDialog(printer) 
         if form.exec_():
-            mbarcode = '00001007'
+            #mbarcode = '01000023'
             painter = QPainter(printer)
             rect = painter.viewport()
             if sys.platform == 'win32':
@@ -4847,7 +4847,7 @@ def seatsArrange(self):
                         insidx=insert(clients).values(clientID=mclientnr, employee=self.mcallname,\
                         barcode = mbarcode)
                         con.execute(insidx)
-                        printClient_barcode(mbarcode)
+                        #printClient_barcode(mbarcode)
                         
             clientBtn = QPushButton('Apply\nSeats')
             clientBtn.clicked.connect(lambda: connectClient(self))
