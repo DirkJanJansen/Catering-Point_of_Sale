@@ -753,7 +753,7 @@ def groupButtons():
                     
                     #buttongroup
                     self.q3Edit = QPlainTextEdit()
-                    self.q3Edit.setFixedSize(140,90)
+                    self.q3Edit.setFixedSize(170,110)
                     self.q3Edit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
                     self.q3Edit.setFont(QFont("Consolas", 12, 75))
                     self.q3Edit.setStyleSheet('color: black; background-color: #F8F7EE')
@@ -762,7 +762,7 @@ def groupButtons():
                         mbuttontext = self.q3Edit.toPlainText()
                         mlist = mbuttontext.split('\n')
                         for line in mlist:
-                            if len(line) > 11:
+                            if len(line) > 14:
                                  message = 'No more then 14 characters per line allowed'
                                  alertText(message)
                                  break
@@ -1932,7 +1932,7 @@ def articleRequest(mflag):
                     
                     #button-text
                     self.q3Edit = QPlainTextEdit()
-                    self.q3Edit.setFixedSize(140,90)
+                    self.q3Edit.setFixedSize(170,100)
                     self.q3Edit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
                     self.q3Edit.setFont(QFont("Consolas",12,75))
                     self.q3Edit.setStyleSheet('color: black; background-color: #F8F7EE')
@@ -2001,8 +2001,8 @@ def articleRequest(mflag):
                         mbtntext = self.q3Edit.toPlainText()
                         mlist = mbtntext.split('\n')
                         for line in mlist:
-                             if len(line) > 15:
-                                 message = 'No more then 11 characters per line allowed'
+                             if len(line) > 14:
+                                 message = 'No more then 14 characters per line allowed'
                                  alertText(message)
                                  break
                              elif len(mlist) > 4:
@@ -3113,7 +3113,7 @@ def newBarcode():
             
             #button-text
             self.q14Edit = QPlainTextEdit()
-            self.q14Edit.setFixedSize(140,90)
+            self.q14Edit.setFixedSize(170,100)
             self.q14Edit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             self.q14Edit.setFont(QFont("Consolas",12, 75))
             self.q14Edit.setStyleSheet('color: black; background-color: #F8F7EE')
@@ -3273,8 +3273,8 @@ def newBarcode():
                     mbtntext = self.q14Edit.toPlainText()
                     mlist = mbtntext.split('\n')
                     for line in mlist:
-                         if len(line) > 15:
-                             message = 'No more then 11 characters per line allowed'
+                         if len(line) > 14:
+                             message = 'No more then 14 characters per line allowed'
                              alertText(message)
                              break
                          elif len(mlist) > 4:
@@ -5342,7 +5342,7 @@ def barcodeScan():
     
             grid.addWidget(infoBtn, 0, 7, 1, 1, Qt.AlignRight )
            
-            self.nextBtn = QPushButton('Choose\nClient')
+            self.nextBtn = QPushButton('Select\nClient')
             self.nextBtn.clicked.connect(lambda: clientLines(self))
             self.nextBtn.setFont(QFont("Arial",12,75))
             self.nextBtn.setFocusPolicy(Qt.NoFocus)
