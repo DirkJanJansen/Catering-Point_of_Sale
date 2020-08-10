@@ -762,7 +762,7 @@ def groupButtons():
                         mbuttontext = self.q3Edit.toPlainText()
                         mlist = mbuttontext.split('\n')
                         for line in mlist:
-                            if len(line) > 14:
+                            if len(line) > 11:
                                  message = 'No more then 14 characters per line allowed'
                                  alertText(message)
                                  break
@@ -2002,7 +2002,7 @@ def articleRequest(mflag):
                         mlist = mbtntext.split('\n')
                         for line in mlist:
                              if len(line) > 15:
-                                 message = 'No more then 14 characters per line allowed'
+                                 message = 'No more then 11 characters per line allowed'
                                  alertText(message)
                                  break
                              elif len(mlist) > 4:
@@ -3274,7 +3274,7 @@ def newBarcode():
                     mlist = mbtntext.split('\n')
                     for line in mlist:
                          if len(line) > 15:
-                             message = 'No more then 14 characters per line allowed'
+                             message = 'No more then 11 characters per line allowed'
                              alertText(message)
                              break
                          elif len(mlist) > 4:
@@ -5223,8 +5223,8 @@ def barcodeScan():
                 self.hBtn.clicked.connect(lambda: btngroupChange(self)) 
                           
                 a = self.index
-                selbtn = select([buttons]).where(and_(buttons.c.buttonID>self.index-1,\
-                     buttons.c.buttonID<self.index+18)).order_by(buttons.c.buttonID)
+                selbtn = select([buttons]).where(and_(buttons.c.buttonID>self.index,\
+                     buttons.c.buttonID<self.index+19)).order_by(buttons.c.buttonID)
                 rpbtn = con.execute(selbtn) 
                   
                 btnlist = []
