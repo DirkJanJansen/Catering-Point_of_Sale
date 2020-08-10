@@ -1,14 +1,12 @@
 import sys, random, barcode, datetime, os, subprocess, keyboard, collections
 from math import sqrt
 from barcode.writer import ImageWriter 
-
 from PyQt5.QtCore import Qt, QSize, QRegExp, QAbstractTableModel
 from PyQt5.QtGui import QIcon, QFont, QPixmap, QMovie, QRegExpValidator, QColor,\
            QImage
 from PyQt5.QtWidgets import QLineEdit, QGridLayout, QDialog, QLabel, QPushButton,\
         QMessageBox, QSpinBox, QComboBox, QTextEdit, QApplication, QWidget,\
         QVBoxLayout, QTableView, QStyledItemDelegate, QCheckBox, QPlainTextEdit
-from PyQt5.QtPrintSupport import QPrintDialog
 from sqlalchemy import Table, Column, Integer, String, Boolean, MetaData, create_engine,\
                      Float, select, update,insert, delete, func, and_, ForeignKey
 
@@ -3852,20 +3850,52 @@ def deliveryImport():
     if mcount == 0:
         noImports()
         
-def checkClient(self, barcodenr):
+def checkClient(self):
     metadata = MetaData()
-    tables_layout = Table('tables_layout', metadata,
-          Column('barcodeID', barcode),
-          Column('callname', String))
+    clients = Table('clients', metadata,
+          Column('clientID', Integer, primary_key=True),
+          Column('barcode', String),
+          Column('employee', String))
+    order_lines = Table('order_lines', metadata,
+        Column('ID', Integer(), primary_key=True),
+        Column('barcode', String),
+        Column('description', String),
+        Column('short', String),
+        Column('number', Float),
+        Column('item_price', Float),
+        Column('sub_total', Float),
+        Column('sub_vat', Float),
+        Column('callname', String),
+        Column('mutation_date', String),
+        Column('clientID', Integer))
+    
     engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
     con = engine.connect()
-    selcl = select([tables_layout]).where(tables_layout.c.barcodeID == barcodenr)
+    selcl = select([clients]).where(clients.c.barcode == self.checknr)
     rpcl = con.execute(selcl).first()  
-    self.mbarcode = rpcl[0]
-    self.mcallname = rpcl[1]
-    self.client = self.q1Edit.text()
-    #searchClient(self, barcodenr)
-    
+    self.mclient = rpcl[0]
+    selcl = select([order_lines]).where(order_lines.c.clientID == self.mclient)
+    rpcl = con.execute(selcl)
+    if not rpcl:
+        self.albl.setText('No records!')
+        return
+    self.view.setText('')   
+    self.mtotal = 0
+    self.mvat = 0
+    for row in rpcl:
+        mnumber = row[4]
+        mprice = row[5]
+        mdescr = row[2]
+        self.mtotal += row[6]
+        self.mlist.append('{:>3d}'.format(int(mnumber))+' {:<15s}'\
+             .format(mdescr[:15])+'{:\u2000>12.2f}'.format(mprice*int(mnumber)))
+        self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
+        self.qtailEdit.setText(self.qtailtext)
+        self.qtotalEdit.setText('{:>12.2f}'.format(self.mtotal))
+              
+        self.view.append(self.mlist[-1])
+    self.mkop.setText('Clientnumber: '+str(self.mclient))
+
 def logon(self, barcodenr):
     metadata = MetaData()
     employees = Table('employees', metadata,
@@ -3906,13 +3936,13 @@ def info():
     class Widget(QDialog):
         def __init__(self, parent=None):
             super(Widget, self).__init__(parent)
-            self.setWindowTitle("Information Barcodescan")
+            self.setWindowTitle("Information barcodescan")
             self.setWindowIcon(QIcon('./logos/logo.jpg'))
             self.setFont(QFont('Arial', 10))
             grid = QGridLayout()
             grid.setSpacing(20)
             
-            lblinfo = QLabel('catering System')
+            lblinfo = QLabel('Catering system')
             grid.addWidget(lblinfo, 0, 0, 1, 2, Qt.AlignCenter)
             lblinfo.setStyleSheet("color:rgba(45, 83, 115, 255); font: 25pt Comic Sans MS")
             
@@ -3930,7 +3960,7 @@ def info():
         Instruction barcode scan.
         
         Logging in takes place with a barcode card with 4 access levels.
-        Level 1. Selling, scanning, printing (normal cash register usage).
+        Level 1. Selling, scanning, printing.
         Level 2. Return bookings, a checkable ± button is shown, with which return bookings can be made.
         Level 3. Administration, a button Adminstration is shown, for assigning productbuttons,
                  creating employees, administration, perform stock management and imports.
@@ -3978,8 +4008,6 @@ def info():
             
     window = Widget()
     window.exec_()
-    
-    
 
 def printing():
     msg = QMessageBox()
@@ -4066,7 +4094,7 @@ def printReceipt(self):
         ('===================================================================================================\n'+
          'Total  amount to pay inclusive VAT and amount VAT                         '+'{:>12.2f}'.format(self.mtotal)+'{:>12.2f}'.format(self.mtotvat)+' \n'+
          '===================================================================================================\n'+\
-         'Employee : '+self.mcallname+' - Thank you for visiting our restaurant.\n') 
+         'Employee : '+self.mcallname+'\n') 
         if rgl > 0:
             open(fbarc,'a').write(tail) 
             if sys.platform == 'win32':
@@ -4284,6 +4312,7 @@ def set_barcodenr(self):
         rpbal = con.execute(selbal).first()
         if rpart and rpart[3] < mnumber:
             self.albl.setText(str(int(rpart[3]))+' in stock!')
+            giveAlarm()
         elif rpart and self.maccess:
             if rpart[4] == 'high':      
                 self.mvat = self.mvath
@@ -4347,7 +4376,7 @@ def set_barcodenr(self):
         self.printBtn.setStyleSheet("color: black;  background-color: #00FFFF")
         self.nextBtn.setEnabled(True)
         self.nextBtn.setStyleSheet("font: 12pt Arial; color: black; background-color: #00BFFF")
-    elif len(barcodenr) == 8 and not barcodenr[0] == '0':
+    elif len(barcodenr) == 8  and barcodenr[0] != '0':
         self.q1Edit.setStyleSheet("color:#F8F7EE;  background-color: #F8F7EE")
         self.q1Edit.setText('')
         self.mclient = 0
@@ -4366,11 +4395,11 @@ def set_barcodenr(self):
             self.checknr = barcodenr
             logon(self, barcodenr)
             self.albl.setText('')
-    elif len(barcodenr) == 8 and barcodenr[0] == '0':
+    elif len(barcodenr) == 8 and self.mcallname  and barcodenr[0] == '0' :
         self.q1Edit.setStyleSheet("color:#F8F7EE;  background-color: #F8F7EE")
         self.q1Edit.setText('')
         self.checknr = barcodenr
-        checkClient(self, barcodenr)
+        checkClient(self)
     elif not self.mcallname:
         self.albl.setText('Please logon with your barcodecard!')
     elif self.mclient == 0:
@@ -4533,15 +4562,15 @@ def choseClient(self):
     class Widget(QDialog):
         def __init__(self, data_list, header, *args):
             QWidget.__init__(self, *args,)
-            self.setGeometry(700, 50, 220, 300)
-            self.setWindowTitle('Choose client')
+            self.setGeometry(700, 50, 350, 300)
+            self.setWindowTitle('Clientnumber')
             self.setWindowIcon(QIcon('./images/logos/logo.jpg')) 
             self.setWindowFlags(self.windowFlags()| Qt.WindowSystemMenuHint |
                               Qt.WindowMinMaxButtonsHint)
             table_model = MyTableModel(self, data_list, header)
             table_view = QTableView()
             table_view.setModel(table_model)
-            table_view.setStyleSheet('font : 18px bold ; color:black ; background-color: #c2be7f')
+            table_view.setStyleSheet('font : 24px bold ; color:black ; background-color: #c2be7f')
             table_view.resizeColumnsToContents()
             table_view.setSelectionBehavior(QTableView.SelectRows)
             table_view.clicked.connect(getClientnr)
@@ -4575,7 +4604,7 @@ def choseClient(self):
                 return self.header[col]
             return None
         
-    header = ['ClientID','Employee'] 
+    header = ['Clientnumber','Employee'] 
         
     data_list=[]
     for row in rpcl:
@@ -4613,6 +4642,24 @@ def choseClient(self):
     win = Widget(data_list, header)
     win.exec_()
     
+def printClient_barcode(mbarcode):
+    msgBox=QMessageBox()
+    msgBox.setStyleSheet("color: black;  background-color: gainsboro")
+    msgBox.setWindowIcon(QIcon('./logos/logo.jpg')) 
+    msgBox.setWindowTitle("Printing clientnumber barcodeID")
+    msgBox.setIcon(QMessageBox.Information)
+    msgBox.setFont(QFont("Arial", 10))
+    msgBox.setText("Do you want to print the barcode for scanning?");
+    msgBox.setStandardButtons(QMessageBox.Yes)
+    msgBox.addButton(QMessageBox.No)
+    msgBox.setStyleSheet("color: black;  background-color: gainsboro")
+    msgBox.setDefaultButton(QMessageBox.Yes)
+    if(msgBox.exec_() == QMessageBox.Yes):
+       if sys.platform == 'win32':
+           os.startfile('.\\Barcodes\\clients\\'+str(mbarcode)+'.png', "print")
+       else:
+           os.system("lpr "+'./Barcodes/clients/'+str(mbarcode)+'.png')
+         
 def seatsArrange(self):
     if not self.mcallname:
         self.albl.setText('Please logon with your barcodecard!')
@@ -4653,7 +4700,8 @@ def seatsArrange(self):
                 Column('callname', String))
             clients = Table('clients', metadata,
                 Column('clientID', primary_key=True),
-                Column('employee', None, ForeignKey('tables_layout.callname')))
+                Column('employee', None, ForeignKey('tables_layout.callname')),
+                Column('barcode', String))
                   
             engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
             con = engine.connect()
@@ -4773,8 +4821,17 @@ def seatsArrange(self):
                                     
                         x += 1
                     if mflag:
-                        insidx=insert(clients).values(clientID=mclientnr, employee=self.mcallname)
+                        inlogstr = ('010'+('000'+str(mclientnr))[-4:])
+                        ean = barcode.get('ean8', str(inlogstr), writer=ImageWriter()) # for barcode as png
+                        mbarcode = ean.get_fullcode()
+                        if sys.platform == 'win32':
+                            ean.save('.\\Barcodes\\clients\\'+str(mbarcode))
+                        else:
+                            ean.save('./Barcodes/clients/'+str(mbarcode))
+                        insidx=insert(clients).values(clientID=mclientnr, employee=self.mcallname,\
+                        barcode = mbarcode)
                         con.execute(insidx)
+                        #printClient_barcode(mbarcode)
                         
             clientBtn = QPushButton('Apply\nSeats')
             clientBtn.clicked.connect(lambda: connectClient(self))
