@@ -755,7 +755,7 @@ def groupButtons():
                     self.q3Edit = QPlainTextEdit()
                     self.q3Edit.setFixedSize(140,90)
                     self.q3Edit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-                    self.q3Edit.setFont(QFont("Consolas", 10, 75))
+                    self.q3Edit.setFont(QFont("Consolas", 12, 75))
                     self.q3Edit.setStyleSheet('color: black; background-color: #F8F7EE')
                          
                     def updGroupbutton(self):
@@ -1500,7 +1500,7 @@ def viewFile(pathfile, mtitle):
             
             text_edit = QPlainTextEdit()
             text_edit.setStyleSheet('color: black; background-color: #F8F7EE') 
-            text_edit.setFont(QFont("Consolas",10))
+            text_edit.setFont(QFont("Consolas",12,75))
             text = open(pathfile).read()
             text_edit.setPlainText(text)
            
@@ -1934,7 +1934,7 @@ def articleRequest(mflag):
                     self.q3Edit = QPlainTextEdit()
                     self.q3Edit.setFixedSize(140,90)
                     self.q3Edit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-                    self.q3Edit.setFont(QFont("Consolas",10,75))
+                    self.q3Edit.setFont(QFont("Consolas",12,75))
                     self.q3Edit.setStyleSheet('color: black; background-color: #F8F7EE')
                     
                     self.cBox = QCheckBox('Accentutation')
@@ -1959,7 +1959,7 @@ def articleRequest(mflag):
                     grid.addWidget(self.q2Edit, 2, 1)
                     
                     lbl3 = QLabel('Button-Text')
-                    lbl3.setFont(QFont("Consolas", 10, 75))
+                    lbl3.setFont(QFont("Consolas", 12, 75))
                     grid.addWidget(lbl3, 3, 0, 1, 1, Qt.AlignRight)
                     grid.addWidget(self.q3Edit, 3, 1)
                     
@@ -3115,7 +3115,7 @@ def newBarcode():
             self.q14Edit = QPlainTextEdit()
             self.q14Edit.setFixedSize(140,90)
             self.q14Edit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-            self.q14Edit.setFont(QFont("Consolas",10, 75))
+            self.q14Edit.setFont(QFont("Consolas",12, 75))
             self.q14Edit.setStyleSheet('color: black; background-color: #F8F7EE')
              
             #accent
@@ -5190,7 +5190,7 @@ def barcodeScan():
                     self.btngroup = 1
                     self.flag = 1
                     
-                self.hBtn.setFont(QFont("Consolas", 10, 75))
+                self.hBtn.setFont(QFont("Consolas", 12, 75))
                 self.hBtn.setFocusPolicy(Qt.NoFocus)
                 self.hBtn.setFixedSize(200,150)
                 grid.addWidget(self.hBtn, 0, 3) #position groupbutton on first position from thirst row
@@ -5235,7 +5235,7 @@ def barcodeScan():
                     aBtn = QPushButton(row[1].strip()+accent) #choose buttontext
                     if self.maccess == 3: #showbuttonnumber reference and barcode for administrator
                         aBtn = QPushButton(str(row[0])+'\n'+row[2].strip()+'\n'+row[3])
-                    aBtn.setFont(QFont("Consolas", 10, 75))
+                    aBtn.setFont(QFont("Consolas", 12, 75))
                     aBtn.setStyleSheet('color: black; background-color:  #FFFFF0')
                     aBtn.setFocusPolicy(Qt.NoFocus)
                     aBtn.setFixedSize(200, 150)
