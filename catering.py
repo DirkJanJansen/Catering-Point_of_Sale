@@ -4033,7 +4033,7 @@ def info():
         supplied by the customer. By pushing the "REFUND" button the change is calculated.
         In case of incorrect entry the "DEL" button can be applied.
         
-        The change is rounded. The rounding is changeable by the program by a authorised person. 
+        The change is rounded. The rounding is adaptable by a authorised person. 
         ''')
             grid.addWidget(infotext, 1, 0)
                            
