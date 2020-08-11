@@ -1762,14 +1762,20 @@ def calculationStock():
             mordersize = round(sqrt(2*row[5]*rppar[4][2])/(row[1]*rppar[5][2]),0)
             mjrverbr = row[5]
             if row[3] == 1:
-                minstock = round(mjrverbr*1/17, 0) # < 3 weeks deliverytime
+                minstock = round(mjrverbr*1/104, 0) # < 3 days deliverytime
             elif row[3] == 2:
-                minstock = round(mjrverbr*2/17, 0) # < 6 weeks deliverytime
+                minstock = round(mjrverbr*1/52, 0) # < 1 week deliverytime
             elif row[3] == 3:
+                minstock = round(mjrverbr*1/26, 0) # < 2 weeks deliverytime
+            elif row[3] == 4:
+                minstock = round(mjrverbr*1/17, 0) # < 3 weeks deliverytime
+            elif row[3] == 5:
+                minstock = round(mjrverbr*2/17, 0) # < 6 weeks deliverytime
+            elif row[3] == 6:
                 minstock = round(mjrverbr*4/17, 0) # < 12 weeks deliverytime
-            elif row[3] == 4: 
+            elif row[3] == 7: 
                 minstock = round(mjrverbr*8/17, 0) # < 26 weeks deliverytime
-            elif row[3] == 5: 
+            elif row[3] == 8: 
                 minstock = round(mjrverbr*16/17,0) # < 52 weeks deliverytime
                 
             updart = update(articles).where(articles.c.barcode == row[0]).\
@@ -4064,14 +4070,6 @@ def printing():
     msg.setText('Just a moment printing is starting!')
     msg.setWindowTitle('Printing')
     msg.exec_()
-    
-def heading(self, mpage):
-    kop=\
-    ('Sales - Ordernumber: '+ str(self.mclient)+' Date : '+str(datetime.datetime.now())[0:10]+' Pagenumber '+str(mpage)+' \n'+
-    '==================================================================================================\n'+
-    'Artikelnr  Description                                  Number  Item_price    Subtotal         VAT\n'+
-    '==================================================================================================\n')
-    return(kop)
 
 def printReceipt(self):
     if not self.mcallname:
@@ -4110,6 +4108,15 @@ def printReceipt(self):
         selb = select([order_lines]).where(and_(order_lines.c.clientID == self.mclient,\
                     order_lines.c.callname== self.mcallname)).order_by(order_lines.c.barcode)
         rpb = con.execute(selb)
+        
+        def heading(self, mpage):
+            head=\
+    ('Sales - Ordernumber: '+ str(self.mclient)+' Date : '+str(datetime.datetime.now())[0:10]+' Pagenumber '+str(mpage)+' \n'+
+    '==================================================================================================\n'+
+    'Artikelnr  Description                                  Number  Item_price    Subtotal         VAT\n'+
+    '==================================================================================================\n')
+            return(head)
+
         mpage = 0
         rgl = 0
         if sys.platform == 'win32':
