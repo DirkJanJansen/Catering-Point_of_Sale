@@ -4004,15 +4004,16 @@ def info():
         Open/Change Tables/Seats.
         
         After selecting and applying a popup is showed, with the possibility of printing a
-        barcode for the clientID. With this barcode scanning it's possible to switch fast between
-        clients. It's also possible to use the select client button to choose the desired client.
+        barcode for the client. With this barcodescan it's possible to switch fast between clients.
+        It's also possible to use the "Select Client" button to choose the desired client.
         With this button or scan the current account is selected.
         
         A layout of 100 selectable buttons is showed. These buttons are arranged in 20 groups
         of 2 table seats and 15 groups of 4 table seats.
         By selecting the seats, combining or splitting of tables and seats can be established.
-        By selecting the choise "Open Table" and checking the seats are added to a client.
-        By clicking the "Refresh" button the seats with clientnumbers and callnames of the employee
+        By selecting the choise "Open Table" and checking the seats are added to a client, after
+        pushing "Apply Seats" button.
+        By clicking the "Refresh" button the seats with clientnumbers and names of the employee
         is displayed on the seats.
         Seats occupied are displayed for all employees, so all available seats are showed.
         Only the employee, that selected the seats, can add or remove seats to the assembly,
@@ -4028,8 +4029,8 @@ def info():
         transaction.
         For paying by cash a modest calculator is present.
         The thirst row of the calcultor shows the total sum of the bill.
-        The second row under the "TRANSFER PAYED" button must be filled in with the cash sum, 
-        received from the customer. By pushing the "REFUND"button the change is calculated.
+        The second row under the "TRANSFER PAYED" button must be filled in with the cash, 
+        supplied by the customer. By pushing the "REFUND" button the change is calculated.
         In case of incorrect entry the "DEL" button can be applied.
         
         The change is rounded. The rounding is changeable by the program by a authorised person. 
@@ -4142,7 +4143,7 @@ def printReceipt(self):
         ('===================================================================================================\n'+
          'Total  amount to pay inclusive VAT and amount VAT                         '+'{:>12.2f}'.format(self.mtotal)+'{:>12.2f}'.format(self.mtotvat)+' \n'+
          '===================================================================================================\n'+\
-         'Employee : '+self.mcallname+'\n') 
+         'Employee : '+self.mcallname+'  Thank you for visiting us.\n') 
         if rgl > 0:
             open(fbarc,'a').write(tail) 
             if sys.platform == 'win32':
