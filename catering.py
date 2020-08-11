@@ -4044,23 +4044,14 @@ def logon(self, barcodenr):
     self.q1Edit.setText('')
     self.pixmap = QPixmap('./logos/green.png')
     self.logonstate.setPixmap(self.pixmap.scaled(40,40))
-    self.plusminBtn.setStyleSheet("color: black;  background-color: #FFD700")
     self.view.setText('')
     self.mtotal = 0.00
     self.mtotvat = 0.00
     self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
     self.qtailEdit.setText(self.qtailtext) 
     if self.maccess < 2:
-        self.plusminBtn.setText('+')
-        self.plusminBtn.setChecked(False)
-        self.plusminBtn.setHidden(True)
-        self.qspin.setRange(1, 99)
-        self.adminBtn.setHidden(True)
+         self.adminBtn.setHidden(True)
     elif self.maccess == 2:
-        self.plusminBtn.setHidden(False)
-        self.adminBtn.setHidden(True)
-    elif self.maccess == 3:
-        self.plusminBtn.setHidden(False)
         self.adminBtn.setHidden(False)
              
 def info():
@@ -4090,14 +4081,13 @@ def info():
             infotext = QPlainTextEdit(\
         '''                                                                        User information.
         
-        Logging in takes place with a barcode card with 4 access levels.
-        Level 1. Selling, scanning, printing.
-        Level 2. Return bookings, a checkable ± button is shown, with which return bookings can be made.
-        Level 3. Administration, a button Adminstration is shown, for assigning productbuttons,
+        Logging in takes place with a barcode card with 3 access levels.
+        Level 1. Selling, scanning, printing and returns
+        Level 2. Administration, a button Adminstration is shown, for assigning productbuttons,
                      creating employees, administration, perform stock management and imports.
         level 0. Employee is not allowed for operation.
         Employee first time scan barcode  = logon, second time = logout.
-        Other employee scanning = switching employee (for return booking, or replacement).
+        Other employee scanning = switching employee (for replacement).
                          
         Article scanning:
         By default, scanning is performed with a number of 1.
@@ -4426,7 +4416,7 @@ def plusminChange(self):
         self.plusminBtn.setText('+')
         self.qspin.setRange(1, 99)
         
-def checkLogoncode(c):
+def checkEan8(c):
     checksum = int(c[0])+int(c[2])+int(c[4])+int(c[6])+(int(c[1])+
                 int(c[3])+int(c[5]))*3
     checkdigit = (10-(checksum%10))%10
@@ -4544,15 +4534,15 @@ def set_barcodenr(self):
         self.closeBtn.setStyleSheet("color: grey; background-color: #B0C4DE")
         self.printBtn.setEnabled(True)
         self.printBtn.setStyleSheet("color: black;  background-color: #00FFFF")
-        self.nextBtn.setEnabled(True)
-        self.nextBtn.setStyleSheet("font: 12pt Arial; color: black; background-color: #00BFFF")
-    elif len(barcodenr) == 8  and barcodenr[0] != '0':
+        self.clientBtn.setEnabled(True)
+        self.clientBtn.setStyleSheet("font: 12pt Arial; color: black; background-color: #00BFFF")
+    elif len(barcodenr) == 8 and barcodenr[0] != '0':
         self.q1Edit.setStyleSheet("color:#F8F7EE;  background-color: #F8F7EE")
         self.q1Edit.setText('')
+        self.mkop.setText('No client selected')
         self.mclient = 0
-        if barcodenr == self.checknr and self.maccess > 0:
+        if barcodenr == self.checknr and self.maccess > 0: #zelf al ingelogd dus uitloggen
             self.maccess = 0
-            self.plusminBtn.setHidden(True)
             self.adminBtn.setHidden(True)
             self.pixmap = QPixmap('./logos/red.png')
             self.logonstate.setPixmap(self.pixmap.scaled(40,40))
@@ -4561,11 +4551,11 @@ def set_barcodenr(self):
             self.mtotvat = 0.00
             self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
             self.qtailEdit.setText(self.qtailtext) 
-        else:
+        else:   #ander is ingelogd dus overloggen
             self.checknr = barcodenr
             logon(self, barcodenr)
             self.albl.setText('')
-    elif len(barcodenr) == 8 and barcodenr and barcodenr[0] == '0' :
+    elif len(barcodenr) == 8 and barcodenr[0] == '0':
         self.q1Edit.setStyleSheet("color:#F8F7EE;  background-color: #F8F7EE")
         self.q1Edit.setText('')
         self.checknr = barcodenr
@@ -4835,7 +4825,7 @@ def printClient_barcode(self):
              painter.drawPixmap(0, 0, self.pixmap)
             
 def seatsArrange(self):
-    if not self.mcallname:
+    if not self.maccess:
         self.albl.setText('Please logon with your barcodecard!')
         return
     mcallname = self.mcallname
@@ -4905,7 +4895,7 @@ def seatsArrange(self):
                 tBtn.setCheckable(True)
                 if row[2]:
                     tBtn.setChecked(True)
-                    if row[4] != self.mcallname and self.maccess < 2:
+                    if row[4] != self.mcallname:
                         tBtn.setDisabled(True)
                 if t < 40:
                     tBtn.setStyleSheet("color: black;  background-color: #23cfb2")
@@ -5030,7 +5020,7 @@ def seatsArrange(self):
             clientBtn = QPushButton('Apply\nSeats')
             clientBtn.clicked.connect(lambda: connectClient(self))
             clientBtn.setFixedSize(200, 80)
-            clientBtn.setStyleSheet("font: 24px bold; color: black; background-color: #45b39d")
+            clientBtn.setStyleSheet("font: 24px bold; color: black; background-color: #39CCCC")
 
             grid.addWidget(clientBtn, 1, 10, 1, 4)
 
@@ -5329,7 +5319,7 @@ def barcodeScan():
                         self.index -= 72
                         self.flag = 0
                     self.index += 0
-                    if self.maccess < 3:
+                    if self.maccess < 2:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
@@ -5337,7 +5327,7 @@ def barcodeScan():
                     self.btngroup = 2
                 elif self.btngroup == 2:
                     self.index += 18
-                    if self.maccess < 3:
+                    if self.maccess < 2:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
@@ -5345,7 +5335,7 @@ def barcodeScan():
                     self.btngroup = 3
                 elif self.btngroup == 3:
                     self.index += 18
-                    if self.maccess < 3:
+                    if self.maccess < 2:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
@@ -5353,7 +5343,7 @@ def barcodeScan():
                     self.btngroup = 4
                 elif self.btngroup == 4:
                     self.index += 18
-                    if self.maccess < 3:
+                    if self.maccess < 2:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
@@ -5362,7 +5352,7 @@ def barcodeScan():
                 elif self.btngroup == 5:
                     self.index += 18
                     self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
-                    if self.maccess < 3:
+                    if self.maccess < 2:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
@@ -5413,7 +5403,7 @@ def barcodeScan():
                     if row[4]:
                         accent = '\n\u2B24'
                     aBtn = QPushButton(row[1].strip()+accent) #choose buttontext
-                    if self.maccess == 3: #showbuttonnumber reference and barcode for administrator
+                    if self.maccess == 2: #showbuttonnumber reference and barcode for administrator
                         aBtn = QPushButton(str(row[0])+'\n'+row[2].strip()+'\n'+row[3])
                     aBtn.setFont(QFont("Consolas", 12, 75))
                     aBtn.setStyleSheet('color: black; background-color:  #FFFFF0')
@@ -5461,7 +5451,6 @@ def barcodeScan():
             self.plusminBtn.setCheckable(True)
             self.plusminBtn.setFont(QFont("Arial",12,75))
             self.plusminBtn.setStyleSheet("color: black;  background-color: #FFD700")
-            self.plusminBtn.setHidden(True)
             self.plusminBtn.clicked.connect(lambda: plusminChange(self))
             self.plusminBtn.setFocusPolicy(Qt.NoFocus)
             self.plusminBtn.setFixedSize(40, 40)
@@ -5523,14 +5512,14 @@ def barcodeScan():
     
             grid.addWidget(infoBtn, 0, 7, 1, 1, Qt.AlignRight )
            
-            self.nextBtn = QPushButton('Select\nClient')
-            self.nextBtn.clicked.connect(lambda: clientLines(self))
-            self.nextBtn.setFont(QFont("Arial",12,75))
-            self.nextBtn.setFocusPolicy(Qt.NoFocus)
-            self.nextBtn.setFixedSize(200,150)            
-            self.nextBtn.setStyleSheet("color:black; background-color: #3498db")
+            self.clientBtn = QPushButton('Select\nClient')
+            self.clientBtn.clicked.connect(lambda: clientLines(self))
+            self.clientBtn.setFont(QFont("Arial",12,75))
+            self.clientBtn.setFocusPolicy(Qt.NoFocus)
+            self.clientBtn.setFixedSize(200,150)            
+            self.clientBtn.setStyleSheet("color:black; background-color: #3498db")
        
-            grid.addWidget(self.nextBtn, 4, 7, 1, 1, Qt.AlignRight)   
+            grid.addWidget(self.clientBtn, 4, 7, 1, 1, Qt.AlignRight)   
             
             lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
             lbl3.setFont(QFont("Arial", 10))
