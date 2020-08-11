@@ -4772,13 +4772,9 @@ def seatsArrange(self):
                                 
             qcbEdit = QComboBox()
             qcbEdit.addItem('Open new table')
-            if self.maccess < 2:
-               selclient = select([clients]).where(clients.c.employee ==\
-                   self.mcallname).order_by(clients.c.clientID)
-               rpclient = con.execute(selclient)
-            else:
-                selclient = select([clients]).order_by(clients.c.clientID)
-                rpclient = con.execute(selclient)
+            selclient = select([clients]).where(clients.c.employee ==\
+            self.mcallname).order_by(clients.c.clientID)
+            rpclient = con.execute(selclient)
             tablelist = []
             for row in rpclient:
                 qcbEdit.addItem('Change seats client '+str(row[0]))
