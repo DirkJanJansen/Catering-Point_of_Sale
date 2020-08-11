@@ -3999,7 +3999,8 @@ def info():
         This will make the necessary bookings and prepare the POS for the next customer.
         
         Table arrangements:
-        The table arrangements are established by pushing the button Open/Change Tables/Seats.
+        The table arrangements are established by checking free seats and pushing the button
+        Open/Change Tables/Seats.
         After selecting and applying a popup is showed, with the possibility of printing a
         barcode for the clientID. With this barcode scanning it's possible to switch fast between
         clients. It's also possible to use the select client button to choose the desired client.
