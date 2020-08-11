@@ -25,7 +25,7 @@
 2020-08-12 catering.py info.screen changed to plaintextedit for scrolling. Also the explanation of table 
            arrangements added.
 2020-08-12 catering.py in code insertArticles and changeArticles added selling_price, selling_contents and short_description
-           several adjustments for positioning changed.
+           several adjustments for positioning and sizing changed.
   
           
 
