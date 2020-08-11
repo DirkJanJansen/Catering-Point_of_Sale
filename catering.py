@@ -5322,7 +5322,7 @@ def barcodeScan():
             self.adminBtn = QPushButton('Administration')
             self.adminBtn.setFocusPolicy(Qt.NoFocus)
             self.adminBtn.setHidden(True)
-            self.adminBtn.setFont(QFont("Arial",12))
+            self.adminBtn.setFont(QFont("Arial",12,75))
             self.adminBtn.setFixedSize(200, 40) 
             self.adminBtn.setStyleSheet("color: black; background-color: #FFD700")
             self.adminBtn.clicked.connect(lambda: adminMenu()) 
