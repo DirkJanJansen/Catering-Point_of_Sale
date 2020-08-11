@@ -4846,7 +4846,7 @@ def seatsArrange(self):
                         else:
                             ean.save('./Barcodes/clients/'+str(mbarcode))
                         insidx=insert(clients).values(clientID=mclientnr, employee=self.mcallname,\
-                        barcode = mbarcode)
+                             barcode = mbarcode)
                         con.execute(insidx)
                         self.mbarcode = mbarcode
                         printClient_barcode(self)
@@ -5039,8 +5039,8 @@ def barcodeScan():
                                                                          
             self.q1Edit = QLineEdit('')
             self.q1Edit.setStyleSheet("color: #F8F7EE;  background-color: #F8F7EE")
-            self.q1Edit.setFont(QFont("Arial", 12))
-            self.q1Edit.setFixedSize(155, 30)
+            self.q1Edit.setFont(QFont("Arial", 12, 75))
+            self.q1Edit.setFixedSize(155, 40)
             self.q1Edit.setFocus(True)
             reg_ex = QRegExp("^[0-9]{8}|^[0-9]{13}$")
             input_validator = QRegExpValidator(reg_ex, self.q1Edit)
@@ -5055,7 +5055,7 @@ def barcodeScan():
             self.qspin.setFrame(True)
             self.qspin.setFont(QFont('Arial', 12))
             self.qspin.setStyleSheet("color: black;  background-color: #F8F7EE")
-            self.qspin.setFixedSize(60, 30)
+            self.qspin.setFixedSize(60, 40)
              
             def valuechange():
                 self.qspin.setValue(self.qspin.value())
@@ -5064,7 +5064,7 @@ def barcodeScan():
             self.logonstate = QLabel()
             self.pixmap = QPixmap('./logos/red.png')
             self.logonstate.setPixmap(self.pixmap.scaled(40,40))
-            grid.addWidget(self.logonstate, 0, 6, 1, 1, Qt.AlignRight | Qt.AlignTop)
+            grid.addWidget(self.logonstate, 0, 6, 1, 1, Qt.AlignRight | Qt.AlignBottom)
                      
             self.mkop = QLineEdit()
             if self.mclient:
@@ -5106,17 +5106,17 @@ def barcodeScan():
             self.albl.setText("Notification Bar")
             self.albl.setAlignment(Qt.AlignCenter)
             self.albl.setFixedSize(560, 40)
-            grid.addWidget(self.albl, 0, 4, 1, 3, Qt.AlignTop)
+            grid.addWidget(self.albl, 0, 4, 1, 3, Qt.AlignBottom)
 
             lbl1 = QLabel('Barcodescan')
             lbl1.setFont(QFont("Arial", 12))
-            grid.addWidget(lbl1, 0, 5, 1, 1, Qt.AlignRight | Qt.AlignVCenter)
-            grid.addWidget(self.q1Edit , 0, 6, 1, 1, Qt.AlignRight | Qt.AlignVCenter)
+            grid.addWidget(lbl1, 0, 5, 1, 1, Qt.AlignRight | Qt.AlignTop)
+            grid.addWidget(self.q1Edit , 0, 6, 1, 1, Qt.AlignRight | Qt.AlignTop)
             
             lbl2 = QLabel('Number')
             lbl2.setFont(QFont("Arial", 12))
-            grid.addWidget(lbl2, 0, 6, 1, 1, Qt.AlignBottom)
-            grid.addWidget(self.qspin, 0, 6, 1, 1, Qt.AlignRight | Qt.AlignBottom)
+            grid.addWidget(lbl2, 0, 6, 1, 1, Qt.AlignVCenter)
+            grid.addWidget(self.qspin, 0, 6, 1, 1, Qt.AlignRight | Qt.AlignVCenter)
                     
             metadata = MetaData()
             buttons = Table('buttons', metadata,
@@ -5283,13 +5283,14 @@ def barcodeScan():
                                        
             self.plusminBtn = QPushButton('+')
             self.plusminBtn.setCheckable(True)
+            self.plusminBtn.setFont(QFont("Arial",12,75))
             self.plusminBtn.setStyleSheet("color: black;  background-color: #FFD700")
             self.plusminBtn.setHidden(True)
             self.plusminBtn.clicked.connect(lambda: plusminChange(self))
             self.plusminBtn.setFocusPolicy(Qt.NoFocus)
-            self.plusminBtn.setFixedSize(20, 30)
+            self.plusminBtn.setFixedSize(40, 40)
                  
-            grid.addWidget(self.plusminBtn, 0, 6, 1, 1, Qt.AlignCenter | Qt.AlignBottom)
+            grid.addWidget(self.plusminBtn, 0, 6, 1, 1, Qt.AlignCenter | Qt.AlignVCenter)
                     
             self.displayBtn = QPushButton('Big Display')
             self.displayBtn.clicked.connect(lambda: bigDisplay(self))
@@ -5322,11 +5323,11 @@ def barcodeScan():
             self.adminBtn.setFocusPolicy(Qt.NoFocus)
             self.adminBtn.setHidden(True)
             self.adminBtn.setFont(QFont("Arial",12))
-            self.adminBtn.setFixedWidth(200) 
+            self.adminBtn.setFixedSize(200, 40) 
             self.adminBtn.setStyleSheet("color: black; background-color: #FFD700")
             self.adminBtn.clicked.connect(lambda: adminMenu()) 
     
-            grid.addWidget(self.adminBtn, 0, 4, 1, 1, Qt.AlignRight)
+            grid.addWidget(self.adminBtn, 0, 4, 1, 1, Qt.AlignVCenter)
                                                    
             self.closeBtn = QPushButton('Exit')
             self.closeBtn.clicked.connect(lambda: windowClose(self))
