@@ -8,16 +8,16 @@
            Several changes for printlists, imports.
            Writing documentation.
            Remember is a first preview version, the program is in development and not fully tested!
-2020-08-09 xdotools in LINUX dit not work for ESC changed in Escape problem solved
+2020-08-09 xdotools in LINUX dir not work for ESC changed in Escape problem solved
 2020-08-09 selection QPlaintext by groupbuttons adjusted wrong method used, solved!
 2020-08-09 printing receipt changed to plain printing, QPrintDialog method removed.
 2020-08-10 method added for selecting client by barcodescan, besides current selectionmethod, not yet activated, for
            have yet to finish a printmodule for printing clientbarcodes in good resolution for scanning
 2020-08-10 disabling button after TRANSFER PAYED Removed, for changing clients after paying.
 2020-08-10 catering.backup database changed for adding column barcode into table clients
-2020-08-11 printing barcodes images established for scanning clients (bypass for menuchoice choose client)
-           printing of barcode is asked after opening tables in open/change table/seats 
-2020-08-11 catering.backup database changed due to numbering buttons started with 0 must be 1 solved
 2020-08-11 catering.py adjusted for iterating over buttons due to above correction
+2020-08012 catering.py tableseats all seats can be freed, if no orderlines are presemt for the client
+           if orderlines are presens all seats excluding the last one can be freed,
+           the last seat will only be removed by the TRANSFER PAYED button. (for paying purposes)
            
 
