@@ -3950,7 +3950,7 @@ def info():
             grid = QGridLayout()
             grid.setSpacing(20)
             
-            lblinfo = QLabel('Catering system')
+            lblinfo = QLabel('Catering Point of Sale')
             grid.addWidget(lblinfo, 0, 0, 1, 1, Qt.AlignCenter)
             lblinfo.setStyleSheet("color:rgba(45, 83, 115, 255); font: 25pt Comic Sans MS")
             
@@ -3965,13 +3965,13 @@ def info():
             grid.addWidget(lbl, 0, 0)
             
             infotext = QPlainTextEdit(\
-        '''                                                  Instruction catering point of sale.
+        '''                                                                        User information.
         
         Logging in takes place with a barcode card with 4 access levels.
         Level 1. Selling, scanning, printing.
         Level 2. Return bookings, a checkable ± button is shown, with which return bookings can be made.
         Level 3. Administration, a button Adminstration is shown, for assigning productbuttons,
-                 creating employees, administration, perform stock management and imports.
+                     creating employees, administration, perform stock management and imports.
         level 0. Employee is not allowed for operation.
         Employee first time scan barcode  = logon, second time = logout.
         Other employee scanning = switching employee (for return booking, or replacement).
