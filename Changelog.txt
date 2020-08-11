@@ -16,8 +16,9 @@
 2020-08-10 disabling button after TRANSFER PAYED Removed, for changing clients after paying.
 2020-08-10 catering.backup database changed for adding column barcode into table clients
 2020-08-11 catering.py adjusted for iterating over buttons due to above correction
-2020-08012 catering.py tableseats all seats can be freed, if no orderlines are presemt for the client
+2020-08-12 catering.py tableseats all seats can be freed, if no orderlines are presemt for the client
            if orderlines are presens all seats excluding the last one can be freed,
            the last seat will only be removed by the TRANSFER PAYED button. (for paying purposes)
+2020-08-12 Last change reversed for problems with interchanging users will solve thirst before changing agIN
            
 
