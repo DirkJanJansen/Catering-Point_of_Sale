@@ -212,7 +212,7 @@ def countTurnover(mindex):
             grid.addWidget(lbl3, 5, 0, 1, 3, Qt.AlignCenter)
            
             self.setLayout(grid)
-            self.setGeometry(600, 200, 150, 100)
+            self.setGeometry(900, 200, 150, 100)
                 
     window = Widget()
     window.exec_() 
@@ -738,7 +738,7 @@ def groupButtons():
                     
                     grid = QGridLayout()
                     grid.setSpacing(20)
-                    self.setWindowTitle("Parameters changing")
+                    self.setWindowTitle("Groupbuttons changing")
                     self.setWindowIcon(QIcon('./images/logos/logo.jpg'))
                     
                     self.setStyleSheet("background-color: #D9E1DF")
@@ -866,7 +866,7 @@ def paramChange():
             grid.addWidget(reglbl, 1, 0)
             
             self.setLayout(grid)
-            self.setGeometry(300, 50, 400, 600)
+            self.setGeometry(900, 150, 450, 400)
             self.setLayout(grid)
     
     class MyTableModel(QAbstractTableModel):
@@ -1006,7 +1006,7 @@ def paramChange():
                     reglbl.setFont(QFont("Arial",10))                               
                     grid.addWidget(reglbl, 8, 0, 1, 3, Qt.AlignCenter)                  
                     self.setLayout(grid)
-                    self.setGeometry(500, 200, 150, 150)
+                    self.setGeometry(900, 200, 150, 150)
             
                     applyBtn = QPushButton('Change')
                     applyBtn.clicked.connect(lambda: updparams(self))
@@ -1519,7 +1519,7 @@ def viewFile(pathfile, mtitle):
             grid.addWidget(lblreg, 3, 0, 1, 2, Qt.AlignCenter)
             
             self.setLayout(grid)
-            self.setGeometry(250, 50, 1000, 900)
+            self.setGeometry(250, 50, 1200, 900)
             
     window = Widget()
     window.exec_()
@@ -1595,7 +1595,7 @@ def viewList(path, mtitle):
               grid.addWidget(reslbl, 5, 0, 1, 3, Qt.AlignCenter)
                 
               self.setLayout(grid)
-              self.setGeometry(550, 200, 150, 150)
+              self.setGeometry(900, 200, 150, 150)
               
               def getfile(self):
                   filename = self.cb.currentText()
@@ -1787,7 +1787,10 @@ def articleRequest(mflag):
     articles = Table('articles', metadata,
         Column('barcode', String, primary_key=True),
         Column('description', String),
+        Column('short', String),
         Column('item_price', Float),
+        Column('selling_price', Float),
+        Column('selling_contents', Float),
         Column('item_stock', Float),
         Column('item_unit', String),
         Column('minimum_stock', Float),
@@ -1873,10 +1876,11 @@ def articleRequest(mflag):
                 pixmap.scaled(256,256) 
                 return(painter.drawPixmap(option.rect, pixmap))
                                        
-    header = ['Barcode','Description', 'Item-Price', 'Item-Stock', 'Item-Unit',\
-          'Mininum-Stock', 'Order-Size', 'Location', 'Article_Group', 'Thumbnail',\
-          'Category', 'Order-Balance', 'Order-Status' ,'Mutation-Date', \
-          'Annual-Consumption_1','Annual-Consumption_2', 'VAT']    
+    header = ['Barcode','Description', 'Short Description', 'Item-Price','Selling-Price',\
+              'Selling-contents','Item-Stock', 'Item-Unit','Mininum-Stock','Order-Size',\
+              'Location', 'Article_Group', 'Thumbnail','Category', 'Order-Balance',\
+              'Order-Status' ,'Mutation-Date','Annual-Consumption_1',\
+              'Annual-Consumption_2', 'VAT']    
         
     data_list=[]
     for row in rparticles:
@@ -2077,8 +2081,17 @@ def articleRequest(mflag):
                     input_validator = QRegExpValidator(reg_ex, self.q2Edit)
                     self.q2Edit.setValidator(input_validator)
                     
+                    #short-description
+                    self.q2aEdit = QLineEdit(rparticle[2])    
+                    self.q2aEdit.setFixedWidth(150)
+                    self.q2aEdit.setStyleSheet('color: black; background-color: #F8F7EE')
+                    self.q2aEdit.setFont(QFont("Arial",10))
+                    reg_ex = QRegExp("^.{1,15}$")
+                    input_validator = QRegExpValidator(reg_ex, self.q2aEdit)
+                    self.q2aEdit.setValidator(input_validator)
+                   
                     #item_price
-                    self.q3Edit = QLineEdit(str(round(rparticle[2],2)))
+                    self.q3Edit = QLineEdit(str(round(rparticle[3],2)))
                     self.q3Edit.setAlignment(Qt.AlignRight)
                     self.q3Edit.setFixedWidth(100)
                     self.q3Edit.setStyleSheet('color: black; background-color: #F8F7EE')
@@ -2087,8 +2100,28 @@ def articleRequest(mflag):
                     input_validator = QRegExpValidator(reg_ex, self.q3Edit)
                     self.q3Edit.setValidator(input_validator)
                     
+                    #selling-price
+                    self.q3aEdit = QLineEdit(str(round(rparticle[4],2)))
+                    self.q3aEdit.setAlignment(Qt.AlignRight)
+                    self.q3aEdit.setFixedWidth(100)
+                    self.q3aEdit.setStyleSheet('color: black; background-color: #F8F7EE')
+                    self.q3aEdit.setFont(QFont("Arial",10))
+                    reg_ex = QRegExp("^[-+]?[0-9]*\.?[0-9]+$")
+                    input_validator = QRegExpValidator(reg_ex, self.q3aEdit)
+                    self.q3aEdit.setValidator(input_validator)
+                    
+                    #selling-contents
+                    self.q3bEdit = QLineEdit(str(round(rparticle[5],2)))
+                    self.q3bEdit.setAlignment(Qt.AlignRight)
+                    self.q3bEdit.setFixedWidth(100)
+                    self.q3bEdit.setStyleSheet('color: black; background-color: #F8F7EE')
+                    self.q3bEdit.setFont(QFont("Arial",10))
+                    reg_ex = QRegExp("^[-+]?[0-9]*\.?[0-9]+$")
+                    input_validator = QRegExpValidator(reg_ex, self.q3bEdit)
+                    self.q3bEdit.setValidator(input_validator)
+                    
                     #item_stock
-                    self.q4Edit = QLineEdit(str(round(rparticle[3],2)))
+                    self.q4Edit = QLineEdit(str(round(rparticle[6],2)))
                     self.q4Edit.setAlignment(Qt.AlignRight)
                     self.q4Edit.setFixedWidth(100)
                     self.q4Edit.setStyleSheet('color: black; background-color: #F8F7EE')
@@ -2109,10 +2142,10 @@ def articleRequest(mflag):
                     self.q5Edit.addItem('liter')
                     self.q5Edit.addItem('m²')
                     self.q5Edit.addItem('m³')
-                    self.q5Edit.setCurrentIndex(self.q5Edit.findText(rparticle[4]))
+                    self.q5Edit.setCurrentIndex(self.q5Edit.findText(rparticle[7]))
                     
                     #minimum stock
-                    self.q6Edit = QLineEdit(str(round(rparticle[5],2)))
+                    self.q6Edit = QLineEdit(str(round(rparticle[8],2)))
                     self.q6Edit.setAlignment(Qt.AlignRight)
                     self.q6Edit.setFixedWidth(100)
                     self.q6Edit.setFont(QFont("Arial",10))
@@ -2122,7 +2155,7 @@ def articleRequest(mflag):
                     self.q6Edit.setValidator(input_validator)
         
                     #order_size
-                    self.q7Edit = QLineEdit(str(round(rparticle[6],2)))
+                    self.q7Edit = QLineEdit(str(round(rparticle[9],2)))
                     self.q7Edit.setAlignment(Qt.AlignRight)
                     self.q7Edit.setFixedWidth(100)
                     self.q7Edit.setFont(QFont("Arial",10))
@@ -2132,19 +2165,19 @@ def articleRequest(mflag):
                     self.q7Edit.setValidator(input_validator)
                                  
                     #location
-                    self.q8Edit = QLineEdit(rparticle[7])
+                    self.q8Edit = QLineEdit(rparticle[10])
                     self.q8Edit.setFixedWidth(100)
                     self.q8Edit.setStyleSheet('color: black; background-color: #F8F7EE')
                     self.q8Edit.setFont(QFont("Arial",10))
                                 
                     # article_group
-                    self.q9Edit = QLineEdit(rparticle[8])
+                    self.q9Edit = QLineEdit(rparticle[11])
                     self.q9Edit.setFixedWidth(200)
                     self.q9Edit.setStyleSheet('color: black; background-color: #F8F7EE')
                     self.q9Edit.setFont(QFont("Arial",10))
                         
                     #thumbnail
-                    self.q10Edit = QLineEdit(rparticle[9])
+                    self.q10Edit = QLineEdit(rparticle[12])
                     self.q10Edit.setFixedWidth(200)
                     self.q10Edit.setFont(QFont("Arial",10))
                     self.q10Edit.setStyleSheet('color: black; background-color: #F8F7EE')
@@ -2163,7 +2196,7 @@ def articleRequest(mflag):
                     self.q11Edit.addItem('6. Stock-driven < 12 weeks')
                     self.q11Edit.addItem('7. Stock-driven < 26 weeks')
                     self.q11Edit.addItem('8. Stock-driven < 52 weeks')
-                    self.q11Edit.setCurrentIndex(rparticle[10]-1)
+                    self.q11Edit.setCurrentIndex(rparticle[13]-1)
          
                     #vat
                     self.q12Edit = QComboBox()
@@ -2173,10 +2206,10 @@ def articleRequest(mflag):
                     self.q12Edit.addItem('high')
                     self.q12Edit.addItem('low')
                     self.q12Edit.addItem('zero')
-                    self.q12Edit.setCurrentIndex(self.q12Edit.findText(rparticle[16]))
+                    self.q12Edit.setCurrentIndex(self.q12Edit.findText(rparticle[19]))
                     
                     #order-balance
-                    self.q13Edit = QLineEdit(str(round(rparticle[11],2)))
+                    self.q13Edit = QLineEdit(str(round(rparticle[14],2)))
                     self.q13Edit.setFixedWidth(100)
                     self.q13Edit.setAlignment(Qt.AlignRight)
                     self.q13Edit.setStyleSheet('color: black')
@@ -2184,7 +2217,7 @@ def articleRequest(mflag):
                     self.q13Edit.setDisabled(True)
                     
                     #order_status
-                    self.q14Edit = QLineEdit(str(bool(rparticle[12])))
+                    self.q14Edit = QLineEdit(str(bool(rparticle[15])))
                     self.q14Edit.setFixedWidth(100)
                     self.q14Edit.setStyleSheet('color: black')
                     self.q14Edit.setFont(QFont("Arial",10))
@@ -2194,9 +2227,21 @@ def articleRequest(mflag):
                         self.q2Edit.setText(self.q2Edit.text())
                     self.q2Edit.textChanged.connect(q2Changed)
                     
+                    def q2aChanged():
+                        self.q2aEdit.setText(self.q2aEdit.text())
+                    self.q2aEdit.textChanged.connect(q2aChanged)
+                    
                     def q3Changed():
                         self.q3Edit.setText(self.q3Edit.text())
                     self.q3Edit.textChanged.connect(q3Changed)
+                    
+                    def q3aChanged():
+                        self.q3aEdit.setText(self.q3aEdit.text())
+                    self.q3Edit.textChanged.connect(q3aChanged)
+                    
+                    def q3bChanged():
+                        self.q3bEdit.setText(self.q3bEdit.text())
+                    self.q3bEdit.textChanged.connect(q3bChanged)
                     
                     def q4Changed():
                         self.q4Edit.setText(self.q4Edit.text())
@@ -2233,6 +2278,10 @@ def articleRequest(mflag):
                     def q12Changed():
                         self.q5Edit.setCurrentText(self.q12Edit.currentText()) 
                     self.q12Edit.currentIndexChanged.connect(q12Changed)
+                    
+                    lblhead = QLabel('Changing articles')
+                    lblhead.setFont(QFont("Arial", 12))
+                    grid.addWidget(lblhead, 0, 1, 1, 3, Qt.AlignCenter)
                    
                     grid.addWidget(QLabel('Barcodenumber'), 1, 0)
                     grid.addWidget(self.q1Edit, 1, 1)
@@ -2240,45 +2289,57 @@ def articleRequest(mflag):
                     grid.addWidget(QLabel('Description'), 2, 0)
                     grid.addWidget(self.q2Edit, 2, 1 ,1 ,2)
                     
+                    grid.addWidget(QLabel('Short-Description'), 3, 0)
+                    grid.addWidget(self.q2aEdit, 3, 1)
+                     
                     grid.addWidget(QLabel('Item_Price'), 3, 0)
                     grid.addWidget(self.q3Edit, 3, 1)
                     
-                    grid.addWidget(QLabel('Item-Unit'), 3, 2)
-                    grid.addWidget(self.q5Edit, 3, 3)
+                    grid.addWidget(QLabel('Selling-Price'), 3, 2)
+                    grid.addWidget(self.q3aEdit, 3, 3)
                     
-                    grid.addWidget(QLabel('Minimum_Stock'), 4, 0)
-                    grid.addWidget(self.q6Edit, 4, 1)
+                    grid.addWidget(QLabel('Selling-contents'), 4, 0)
+                    grid.addWidget(self.q3bEdit, 4, 1)
                     
-                    grid.addWidget(QLabel('Item-Stock'), 4, 2)
-                    grid.addWidget(self.q4Edit, 4, 3)
+                    grid.addWidget(QLabel('Item-Unit'), 4, 2)
+                    grid.addWidget(self.q5Edit, 4, 3)
                     
-                    grid.addWidget(QLabel('Order-Size'), 5, 2)
-                    grid.addWidget(self.q7Edit, 5, 3)
+                    grid.addWidget(QLabel('Minimum_Stock'), 5, 0)
+                    grid.addWidget(self.q6Edit, 5, 1)
+                    
+                    grid.addWidget(QLabel('Item-Stock'), 5, 2)
+                    grid.addWidget(self.q4Edit, 5, 3)
+                    
+                    grid.addWidget(QLabel('Order-Size'), 6, 0)
+                    grid.addWidget(self.q7Edit, 6, 1)
                       
-                    grid.addWidget(QLabel('Location'), 5, 0)
-                    grid.addWidget(self.q8Edit, 5, 1)
+                    grid.addWidget(QLabel('Location'), 6, 2)
+                    grid.addWidget(self.q8Edit, 6, 3)
                     
-                    grid.addWidget(QLabel('Articlegroup'), 6, 2)
-                    grid.addWidget(self.q9Edit, 6, 3)
+                    grid.addWidget(QLabel('Articlegroup'), 7, 0)
+                    grid.addWidget(self.q9Edit, 7, 1)
                     
-                    grid.addWidget(QLabel('Thumbnail'), 6, 0)
-                    grid.addWidget(self.q10Edit, 6, 1)
+                    grid.addWidget(QLabel('Thumbnail'), 7, 2)
+                    grid.addWidget(self.q10Edit, 7, 3)
                     
-                    grid.addWidget(QLabel('Category'), 7, 2 )
-                    grid.addWidget(self.q11Edit, 7, 3)
+                    grid.addWidget(QLabel('Category'), 8, 0 )
+                    grid.addWidget(self.q11Edit, 8, 1)
                     
-                    grid.addWidget(QLabel('VAT'), 7, 0 )
-                    grid.addWidget(self.q12Edit, 7, 1)
+                    grid.addWidget(QLabel('VAT'), 8, 2)
+                    grid.addWidget(self.q12Edit, 8, 3)
                     
-                    grid.addWidget(QLabel('Order_Balance'), 8, 0 )
-                    grid.addWidget(self.q13Edit, 8, 1)
+                    grid.addWidget(QLabel('Order_Balance'), 9, 0)
+                    grid.addWidget(self.q13Edit, 9, 1)
                     
-                    grid.addWidget(QLabel('Order-Status'), 8, 2 )
-                    grid.addWidget(self.q14Edit, 8, 3)     
+                    grid.addWidget(QLabel('Order-Status'), 9, 2 )
+                    grid.addWidget(self.q14Edit, 9, 3)     
           
                     def updArticle(self):
                         mdescr = self.q2Edit.text()
+                        mshort = self.q2aEdit.text()
                         mprice = float(self.q3Edit.text())
+                        msellprice = float(self.q3aEdit.text())
+                        msellcontents = float(self.q3bEdit.text())
                         mstock = float(self.q4Edit.text())
                         munit = self.q5Edit.currentText()
                         mminstock = float(self.q6Edit.text())
@@ -2289,8 +2350,9 @@ def articleRequest(mflag):
                         mcategory = self.q11Edit.currentIndex()+1
                         mvat = self.q12Edit.currentText()
                         updarticle = update(articles).where(articles.c.barcode==mbarcode)\
-                          .values(barcode=mbarcode,description=mdescr,\
-                            item_price=mprice,item_stock=mstock,item_unit=munit,\
+                          .values(barcode=mbarcode,description=mdescr,short=mshort,\
+                            item_price=mprice,selling_price=msellprice,selling_contents=\
+                            msellcontents,item_stock=mstock,item_unit=munit,\
                             minimum_stock=mminstock,order_size=morder_size, \
                             location_warehouse=mlocation,article_group=martgroup,\
                             thumbnail=mthumb,category=mcategory,VAT=mvat)
@@ -2301,20 +2363,20 @@ def articleRequest(mflag):
                     applyBtn = QPushButton('Update')
                     applyBtn.clicked.connect(lambda: updArticle(self))
             
-                    grid.addWidget(applyBtn, 9, 3, 1, 1, Qt.AlignRight)
+                    grid.addWidget(applyBtn, 10, 3, 1, 1, Qt.AlignRight)
                     applyBtn.setFont(QFont("Arial",10))
-                    applyBtn.setFixedWidth(100)
+                    applyBtn.setFixedWidth(90)
                     applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
                     
                     cancelBtn = QPushButton('Close')
                     cancelBtn.clicked.connect(self.close)
                     
-                    grid.addWidget(cancelBtn, 9, 3)
+                    grid.addWidget(cancelBtn, 10, 3)
                     cancelBtn.setFont(QFont("Arial",10))
-                    cancelBtn.setFixedWidth(100)
+                    cancelBtn.setFixedWidth(90)
                     cancelBtn.setStyleSheet("color: black;  background-color: gainsboro")
                     
-                    grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 10, 0, 1, 4, Qt.AlignCenter)
+                    grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 11, 0, 1, 4, Qt.AlignCenter)
              
                     self.setLayout(grid)
                     self.setGeometry(500, 200, 150, 100)
@@ -3322,7 +3384,10 @@ def insertArticles():
     articles = Table('articles', metadata,
         Column('barcode', String, primary_key=True),
         Column('description', String),
+        Column('short', String),
         Column('item_price', Float),
+        Column('selling_price', Float),
+        Column('selling_contents', Float),
         Column('item_stock', Float),
         Column('item_unit', String),
         Column('minimum_stock', Float),
@@ -3379,6 +3444,10 @@ def insertArticles():
             logo.setPixmap(pixmap.scaled(70,70))
             grid.addWidget(logo , 0, 3, 1 ,1, Qt.AlignRight)
             
+            lblhead = QLabel('Insert new articles')
+            lblhead.setFont(QFont("Arial", 12))
+            grid.addWidget(lblhead, 0, 1, 1, 3, Qt.AlignCenter)
+            
             #barcode
             self.q1Edit = QLineEdit(str(mbarcode)) 
             self.q1Edit.setFixedWidth(130)
@@ -3395,6 +3464,15 @@ def insertArticles():
             input_validator = QRegExpValidator(reg_ex, self.q2Edit)
             self.q2Edit.setValidator(input_validator)
             
+            #short
+            self.q2aEdit = QLineEdit()    
+            self.q2aEdit.setFixedWidth(150)
+            self.q2aEdit.setStyleSheet('color: black; background-color: #F8F7EE')
+            self.q2aEdit.setFont(QFont("Arial",10))
+            reg_ex = QRegExp("^.{1,15}$")
+            input_validator = QRegExpValidator(reg_ex, self.q2aEdit)
+            self.q2aEdit.setValidator(input_validator)
+            
             #item_price
             self.q3Edit = QLineEdit('0')
             self.q3Edit.setFixedWidth(100)
@@ -3403,6 +3481,24 @@ def insertArticles():
             reg_ex = QRegExp("^[-+]?[0-9]*\.?[0-9]+$")
             input_validator = QRegExpValidator(reg_ex, self.q3Edit)
             self.q3Edit.setValidator(input_validator)
+            
+            #selling_price
+            self.q3aEdit = QLineEdit('0')
+            self.q3aEdit.setFixedWidth(100)
+            self.q3aEdit.setStyleSheet('color: black; background-color: #F8F7EE')
+            self.q3aEdit.setFont(QFont("Arial",10))
+            reg_ex = QRegExp("^[-+]?[0-9]*\.?[0-9]+$")
+            input_validator = QRegExpValidator(reg_ex, self.q3aEdit)
+            self.q3aEdit.setValidator(input_validator)
+            
+            #selling_contents
+            self.q3bEdit = QLineEdit('0')
+            self.q3bEdit.setFixedWidth(100)
+            self.q3bEdit.setStyleSheet('color: black; background-color: #F8F7EE')
+            self.q3bEdit.setFont(QFont("Arial",10))
+            reg_ex = QRegExp("^[-+]?[0-9]*\.?[0-9]+$")
+            input_validator = QRegExpValidator(reg_ex, self.q3bEdit)
+            self.q3bEdit.setValidator(input_validator)
             
             #item_unit
             self.q5Edit = QComboBox()
@@ -3485,6 +3581,14 @@ def insertArticles():
                 self.q3Edit.setText(self.q3Edit.text())
             self.q3Edit.textChanged.connect(q3Changed)
             
+            def q3aChanged():
+                self.q3aEdit.setText(self.q3aEdit.text())
+            self.q3aEdit.textChanged.connect(q3aChanged)
+            
+            def q3bChanged():
+                self.q3bEdit.setText(self.q3bEdit.text())
+            self.q3bEdit.textChanged.connect(q3bChanged)
+            
             def q5Changed():
                 self.q5Edit.setCurrentText(self.q5Edit.currentText()) #+1
             self.q5Edit.currentIndexChanged.connect(q5Changed)
@@ -3523,36 +3627,48 @@ def insertArticles():
             grid.addWidget(QLabel('Description'), 2, 0)
             grid.addWidget(self.q2Edit, 2, 1 ,1 ,2)
             
-            grid.addWidget(QLabel('Item_Price'), 3, 0)
-            grid.addWidget(self.q3Edit, 3, 1)
+            grid.addWidget(QLabel('Short Description'), 3, 0)
+            grid.addWidget(self.q2aEdit, 3, 1)
             
-            grid.addWidget(QLabel('Item-Unit'), 3, 2)
-            grid.addWidget(self.q5Edit, 3, 3)
+            grid.addWidget(QLabel('Item_Price'), 3, 2)
+            grid.addWidget(self.q3Edit, 3, 3)
             
-            grid.addWidget(QLabel('Minimum_Stock'), 4, 0)
-            grid.addWidget(self.q6Edit, 4, 1)
+            grid.addWidget(QLabel('Selling-Price'), 4, 0)
+            grid.addWidget(self.q3aEdit, 4, 1)
             
-            grid.addWidget(QLabel('Order-Size'), 4, 2)
-            grid.addWidget(self.q7Edit, 4, 3)
+            grid.addWidget(QLabel('Selling-Contents'), 4, 2)
+            grid.addWidget(self.q3bEdit, 4, 3)
+            
+            grid.addWidget(QLabel('Item-Unit'), 5, 0)
+            grid.addWidget(self.q5Edit, 5, 1)
+            
+            grid.addWidget(QLabel('Minimum_Stock'), 5, 2)
+            grid.addWidget(self.q6Edit, 5, 3)
+            
+            grid.addWidget(QLabel('Order-Size'), 6, 0)
+            grid.addWidget(self.q7Edit, 6, 1)
               
-            grid.addWidget(QLabel('Location'), 5, 0)
-            grid.addWidget(self.q8Edit, 5, 1)
+            grid.addWidget(QLabel('Location'), 6, 2)
+            grid.addWidget(self.q8Edit, 6, 3)
             
-            grid.addWidget(QLabel('Articlegroup'), 5, 2)
-            grid.addWidget(self.q9Edit, 5, 3)
+            grid.addWidget(QLabel('Articlegroup'), 7, 0)
+            grid.addWidget(self.q9Edit, 7, 1)
             
-            grid.addWidget(QLabel('Thumbnail'), 6, 0)
-            grid.addWidget(self.q10Edit, 6, 1)
+            grid.addWidget(QLabel('Thumbnail'), 7, 2)
+            grid.addWidget(self.q10Edit, 7, 3)
             
-            grid.addWidget(QLabel('Category'), 6, 2 )
-            grid.addWidget(self.q11Edit, 6, 3)
+            grid.addWidget(QLabel('Category'), 8, 0 )
+            grid.addWidget(self.q11Edit, 8, 1)
             
-            grid.addWidget(QLabel('VAT'), 7, 0 )
-            grid.addWidget(self.q12Edit, 7, 1)
+            grid.addWidget(QLabel('VAT'), 8, 2 )
+            grid.addWidget(self.q12Edit, 8, 3)
   
             def insArticle(self):
                 mdescr = self.q2Edit.text()
+                mshort = self.q2aEdit.text()
                 mprice = float(self.q3Edit.text())
+                msellprice = float(self.q3aEdit.text())
+                msellcontent = float(self.q3bEdit.text())
                 munit = self.q5Edit.currentText()
                 mminstock = float(self.q6Edit.text())
                 morder_size = float(self.q7Edit.text())
@@ -3563,7 +3679,8 @@ def insertArticles():
                 mvat = self.q12Edit.currentText()
                 if mdescr and mprice and morder_size and mlocation and mcategory:
                     insart = insert(articles).values(barcode=mbarcode,description=mdescr,\
-                        item_price=mprice,item_unit=munit, minimum_stock = mminstock,\
+                        short=mshort,item_price=mprice,selling_price=msellprice,\
+                        seling_content=msellcontent,item_unit=munit, minimum_stock=mminstock,\
                         order_size=morder_size, location_warehouse=mlocation,\
                         article_group=martgroup,thumbnail=mthumb,\
                         category=mcategory,VAT=mvat)
@@ -3582,20 +3699,20 @@ def insertArticles():
             applyBtn = QPushButton('Insert')
             applyBtn.clicked.connect(lambda: insArticle(self))
     
-            grid.addWidget(applyBtn, 8, 3, 1, 1, Qt.AlignRight)
+            grid.addWidget(applyBtn, 9, 3, 1, 1, Qt.AlignRight)
             applyBtn.setFont(QFont("Arial",10))
-            applyBtn.setFixedWidth(100)
+            applyBtn.setFixedWidth(90)
             applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
             
             cancelBtn = QPushButton('Close')
             cancelBtn.clicked.connect(self.close)
             
-            grid.addWidget(cancelBtn, 8, 3)
+            grid.addWidget(cancelBtn, 9, 3)
             cancelBtn.setFont(QFont("Arial",10))
-            cancelBtn.setFixedWidth(100)
+            cancelBtn.setFixedWidth(90)
             cancelBtn.setStyleSheet("color: black;  background-color: gainsboro")
             
-            grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 9, 0, 1, 4, Qt.AlignCenter)
+            grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 10, 0, 1, 4, Qt.AlignCenter)
             
     
             self.setLayout(grid)
