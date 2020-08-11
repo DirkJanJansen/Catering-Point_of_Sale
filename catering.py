@@ -3983,13 +3983,14 @@ def info():
         Selecting can also been done with the productbuttons for unpackaged products.
         When scanning is started, the close button is blocked until the button 'TRANSFER PAYED' is pressed.
         The print button is blocked until the first transaction is posted.
-        In the following cases, an error message appears in red in the Notification Area. An acoustic alarm 
-        will also sound for the following 3 cases.  
+        Errors or messages appears in red in the Notification Area. 
+        A acoustic alarm  will also sound for the following 3 cases.  
         
         1. If a read error occurs when scanning the barcode.
         2. If there is insufficient stock to deliver the order, current stock will also been showed.
         3. If the product is not (yet) included in the range.
-        All other errors of notification will appear in red in the Notification Area.
+        
+        All other errors or messages will appear without acoustic alarm in red in the Notification Area.
                     
         If the item cannot be scanned, it is possible to insert the barcode manually after inserting press 
         <Enter> on the keyboard.
@@ -4001,37 +4002,42 @@ def info():
         Table arrangements:
         The table arrangements are established by checking free seats and pushing the button
         Open/Change Tables/Seats.
+        
         After selecting and applying a popup is showed, with the possibility of printing a
         barcode for the clientID. With this barcode scanning it's possible to switch fast between
         clients. It's also possible to use the select client button to choose the desired client.
         With this button or scan the current account is selected.
-        On the screen a layout of 100 selectable buttons is showed. These buttons are arranged in
-        20 groups of 2 table seats and 15 groups of 4 table seats.
+        
+        A layout of 100 selectable buttons is showed. These buttons are arranged in 20 groups
+        of 2 table seats and 15 groups of 4 table seats.
         By selecting the seats, combining or splitting of tables and seats can be established.
-        By selecting the choise "Open Table" and applying the seats are added to a client.
-        By clicking the "Refresh" button the seats with clientnumber and callname of the employee
-        is displayed on the seat-buttons.
+        By selecting the choise "Open Table" and checking the seats are added to a client.
+        By clicking the "Refresh" button the seats with clientnumbers and callnames of the employee
+        is displayed on the seats.
         Seats occupied are displayed for all employees, so all available seats are showed.
         Only the employee, that selected the seats, can add or remove seats to the assembly,
-        by checking or unchecking buttons and selecting "Change seat client <number>". This occurs,
-        if visitors from a group are leaving or joining the group.
+        by checking or unchecking buttons and selecting "Change seat client <number>". 
+        This occurs, if visitors from a group are leaving or joining the group.
         If no orders are placed, it's possible to remove with "Change seat client <number>" 
-        all the selected seats, also the client is removed.. 
+        all the checked seats, also the client is removed.. 
         If orders are placed, it's possible to uncheck the seats except the last one, for this seat
         must remain linked with the client, untill the bill is payed. The last seat is freed and the
         client is removed when the TRANSFER PAYED button is pushed.
+        
         Before pushing the TRANSFER PAYED the bill can be printed and payed by cash or by pin
-        transaction. For paying by cash a modest calculator is present.
+        transaction.
+        For paying by cash a modest calculator is present.
         The thirst row of the calcultor shows the total sum of the bill.
         The second row under the "TRANSFER PAYED" button must be filled in with the cash sum, 
         received from the customer. By pushing the "REFUND"button the change is calculated.
         In case of incorrect entry the "DEL" button can be applied.
+        
         The change is rounded. The rounding is changeable by the program by a authorised person. 
         ''')
             grid.addWidget(infotext, 1, 0)
                            
             infotext.setStyleSheet("font: 20px Consolas bold; color: black ; background-color: #D9E1DF")   
-            infotext.setFixedSize(1000, 700)
+            infotext.setFixedSize(1100, 700)
             grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 3, 0, 1, 1, Qt.AlignCenter)
             
             cancelBtn = QPushButton('Close')
@@ -4043,7 +4049,7 @@ def info():
             cancelBtn.setStyleSheet("color: black;  background-color: gainsboro")
             
             self.setLayout(grid)
-            self.setGeometry(100, 50, 350, 350)
+            self.setGeometry(300, 50, 350, 350)
             
     window = Widget()
     window.exec_()
@@ -4699,7 +4705,7 @@ def printClient_barcode(self):
              rect = painter.viewport()
              size = self.pixmap.size()
              size.scale(rect.size(), Qt.KeepAspectRatio)
-             painter.setViewport(rect.x(), rect.y(), 300 , 205) #aspect and size for barcodes ean 8
+             painter.setViewport(rect.x(), rect.y(), 267.3 , 182.3) #aspect and size for barcodes ean 8
              painter.setWindow(self.pixmap.rect())
              painter.drawPixmap(0, 0, self.pixmap)
             
