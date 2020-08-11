@@ -4036,6 +4036,9 @@ def heading(self, mpage):
     return(kop)
 
 def printReceipt(self):
+    if not self.mcallname:
+        self.albl.setText('Not Logged on!')
+        return
     msgBox=QMessageBox()
     msgBox.setStyleSheet("color: black;  background-color: gainsboro")
     msgBox.setWindowIcon(QIcon('./logos/logo.jpg')) 
@@ -4113,8 +4116,7 @@ def printReceipt(self):
                 system("lpr "+fbarc)
             printing()
         else:
-            message = 'There are no transactions yet!'
-            alertText(message)
+            self.albl.setText('There are no transactions yet!')
             
 def payed(self):
     mbookd = str(datetime.datetime.now())[0:10]
