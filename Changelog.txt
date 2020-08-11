@@ -20,5 +20,7 @@
            if orderlines are presens all seats excluding the last one can be freed,
            the last seat will only be removed by the TRANSFER PAYED button. (for paying purposes)
 2020-08-12 Last change reversed for problems with interchanging users will solve thirst before changing again.
+2020-08-12 catering.py problem solved with switching clients so again implemented free tableseats under conditions
+           orderlines / no orderlines
            
 
