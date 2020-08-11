@@ -4862,8 +4862,10 @@ def seatsArrange(self):
                                         s += 1
                                 self.lblseats.setText('Tableseats have been processed!')
                                 if s > 1:
-                                    upd = update(tables_layout).where(tables_layout.c.ID ==\
-                                     seatlist[x]).values(occupied=0,clientID=0,callname='')
+                                    upd = update(tables_layout).where(and_(tables_layout.c.ID ==\
+                                     seatlist[x], tables_layout.c.clientID == self.mclient, \
+                                     tables_layout.c.callname == self.mcallname))\
+                                     .values(occupied=0,clientID=0,callname='')
                                     con.execute(upd)
                                 else:
                                     metadata = MetaData()
@@ -4877,8 +4879,10 @@ def seatsArrange(self):
                                     if rpol and s == 1:
                                         self.lblseats.setText('Last seat can only be removed by button "TRANSFER PAYED" in mainscreen!')
                                     else:
-                                        upd = update(tables_layout).where(tables_layout.c.ID ==\
-                                          seatlist[x]).values(occupied=0,clientID=0,callname='')
+                                        upd = update(tables_layout).where(and_(tables_layout.c.ID ==\
+                                          seatlist[x], tables_layout.c.clientID == self.mclient,\
+                                           tables_layout.c.callname == self.mcallname))\
+                                           .values(occupied=0,clientID=0,callname='')
                                         con.execute(upd)  
                                         delol = delete(clients).where(and_(clients.c.clientID ==\
                                             self.mclient, clients.c.employee == self.mcallname))
