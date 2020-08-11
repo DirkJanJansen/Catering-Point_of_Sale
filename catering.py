@@ -4832,23 +4832,8 @@ def seatsArrange(self):
                                      seatlist[x]).values(occupied=0,clientID=0,callname='')
                                     con.execute(upd)
                                 else:
-                                    metadata = MetaData()
-                                    order_lines = Table('order_lines', metadata,
-                                        Column('ID', Integer, primary_key=True),
-                                        Column('clientID', Integer),
-                                        Column('callname', String))
-                                    selol = select([order_lines]).where(and_(order_lines.c.\
-                                      clientID == self.mclient, order_lines.c.callname == self.mcallname))
-                                    rpol = con.execute(selol).first()
-                                    if rpol and s < 2:
-                                        self.lblseats.setText('Last seat can only be removed by button "TRANSFER PAYED" in mainscreen!')
-                                    else:
-                                        upd = update(tables_layout).where(tables_layout.c.ID ==\
-                                          seatlist[x]).values(occupied=0,clientID=0,callname='')
-                                        con.execute(upd)  
-                                        delol = delete(clients).where(and_(clients.c.clientID ==\
-                                            self.mclient, clients.c.employee == self.mcallname))
-                                        con.execute(delol)
+                                    self.lblseats.setText('Last seat can only be removed by button "TRANSFER PAYED" in mainscreen!')
+                                    
                         x += 1
                     if mflag:
                         inlogstr = ('010'+('000'+str(mclientnr))[-4:])
