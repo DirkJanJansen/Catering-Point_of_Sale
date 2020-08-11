@@ -3951,7 +3951,7 @@ def info():
             grid.setSpacing(20)
             
             lblinfo = QLabel('Catering system')
-            grid.addWidget(lblinfo, 0, 0, 1, 2, Qt.AlignCenter)
+            grid.addWidget(lblinfo, 0, 0, 1, 1, Qt.AlignCenter)
             lblinfo.setStyleSheet("color:rgba(45, 83, 115, 255); font: 25pt Comic Sans MS")
             
             logo = QLabel()
@@ -3964,8 +3964,8 @@ def info():
             lbl.setPixmap(pixmap)
             grid.addWidget(lbl, 0, 0)
             
-            infolbl = QLabel('''\t\t\t\t\t\t\t\t\t\t\t
-        Instruction barcode scan.
+            infotext = QPlainTextEdit(\
+        '''                                                  Instruction catering point of sale.
         
         Logging in takes place with a barcode card with 4 access levels.
         Level 1. Selling, scanning, printing.
@@ -3982,7 +3982,7 @@ def info():
         the spinbox or with the mouse wheel. After every scan, the number is reset to 1.
         Selecting can also been done with the productbuttons for unpackaged products.
         When scanning is started, the close button is blocked until the button 'TRANSFER PAYED' is pressed.
-        The print button and the customer button are blocked until the first transaction is posted.
+        The print button is blocked until the first transaction is posted.
         In the following cases, an error message appears in red in the Notification Area. An acoustic alarm 
         will also sound for the following 3 cases.  
         
@@ -3997,11 +3997,41 @@ def info():
         The receipt can be printed after scanning is finished.
         Before exiting the program, first press the TRANSFER PAYED button, so the close button is released.
         This will make the necessary bookings and prepare the POS for the next customer.
+        
+        Table arrangements:
+        The table arrangements are established by pushing the button Open/Change Tables/Seats.
+        After selecting and applying a popup is showed, with the possibility of printing a
+        barcode for the clientID. With this barcode scanning it's possible to switch fast between
+        clients. It's also possible to use the select client button to choose the desired client.
+        With this button or scan the current account is selected.
+        On the screen a layout of 100 selectable buttons is showed. These buttons are arranged in
+        20 groups of 2 table seats and 15 groups of 4 table seats.
+        By selecting the seats, combining or splitting of tables and seats can be established.
+        By selecting the choise "Open Table" and applying the seats are added to a client.
+        By clicking the "Refresh" button the seats with clientnumber and callname of the employee
+        is displayed on the seat-buttons.
+        Seats occupied are displayed for all employees, so all available seats are showed.
+        Only the employee, that selected the seats, can add or remove seats to the assembly,
+        by checking or unchecking buttons and selecting "Change seat client <number>". This occurs,
+        if visitors from a group are leaving or joining the group.
+        If no orders are placed, it's possible to remove with "Change seat client <number>" 
+        all the selected seats, also the client is removed.. 
+        If orders are placed, it's possible to uncheck the seats except the last one, for this seat
+        must remain linked with the client, untill the bill is payed. The last seat is freed and the
+        client is removed when the TRANSFER PAYED button is pushed.
+        Before pushing the TRANSFER PAYED the bill can be printed and payed by cash or by pin
+        transaction. For paying by cash a modest calculator is present.
+        The thirst row of the calcultor shows the total sum of the bill.
+        The second row under the "TRANSFER PAYED" button must be filled in with the cash sum, 
+        received from the customer. By pushing the "REFUND"button the change is calculated.
+        In case of incorrect entry the "DEL" button can be applied.
+        The change is rounded. The rounding is changeable by the program by a authorised person. 
         ''')
-            grid.addWidget(infolbl, 1, 0)
+            grid.addWidget(infotext, 1, 0)
                            
-            infolbl.setStyleSheet("font: 10pt Comic Sans MS; color: black ; background-color: #D9E1DF")   
-            grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 2, 0, 1, 2, Qt.AlignCenter)
+            infotext.setStyleSheet("font: 20px Consolas bold; color: black ; background-color: #D9E1DF")   
+            infotext.setFixedSize(1000, 700)
+            grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 3, 0, 1, 1, Qt.AlignCenter)
             
             cancelBtn = QPushButton('Close')
             cancelBtn.clicked.connect(self.close)  
@@ -4012,7 +4042,7 @@ def info():
             cancelBtn.setStyleSheet("color: black;  background-color: gainsboro")
             
             self.setLayout(grid)
-            self.setGeometry(350, 50, 150, 100)
+            self.setGeometry(100, 50, 350, 350)
             
     window = Widget()
     window.exec_()
