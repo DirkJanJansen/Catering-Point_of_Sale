@@ -4179,96 +4179,83 @@ def printing():
     msg.exec_()
 
 def printReceipt(self):
-    if not self.mcallname:
+    if not self.maccess:
         self.albl.setText('Not Logged on!')
         return
-    msgBox=QMessageBox()
-    msgBox.setStyleSheet("color: black;  background-color: gainsboro")
-    msgBox.setWindowIcon(QIcon('./logos/logo.jpg')) 
-    msgBox.setWindowTitle("Printing receipt")
-    msgBox.setIcon(QMessageBox.Information)
-    msgBox.setFont(QFont("Arial", 10))
-    msgBox.setText("Do you want to print the receipt?");
-    msgBox.setStandardButtons(QMessageBox.Yes)
-    msgBox.addButton(QMessageBox.No)
-    msgBox.setStyleSheet("color: black;  background-color: gainsboro")
-    msgBox.setDefaultButton(QMessageBox.Yes)
-    if(msgBox.exec_() == QMessageBox.Yes):
-        metadata = MetaData()
-        order_lines = Table('order_lines', metadata,
-            Column('ID', Integer(), primary_key=True),
-            Column('clientID', Integer),
-            Column('callname', String),
-            Column('barcode', String),
-            Column('description', String),
-            Column('number', Float),
-            Column('item_price', Float),
-            Column('sub_total', Float),
-            Column('sub_vat', Float))
-        
-        engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
-        con = engine.connect()
-        delbal = delete(order_lines).where(and_(order_lines.c.number == 0,\
-                       order_lines.c.clientID == self.mclient, order_lines.c.callname ==\
-                       self.mcallname))
-        con.execute(delbal)
-        selb = select([order_lines]).where(and_(order_lines.c.clientID == self.mclient,\
-                    order_lines.c.callname== self.mcallname)).order_by(order_lines.c.barcode)
-        rpb = con.execute(selb)
-        
-        def heading(self, mpage):
-            head=\
-    ('Sales - Ordernumber: '+ str(self.mclient)+' Date : '+str(datetime.datetime.now())[0:10]+' Pagenumber '+str(mpage)+' \n'+
-    '==================================================================================================\n'+
-    'Artikelnr  Description                                  Number  Item_price    Subtotal         VAT\n'+
-    '==================================================================================================\n')
-            return(head)
+    metadata = MetaData()
+    order_lines = Table('order_lines', metadata,
+        Column('ID', Integer(), primary_key=True),
+        Column('clientID', Integer),
+        Column('callname', String),
+        Column('barcode', String),
+        Column('description', String),
+        Column('number', Float),
+        Column('item_price', Float),
+        Column('sub_total', Float),
+        Column('sub_vat', Float))
+    
+    engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
+    con = engine.connect()
+    delbal = delete(order_lines).where(and_(order_lines.c.number == 0,\
+                   order_lines.c.clientID == self.mclient, order_lines.c.callname ==\
+                   self.mcallname))
+    con.execute(delbal)
+    selb = select([order_lines]).where(and_(order_lines.c.clientID == self.mclient,\
+                order_lines.c.callname== self.mcallname)).order_by(order_lines.c.barcode)
+    rpb = con.execute(selb)
+    
+    def heading(self, mpage):
+        head=\
+('Sales - Ordernumber: '+ str(self.mclient)+' Date : '+str(datetime.datetime.now())[0:10]+' Pagenumber '+str(mpage)+' \n'+
+'==================================================================================================\n'+
+'Artikelnr  Description                                  Number  Item_price    Subtotal         VAT\n'+
+'==================================================================================================\n')
+        return(head)
 
-        mpage = 0
-        rgl = 0
+    mpage = 0
+    rgl = 0
+    if sys.platform == 'win32':
+        fbarc = '.\\forms\\Orderlines\\'+str(self.mclient)+'.txt'
+    else:
+        fbarc = './forms//Orderlines/'+str(self.mclient)+'.txt'
+    
+    for row in rpb:
+        rgl += 1
+        if rgl == 1 :
+            mpage += 1
+            open(fbarc, 'w').write(heading(self, mpage))
+            rgl += 4
+        elif rgl%58 == 1:
+            mpage += 1
+            open(fbarc, 'a').write(heading(self, mpage))
+            rgl += 4
+            
+        martnr = row[3]
+        mdescr = row[4]
+        mnumber = row[5]
+        mprice = row[6]
+        msubtotal = row[7]
+        msubtotvat = row[8]
+        open(fbarc,'a').write(str(martnr) +'  '+'{:<40s}'.format(mdescr)+' '+'{:>6d}'\
+                 .format(int(mnumber))+'{:>12.2f}'.format(float(mprice))+'{:>12.2f}'\
+                 .format(float(msubtotal))+'{:>12.2f}'\
+                 .format(float(msubtotvat))+'\n')
+         
+    tail=\
+    ('===================================================================================================\n'+
+     'Total  amount to pay inclusive VAT and amount VAT                         '+'{:>12.2f}'.format(self.mtotal)+'{:>12.2f}'.format(self.mtotvat)+' \n'+
+     '===================================================================================================\n'+\
+     'Employee : '+self.mcallname+' **** Thank you for visiting us ***\n') 
+    if rgl > 0:
+        open(fbarc,'a').write(tail) 
         if sys.platform == 'win32':
-            fbarc = '.\\forms\\Orderlines\\'+str(self.mclient)+'.txt'
+            from os import startfile
+            startfile(fbarc, "print")
         else:
-            fbarc = './forms//Orderlines/'+str(self.mclient)+'.txt'
-        
-        for row in rpb:
-            rgl += 1
-            if rgl == 1 :
-                mpage += 1
-                open(fbarc, 'w').write(heading(self, mpage))
-                rgl += 4
-            elif rgl%58 == 1:
-                mpage += 1
-                open(fbarc, 'a').write(heading(self, mpage))
-                rgl += 4
-                
-            martnr = row[3]
-            mdescr = row[4]
-            mnumber = row[5]
-            mprice = row[6]
-            msubtotal = row[7]
-            msubtotvat = row[8]
-            open(fbarc,'a').write(str(martnr) +'  '+'{:<40s}'.format(mdescr)+' '+'{:>6d}'\
-                     .format(int(mnumber))+'{:>12.2f}'.format(float(mprice))+'{:>12.2f}'\
-                     .format(float(msubtotal))+'{:>12.2f}'\
-                     .format(float(msubtotvat))+'\n')
-             
-        tail=\
-        ('===================================================================================================\n'+
-         'Total  amount to pay inclusive VAT and amount VAT                         '+'{:>12.2f}'.format(self.mtotal)+'{:>12.2f}'.format(self.mtotvat)+' \n'+
-         '===================================================================================================\n'+\
-         'Employee : '+self.mcallname+'  Thank you for visiting us.\n') 
-        if rgl > 0:
-            open(fbarc,'a').write(tail) 
-            if sys.platform == 'win32':
-                from os import startfile
-                startfile(fbarc, "print")
-            else:
-                from os import system
-                system("lpr "+fbarc)
-            printing()
-        else:
-            self.albl.setText('There are no transactions yet!')
+            from os import system
+            system("lpr "+fbarc)
+    else:
+        self.albl.setText('There are no transactions yet!')
             
 def payed(self):
     mbookd = str(datetime.datetime.now())[0:10]
@@ -4372,6 +4359,7 @@ def payed(self):
         self.mtotvat = 0.00
         self.mlist = []
         self.view.setText('')
+        self.mkop.setText('No client selected')
         self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
         self.qtailEdit.setText(self.qtailtext)
         self.qtotalEdit.setText('')
@@ -4392,8 +4380,7 @@ def payed(self):
         except Exception: 
             pass
           
-        message = 'There are no transactions yet!'
-        alertText(message)
+        self.albl.setText('There are no transactions yet!')
         self.closeBtn.setEnabled(True)
         self.closeBtn.setStyleSheet("color: black; background-color:  #B0C4DE")
 
