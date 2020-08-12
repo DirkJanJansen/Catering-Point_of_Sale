@@ -28,6 +28,7 @@
            several adjustments for positioning and sizing changed.
 2020-08-13 catering.py acceslevel 3 removed so 0 1 and 2 remain, popup messages removed in user area and replaced
            by notifications in notification bar.
+2020-08-13 catering.backup database changed due to accesslevels
   
           
 
