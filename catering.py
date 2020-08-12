@@ -4254,8 +4254,9 @@ def printReceipt(self):
         else:
             from os import system
             system("lpr "+fbarc)
+        self.albl.setText('Printing of receipt .........')
     else:
-        self.albl.setText('There are no transactions yet!')
+        self.albl.setText('No transactions for printing yet!')
             
 def payed(self):
     mbookd = str(datetime.datetime.now())[0:10]
@@ -4980,15 +4981,21 @@ def seatsArrange(self):
                                     rpol = con.execute(selol).first()
                                     if rpol and s == 1:
                                         self.lblseats.setText('Last seat can only be removed by button "TRANSFER PAYED" in mainscreen!')
+                                    elif s == 1:
+                                        upd = update(tables_layout).where(and_(tables_layout.c.ID ==\
+                                          seatlist[x], tables_layout.c.clientID == self.mclient,\
+                                           tables_layout.c.callname == self.mcallname))\
+                                           .values(occupied=0,clientID=0,callname='')
+                                        con.execute(upd) 
+                                        delol = delete(clients).where(and_(clients.c.clientID ==\
+                                              self.mclient, clients.c.employee == self.mcallname))
+                                        con.execute(delol)
                                     else:
                                         upd = update(tables_layout).where(and_(tables_layout.c.ID ==\
                                           seatlist[x], tables_layout.c.clientID == self.mclient,\
                                            tables_layout.c.callname == self.mcallname))\
                                            .values(occupied=0,clientID=0,callname='')
-                                        con.execute(upd)  
-                                        delol = delete(clients).where(and_(clients.c.clientID ==\
-                                            self.mclient, clients.c.employee == self.mcallname))
-                                        con.execute(delol)
+                                        con.execute(upd) 
                         x += 1
                     if mflag:
                         inlogstr = ('010'+('000'+str(mclientnr))[-4:])
