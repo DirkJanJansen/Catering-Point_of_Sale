@@ -26,7 +26,8 @@
            arrangements added.
 2020-08-12 catering.py in code insertArticles and changeArticles added selling_price, selling_contents and short_description
            several adjustments for positioning and sizing changed.
-2020-08-12 catering.py procedure for accessblocking changed 3 acceslevels 0 1 and 2
+2020-08-13 catering.py acceslevel 3 removed so 0 1 and 2 remain, popup messages removed in user area and replaced
+           by notifications in notification bar.
   
           
 
