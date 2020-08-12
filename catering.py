@@ -288,7 +288,112 @@ def turnoverMenu():
                 
     window = Widget()
     window.exec_() 
-
+    
+def switchEmployee(mcallname):
+    metadata = MetaData()
+    clients = Table('clients', metadata,
+        Column('clientID', Integer, primary_key=True),
+        Column('employee', String))
+    employees = Table('employees', metadata,
+        Column('callname', String))
+    tables_layout = Table('tables_layout', metadata,
+        Column('clientID', Integer),
+        Column('callname', String))
+    order_lines = Table('order_lines', metadata,
+        Column('callname', String))
+    
+    engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
+    con = engine.connect()
+    selempl = select([employees]).order_by(employees.c.callname)
+    rpempl = con.execute(selempl)
+    
+    class Widget(QDialog):
+        def __init__(self, parent=None):
+            super(Widget, self).__init__(parent)
+            self.setWindowTitle("Switch Employee")
+            self.setWindowIcon(QIcon('./logos/logo.jpg'))
+            self.setWindowFlags(self.windowFlags()| Qt.WindowSystemMenuHint |
+                                Qt.WindowMinimizeButtonHint) #Qt.WindowMinMaxButtonsHint
+            self.setWindowFlag(Qt.WindowCloseButtonHint, False)
+                   
+            self.setFont(QFont('Arial', 10))
+            self.setStyleSheet("background-color: #D9E1DF") 
+                
+            grid = QGridLayout()
+            grid.setSpacing(20)      
+                
+            pyqt = QLabel()
+            movie = QMovie('./logos/pyqt.gif')
+            pyqt.setMovie(movie)
+            movie.setScaledSize(QSize(240,80))
+            movie.start()
+            grid.addWidget(pyqt, 0 ,0, 1, 3)
+                  
+            logo = QLabel()
+            pixmap = QPixmap('./logos/logo.jpg')
+            logo.setPixmap(pixmap.scaled(70,70))
+            grid.addWidget(logo , 0, 2, 1 ,1, Qt.AlignRight)
+            
+            self.k0Edit = QComboBox()
+            self.k0Edit.setFixedWidth(280)
+            self.k0Edit.setFont(QFont("Arial",10))
+            self.k0Edit.setStyleSheet('color: black; background-color: #F8F7EE')
+            
+            for row in rpempl:
+                self.k0Edit.addItem('Employee takes over: '+row[0])
+                
+            def switchEmpl(self):
+                emplname = self.k0Edit.currentText()[21:]
+                updcl = update(clients).where(clients.c.employee == mcallname)\
+                    .values(employee = emplname)
+                con.execute(updcl)
+                updtables = update(tables_layout).where(tables_layout.c.callname==mcallname).\
+                  values(callname = emplname) 
+                con.execute(updtables)
+                updorderlines = update(order_lines).where(order_lines.c.callname == mcallname).\
+                    values(callname = emplname)
+                con.execute(updorderlines)
+                self.close()
+                               
+            def k0Changed():
+                self.k0Edit.setCurrentText(self.k0Edit.currentText())
+            self.k0Edit.currentTextChanged.connect(k0Changed)
+            
+            lblcalln = QLabel('Active employee: '+mcallname)
+            lblcalln.setFont(QFont("Arial", 10))
+            grid.addWidget(lblcalln, 1, 1, 1, 2)
+            
+            lblk = QLabel('Employees')
+            lblk.setFont(QFont("Arial", 10))
+            grid.addWidget(lblk, 2, 0)
+            grid.addWidget(self.k0Edit, 2, 1, 1, 2, Qt.AlignRight)
+            
+            applyBtn = QPushButton('Select')
+            applyBtn.clicked.connect(lambda: switchEmpl(self))
+            applyBtn.setFont(QFont("Arial",10))
+            applyBtn.setFixedWidth(100)
+            applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
+            
+            grid.addWidget(applyBtn, 3, 2)
+            
+            closeBtn = QPushButton('Close')
+            closeBtn.clicked.connect(self.close)  
+            closeBtn.setFont(QFont("Arial",10))
+            closeBtn.setFixedWidth(100)
+            closeBtn.setStyleSheet("color: black;  background-color: gainsboro")
+            
+            grid.addWidget(closeBtn, 3, 1, 1, 1, Qt.AlignRight)
+                 
+            lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
+            lbl3.setFont(QFont("Arial", 10))
+            grid.addWidget(lbl3, 4, 0, 1, 3, Qt.AlignCenter)
+           
+            self.setLayout(grid)
+            self.setGeometry(900, 200, 150, 100)
+                
+    window = Widget()
+    window.exec_() 
+ 
 def employeeMenu():
     class Widget(QDialog):
         def __init__(self, parent=None):
@@ -5050,7 +5155,7 @@ def seatsArrange(self):
                 
             qcbEdit.setFixedSize(200, 40)
             qcbEdit.setStyleSheet('font: 18px bold; color:black; background-color: #F8F7EE')
-            grid.addWidget(qcbEdit, 2, 10, 1, 4)
+            grid.addWidget(qcbEdit, 3, 10, 1, 2, Qt.AlignBottom)
             
             def qclientChanged():
                 qcbEdit.setCurrentText(qcbEdit.currentText())
@@ -5147,21 +5252,28 @@ def seatsArrange(self):
             clientBtn.setFixedSize(200, 80)
             clientBtn.setStyleSheet("font: 24px bold; color: black; background-color: #39CCCC")
 
-            grid.addWidget(clientBtn, 1, 10, 1, 4)
+            grid.addWidget(clientBtn, 4, 10, 1, 2)
+            
+            emplBtn = QPushButton('Switch Employee')
+            emplBtn.clicked.connect(lambda: switchEmployee(mcallname))
+            emplBtn.setFixedSize(200, 80)
+            emplBtn.setStyleSheet("font: 24px bold; color: black; background-color: #00BFFF")
+
+            grid.addWidget(emplBtn, 1, 10, 1, 2, Qt.AlignTop)
 
             closeBtn = QPushButton('Close')
             closeBtn.clicked.connect(self.close)
             closeBtn.setStyleSheet('font: 24px bold; color: black; background-color:  #00FFFF')
             closeBtn.setFixedSize(200, 80)
             
-            grid.addWidget(closeBtn, 4, 10, 1, 4)
+            grid.addWidget(closeBtn, 2, 10, 1, 2)
             
             refreshBtn = QPushButton('Refresh')
             refreshBtn.clicked.connect(lambda: refresh(self))
-            refreshBtn.setFixedSize(200, 80)
+            refreshBtn.setFixedSize(200, 40)
             refreshBtn.setStyleSheet("font: 24px bold; color: black; background-color: #FFD700")
 
-            grid.addWidget(refreshBtn, 3, 10, 1, 4)
+            grid.addWidget(refreshBtn, 3, 10, 1, 2, Qt.AlignTop)
             
             lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
             lbl3.setFont(QFont("Arial", 10))
