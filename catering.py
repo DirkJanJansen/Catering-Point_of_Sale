@@ -4191,8 +4191,8 @@ def info():
         '''                                                                        User information.
         
         Logging in takes place with a barcode card with 3 access levels.
-        Level 1. Selling, scanning, printing and returns
-        Level 2. Administration, a button Adminstration is shown, for assigning productbuttons,
+        Level 1. Selling, scanning, printing and tablemanagement.
+        Level 2. Administration, a button Administration is shown, for assigning productbuttons,
                      creating employees, administration, perform stock management and imports.
         level 0. Employee is not allowed for operation.
         Employee first time scan barcode  = logon, second time = logout.
@@ -4216,7 +4216,7 @@ def info():
                     
         If the item cannot be scanned, it is possible to insert the barcode manually after inserting press 
         <Enter> on the keyboard.
-                           
+                                          
         The receipt can be printed after scanning is finished.
         Before exiting the program, first press the TRANSFER PAYED button, so the close button is released.
         This will make the necessary bookings and prepare the POS for the next customer.
@@ -4243,12 +4243,12 @@ def info():
         This occurs, if visitors from a group are leaving or joining the group.
         If no orders are placed, it's possible to remove with "Change seat client <number>" 
         all the unchecked seats, also the client is removed. 
-        If orders are placed, it's possible to uncheck the seats except the last one, for this seat
+        If orders are placed, it's possible to uncheck the seats except the last seat, which
         must remain linked with the client, untill the bill is payed. The last seat is freed and the
         client is removed when the TRANSFER PAYED button is pushed.
         
-        Before pushing the TRANSFER PAYED the bill can be printed and payed by cash or by pin
-        transaction.
+        Before pushing the TRANSFER PAYED button the bill can be printed and payed by cash
+        or by pin transaction.
         For paying by cash a modest calculator is present.
         The thirst row of the calcultor shows the total sum of the bill.
         The second row under the "TRANSFER PAYED" button must be filled in with the cash, 
@@ -5183,7 +5183,7 @@ def barcodeScan():
                 Column('groupID',Integer(), primary_key=True),
                 Column('reference', String),
                 Column('buttongrouptext', String))
-                                          
+                                           
             engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
             con = engine.connect()
             selpar = select([params]).order_by(params.c.paramID)
