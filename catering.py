@@ -679,7 +679,7 @@ def groupButtons():
             grid.addWidget(reglbl, 1, 0)
             
             self.setLayout(grid)
-            self.setGeometry(800, 50, 400, 600)
+            self.setGeometry(800, 50, 500, 600)
             self.setLayout(grid)
     
     class MyTableModel(QAbstractTableModel):
@@ -708,13 +708,14 @@ def groupButtons():
                 return self.header[col]
             return None
              
-    header = ['ButtonNumber', 'Buttongrouptext', 'Reference']
+    header = ['ButtonNumber', 'Buttongrouptext', 'Reference', 'Button-color']
     
     metadata = MetaData()
     groupbuttons = Table('groupbuttons', metadata,
         Column('groupID', Integer(), primary_key=True),
         Column('buttongrouptext', String),
-        Column('reference', String))
+        Column('reference', String),
+        Column('bg_color', String))
      
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
@@ -751,16 +752,32 @@ def groupButtons():
                     self.q2Edit.setStyleSheet('color: black; background-color: gainsboro')
                     self.q2Edit.setDisabled(True)
                     
-                    #buttongroup
-                    self.q3Edit = QPlainTextEdit()
+                    #buttongrouptext
+                    self.q3Edit = QPlainTextEdit(rpbtn[1])
                     self.q3Edit.setFixedSize(170,110)
                     self.q3Edit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
                     self.q3Edit.setFont(QFont("Consolas", 12, 75))
                     self.q3Edit.setStyleSheet('color: black; background-color: #F8F7EE')
+                    
+                    #button background-color
+                    self.q4Edit = QLineEdit(rpbtn[3])
+                    self.q4Edit.setFixedWidth(80)
+                    self.q4Edit.setFont(QFont("Arial", 10))
+                    reg_ex = QRegExp("^[#]{1}[afAF0-9]{6}$")
+                    input_validator = QRegExpValidator(reg_ex, self.q4Edit)
+                    self.q4Edit.setValidator(input_validator)
+                    self.q4Edit.setStyleSheet('color: black; background-color: #F8F7EE')
+                                                       
+                    def q4Changed():
+                        self.q4Edit.setText(self.q4Edit.text())
+                    self.q4Edit.textChanged.connect(q4Changed)
                          
                     def updGroupbutton(self):
                         mbuttontext = self.q3Edit.toPlainText()
                         mlist = mbuttontext.split('\n')
+                        mbtncolor = self.q4Edit.text()
+                        if len(mbtncolor) < 7:
+                            mbtncolor = '#FFFFFF0'
                         for line in mlist:
                             if len(line) > 14:
                                  message = 'No more then 14 characters per line allowed'
@@ -797,6 +814,11 @@ def groupButtons():
                     lbl4.setFont(QFont("Arial",10))
                     grid.addWidget(lbl4, 3, 0)
                     grid.addWidget(self.q3Edit, 3, 1)
+                                      
+                    lbl5 = QLabel('Button Color') 
+                    lbl5.setFont(QFont("Arial",10))
+                    grid.addWidget(lbl5, 4, 0)
+                    grid.addWidget(self.q4Edit, 4, 1)
                      
                     pyqt = QLabel()
                     movie = QMovie('./logos/pyqt.gif')
@@ -1896,7 +1918,7 @@ def articleRequest(mflag):
                 Column('buttontext', String),
                 Column('accent', Integer),
                 Column('bg_color', String))
-            
+             
             class Widget(QDialog):
                 def __init__(self, parent=None):
                     super(Widget, self).__init__(parent)
@@ -1950,7 +1972,7 @@ def articleRequest(mflag):
                         
                     #button background-color
                     self.q4Edit = QLineEdit()
-                    self.q4Edit.setFixedWidth(70)
+                    self.q4Edit.setFixedWidth(80)
                     self.q4Edit.setFont(QFont("Arial",10))
                     reg_ex = QRegExp("^[#]{1}[afAF0-9]{6}$")
                     input_validator = QRegExpValidator(reg_ex, self.q4Edit)
@@ -3246,7 +3268,7 @@ def newBarcode():
                 
             #button background-color
             self.q15Edit = QLineEdit()
-            self.q15Edit.setFixedWidth(70)
+            self.q15Edit.setFixedWidth(80)
             self.q15Edit.setStyleSheet('color: black; background-color: #F8F7EE')
             self.q15Edit.setFont(QFont("Arial",10))
             reg_ex = QRegExp("^[#]{1}[afAF0-9]{6}$")
@@ -5182,7 +5204,8 @@ def barcodeScan():
             groupbuttons = Table('groupbuttons', metadata,
                 Column('groupID',Integer(), primary_key=True),
                 Column('reference', String),
-                Column('buttongrouptext', String))
+                Column('buttongrouptext', String),
+                Column('bg_color', String))
                                            
             engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
             con = engine.connect()
@@ -5427,7 +5450,7 @@ def barcodeScan():
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
-                    self.hBtn.setStyleSheet('color: white; background-color:  #16a085')
+                    self.hBtn.setStyleSheet('color: white; background-color:'+rphbtn[int(self.index/18)][3])
                     self.btngroup = 2
                 elif self.btngroup == 2:
                     self.index += 18
@@ -5435,7 +5458,7 @@ def barcodeScan():
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
-                    self.hBtn.setStyleSheet('color: black; background-color:  #f39c12')
+                    self.hBtn.setStyleSheet('color: black; background-color:'+rphbtn[int(self.index/18)][3])
                     self.btngroup = 3
                 elif self.btngroup == 3:
                     self.index += 18
@@ -5443,7 +5466,7 @@ def barcodeScan():
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
-                    self.hBtn.setStyleSheet('color: white; background-color:  #ca6f1e')
+                    self.hBtn.setStyleSheet('color: white; background-color:'+rphbtn[int(self.index/18)][3])
                     self.btngroup = 4
                 elif self.btngroup == 4:
                     self.index += 18
@@ -5451,7 +5474,7 @@ def barcodeScan():
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
-                    self.hBtn.setStyleSheet('color: white; background-color:    #c0392b')
+                    self.hBtn.setStyleSheet('color: white; background-color:'+rphbtn[int(self.index/18)][3])
                     self.btngroup = 5
                 elif self.btngroup == 5:
                     self.index += 18
@@ -5460,7 +5483,7 @@ def barcodeScan():
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
-                    self.hBtn.setStyleSheet('color: black; background-color:   #f1c40f')
+                    self.hBtn.setStyleSheet('color: black; background-color:'+rphbtn[int(self.index/18)][3])
                     self.btngroup = 1
                     self.flag = 1
                     

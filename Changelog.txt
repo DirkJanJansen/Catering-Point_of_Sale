@@ -29,9 +29,11 @@
 2020-08-13 catering.py acceslevel 3 removed so 0 1 and 2 remain, popup messages removed in user area and replaced
            by notifications in notification bar.
 2020-08-13 catering.backup database changed for changing accesslevels
-2020-08-13 catering.py buttons module added possibility to change background color of product buttons.
-           added python script to modify in batch per row if desired (buttoncolors.py in installation folder) choose colorpicker at:
+2020-08-13 catering.py added possibility to change background color of product buttons.
+           added python script to modify in batch per row if desired (buttoncolors.py) choose colorpicker at:
            https://htmlcolorcodes.com and copy and paste #xxxxxx color in python script.
 2020-08-13 catering.backup database added column bg_color in table buttons.
+2020-08-13 catering.py possibility added to change colors of groupbuttons to
+2020-08-13 catering.backup database table groupbuttons extended with column bg_color for groupbuttons
           
 
