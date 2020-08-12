@@ -4119,7 +4119,7 @@ def info():
         After selecting and applying a popup is showed, with the possibility of printing a
         barcode for the client. With this barcodescan it's possible to switch fast between clients.
         It's also possible to use the "Select Client" button to choose the desired client.
-        With this button or scan the current account is selected.
+        With this button or scan the desired client is selected.
         
         A layout of 100 selectable buttons is showed. These buttons are arranged in 20 groups
         of 2 table seats and 15 groups of 4 table seats.
@@ -4133,7 +4133,7 @@ def info():
         by checking or unchecking buttons and selecting "Change seat client <number>". 
         This occurs, if visitors from a group are leaving or joining the group.
         If no orders are placed, it's possible to remove with "Change seat client <number>" 
-        all the checked seats, also the client is removed.. 
+        all the unchecked seats, also the client is removed. 
         If orders are placed, it's possible to uncheck the seats except the last one, for this seat
         must remain linked with the client, untill the bill is payed. The last seat is freed and the
         client is removed when the TRANSFER PAYED button is pushed.
