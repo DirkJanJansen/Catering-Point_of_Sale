@@ -7,7 +7,9 @@ For all the groupbuttons and productbuttons it is possible to choose your own ba
 
 Besides it's possible to scan barcodes for logon, for switching between clients and productscanning for products with barcode provided.
 
-Program released for preview purposes. Program still in development!
+Program released for preview purposes. Program still in development! 
+
+Final implementation begins to emerge.
 
 # Keep in touch and stay tuned!
 
