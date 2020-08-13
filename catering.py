@@ -289,7 +289,7 @@ def turnoverMenu():
     window = Widget()
     window.exec_() 
     
-def switchEmployee(mcallname):
+def switchEmployee(mcallname, lblseats):
     metadata = MetaData()
     clients = Table('clients', metadata,
         Column('clientID', Integer, primary_key=True),
@@ -318,6 +318,8 @@ def switchEmployee(mcallname):
                    
             self.setFont(QFont('Arial', 10))
             self.setStyleSheet("background-color: #D9E1DF") 
+                
+            self.lblseats = lblseats
                 
             grid = QGridLayout()
             grid.setSpacing(20)      
@@ -353,6 +355,7 @@ def switchEmployee(mcallname):
                 updorderlines = update(order_lines).where(order_lines.c.callname == mcallname).\
                     values(callname = emplname)
                 con.execute(updorderlines)
+                self.lblseats.setText('Employee '+emplname+' takes over the services from '+mcallname+'!')
                 self.close()
                                
             def k0Changed():
@@ -5246,7 +5249,7 @@ def seatsArrange(self):
                         con.execute(insidx)
                         self.mbarcode = mbarcode
                         printClient_barcode(self)
-                        
+                
             clientBtn = QPushButton('Apply\nSeats')
             clientBtn.clicked.connect(lambda: connectClient(self))
             clientBtn.setFixedSize(200, 80)
@@ -5255,7 +5258,7 @@ def seatsArrange(self):
             grid.addWidget(clientBtn, 4, 10, 1, 2)
             
             emplBtn = QPushButton('Switch Employee')
-            emplBtn.clicked.connect(lambda: switchEmployee(mcallname))
+            emplBtn.clicked.connect(lambda: switchEmployee(mcallname, self.lblseats))
             emplBtn.setFixedSize(200, 80)
             emplBtn.setStyleSheet("font: 24px bold; color: black; background-color: #00BFFF")
 
