@@ -5562,7 +5562,7 @@ def barcodeScan():
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
-                    self.hBtn.setStyleSheet('color: white; background-color:'+rphbtn[int(self.index/18)][3])
+                    self.hBtn.setStyleSheet('color: black; background-color:'+rphbtn[int(self.index/18)][3])
                     self.btngroup = 2
                 elif self.btngroup == 2:
                     self.index += 18
@@ -5578,7 +5578,7 @@ def barcodeScan():
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
-                    self.hBtn.setStyleSheet('color: white; background-color:'+rphbtn[int(self.index/18)][3])
+                    self.hBtn.setStyleSheet('color: black; background-color:'+rphbtn[int(self.index/18)][3])
                     self.btngroup = 4
                 elif self.btngroup == 4:
                     self.index += 18
@@ -5586,7 +5586,7 @@ def barcodeScan():
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][1].strip()+'\n'+str(rphbtn[int(self.index/18)][0]))
-                    self.hBtn.setStyleSheet('color: white; background-color:'+rphbtn[int(self.index/18)][3])
+                    self.hBtn.setStyleSheet('color: black; background-color:'+rphbtn[int(self.index/18)][3])
                     self.btngroup = 5
                 elif self.btngroup == 5:
                     self.index += 18
