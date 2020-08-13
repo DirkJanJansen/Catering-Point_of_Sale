@@ -1,7 +1,5 @@
 # Catering
 
-The project is in  development.
-
 Python, PyQt5 and database PostgreSQL.
 
 The target of the project is a point of sale (POS)  for catering purposes as a open source project, including tablemanagement for 100 seats, 20 tables with 2 places and 15 tables with 4 places. Splitting and combining of tables and seats. Programmable buttons for 10 maingroups of producttypes and 5 subgroups with 18 choices, so 900 products in total.
