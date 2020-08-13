@@ -4331,26 +4331,26 @@ def info():
                          
         Article scanning:
         By default, scanning is performed with a number of 1.
-        With the spinbox the correct number can be chosen for scanning, this can be done by the arrows of 
-        the spinbox or with the mouse wheel. After every scan, the number is reset to 1.
+        With the spinbox the number can be chosen, this can be done by the arrows
+        of the spinbox or with the mouse wheel. After every scan, the number is reset to 1.
         Selecting can also been done with the productbuttons for unpackaged products.
-        When scanning is started, the close button is blocked until the button 'TRANSFER PAYED' is pressed.
+        If scanning is started, the close button is blocked until 'TRANSFER PAYED' is pressed.
         The print button is blocked until the first transaction is posted.
         Errors or messages appears in red in the Notification Area. 
         A acoustic alarm  will also sound for the following 3 cases.  
         
-        1. If a read error occurs when scanning the barcode.
-        2. If there is insufficient stock to deliver the order, current stock will also been showed.
-        3. If the product is not (yet) included in the range.
+        1. Read error occurs when scanning the barcode.
+        2. Insufficient stock to deliver the order, current stock will also been showed.
+        3. The product is not (yet) included in the range.
         
-        All other errors or messages will appear without acoustic alarm in red in the Notification Area.
+        All other messages will appear without acoustic alarm in red in the Notification Area.
                     
-        If the item cannot be scanned, it is possible to insert the barcode manually after inserting press 
-        <Enter> on the keyboard.
+        If the item cannot be scanned, it is possible to insert the barcode manually after
+        inserting press <Enter> on the keyboard.
                                           
         The receipt can be printed after scanning is finished.
-        Before exiting the program, first press the TRANSFER PAYED button, so the close button is released.
-        This will make the necessary bookings and prepare the POS for the next customer.
+        After paying, press "TRANSFER PAYED "button, so the "Exit" button is released.
+        Also this will make the necessary bookings and prepare the POS for the next client.
         
         Table arrangements:
         The table arrangements are established by checking free seats and pushing the button
@@ -4364,19 +4364,22 @@ def info():
         A layout of 100 selectable buttons is showed. These buttons are arranged in 20 groups
         of 2 table seats and 15 groups of 4 table seats.
         By selecting the seats, combining or splitting of tables and seats can be established.
-        By selecting the choise "Open Table" and checking the seats are added to a client, after
-        pushing "Apply Seats" button.
+        By selecting the choise "Open Table" and checking the seats are added to a client,
+        after pushing the "Apply Seats" button.
         By clicking the "Refresh" button the seats with clientnumbers and names of the employee
-        is displayed on the seats.
-        Seats occupied are displayed for all employees, so all available seats are showed.
+        are showed on the seats.
+        All occupied and available seats are showed for all employees.
         Only the employee, that selected the seats, can add or remove seats to the assembly,
         by checking or unchecking buttons and selecting "Change seat client <number>". 
         This occurs, if visitors from a group are leaving or joining the group.
         If no orders are placed, it's possible to remove with "Change seat client <number>" 
         all the unchecked seats, also the client is removed. 
         If orders are placed, it's possible to uncheck the seats except the last seat, which
-        must remain linked with the client, untill the bill is payed. The last seat is freed and the
-        client is removed when the TRANSFER PAYED button is pushed.
+        must remain linked with the client, untill the bill is payed. The last seat is freed 
+        and the client is removed when the TRANSFER PAYED button is pushed.
+        
+        With the button "Switch Employee" it is possible to transfer the clients 
+        to another employee by end of shift or interim interruption.
         
         Before pushing the TRANSFER PAYED button the bill can be printed and payed by cash
         or by pin transaction.
