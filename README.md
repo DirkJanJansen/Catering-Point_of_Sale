@@ -10,6 +10,7 @@ Besides it's possible to scan barcodes for logon, for switching between clients 
 Program released for preview purposes. Program still in development! 
 
 Final implementation begins to emerge.
+
 Still todoo:
 Debugging for button products selecting
 
