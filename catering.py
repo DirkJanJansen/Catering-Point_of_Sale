@@ -342,7 +342,8 @@ def switchServingoyee(mcallname, lblseats):
             self.k0Edit.setStyleSheet('color: black; background-color: #F8F7EE')
             
             for row in rpempl:
-                self.k0Edit.addItem('Employee takes over: '+row[0])
+                if row[0] != mcallname: 
+                    self.k0Edit.addItem('Employee takes over: '+row[0])
                 
             def switchServing(self):
                 emplname = self.k0Edit.currentText()[21:]
