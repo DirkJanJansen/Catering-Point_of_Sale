@@ -63,7 +63,7 @@ for row in rpbtn:
         con.execute(upd)
         print(row[0], color)
     elif x%18 < 18:
-        color = '#52debe'
+        color = '#ffdc00'
         upd = update(buttons).where(buttons.c.buttonID == row[0])\
           .values(bg_color = color)
         con.execute(upd)
