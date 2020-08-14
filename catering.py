@@ -5670,7 +5670,7 @@ def barcodeScan():
                     elif a < self.index+18:
                         grid.addWidget(aBtn, 5, a%3) 
                                                                                     
-                    aBtn.clicked.connect(lambda checked, btn = btnlist[a%6] : getbarcode(btn))
+                    aBtn.clicked.connect(lambda checked, btn = btnlist[a%18] : getbarcode(btn))
                     a += 1
                 
             self.btngroup = 1 
