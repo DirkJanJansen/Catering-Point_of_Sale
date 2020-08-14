@@ -37,5 +37,6 @@
 2020-08-13 catering.backup database table groupbuttons extended with column bg_color for groupbuttons
 2020-08-13 catering.py added module to switch clients between employees for take over button added in tablemanagement screen.
 2020-08-14 message added in notification bar if services employee has taken over.
+2020-08-14 catering.py bug with selecting productbuttons removed.
           
 
