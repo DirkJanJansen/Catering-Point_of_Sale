@@ -49,6 +49,6 @@
            The products are booked under articles_groups so the costs are to add to the different main products.
            As a result 3 databases were made. The full extended old one. Not usable for the project, but usable for testing.
            One empty database, only provided with filled the main tables for buttons, tables_layout, 1 admin entrance, 
-           and furthermore empth tables so you can fill your own.
+           and furthermore empthy tables so you can fill your own.
            One partially filled database for testing in the new environment.
            The project is still in development so this is not yet ready.
