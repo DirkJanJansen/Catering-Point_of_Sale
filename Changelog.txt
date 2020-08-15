@@ -37,6 +37,17 @@
 2020-08-13 catering.backup database table groupbuttons extended with column bg_color for groupbuttons
 2020-08-13 catering.py added module to switch clients between employees for take over button added in tablemanagement screen.
 2020-08-14 message added in notification bar if services employee has taken over.
-2020-08-14 catering.py bug with selecting productbuttons removed.
-          
-
+2020-08-15 catering.py structure changed dramatic productbuttons as admin programmable from clicking the buttons itself, so it's
+           more easy to change or insert buttontext, As admin the buttonnumbers and references and linked barcode are displayed.
+           Thurdermore the login , client and articles barcodes changed. Logon barcode starts with 24 then random 5 digits and 
+           1 digit checknr
+           Client barcode starts with 26 then 5 digits clientnr and 1 digit checknr
+           Product barcode starts with 28 the 10 digits for articlesnumber and 1 digit checknr.
+           This EAN number are reserved for personal use, so no conflict with existing numbers possible.
+           Added a new table additional for products for additional use, so as sugar, milk cups and other small products.
+           The products are booked under articles_groups so the costs are to add add the different main products.
+           As a result 3 databases were made. The full extended old one. Not usable for the project, but usable for testing.
+           One empty database, only provided with filled the main tables for buttons, tables_layout, 1 admin entrance, 
+           and furthermore empth tables so you can fill your own.
+           One partially filled database for testing in the new environment.
+           The project is still in development so this is not yet ready.
