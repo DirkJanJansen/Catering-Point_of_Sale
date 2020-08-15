@@ -1958,7 +1958,8 @@ def articleRequest(mflag, btn):
         Column('mutation_date', String),
         Column('annual_consumption_1', Float),
         Column('annual_consumption_2', Float),
-        Column('VAT', String))
+        Column('VAT', String),
+        Column('additional', Integer))
     
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
@@ -2034,7 +2035,7 @@ def articleRequest(mflag, btn):
               'Selling-contents','Item-Stock', 'Item-Unit','Mininum-Stock','Order-Size',\
               'Location', 'Article_Group', 'Thumbnail','Category', 'Order-Balance',\
               'Order-Status' ,'Mutation-Date','Annual-Consumption_1',\
-              'Annual-Consumption_2', 'VAT']    
+              'Annual-Consumption_2', 'VAT', 'Additional']    
         
     data_list=[]
     for row in rparticles:
@@ -2254,6 +2255,12 @@ def articleRequest(mflag, btn):
                     self.q1Edit.setFont(QFont("Arial",10))
                     self.q1Edit.setStyleSheet("color: black")
                     self.q1Edit.setDisabled(True)
+                                   
+                    #additional product
+                    self.cBox = QCheckBox('Additional product')
+                    self.cBox.setFont(QFont("Arial", 10))
+                    if rparticle[20]:
+                        self.cBox.setChecked(True)
         
                     #description
                     self.q2Edit = QLineEdit(rparticle[1])    
@@ -2410,6 +2417,10 @@ def articleRequest(mflag, btn):
                     self.q14Edit.setStyleSheet('color: black')
                     self.q14Edit.setFont(QFont("Arial",10))
                     self.q14Edit.setDisabled(True)
+                                     
+                    def cboxChanged():
+                        self.cBox.setCheckState(self.cBox.checkState())
+                    self.cBox.stateChanged.connect(cboxChanged)
                    
                     def q2Changed():
                         self.q2Edit.setText(self.q2Edit.text())
@@ -2474,6 +2485,8 @@ def articleRequest(mflag, btn):
                     grid.addWidget(QLabel('Barcodenumber'), 1, 0)
                     grid.addWidget(self.q1Edit, 1, 1)
                     
+                    grid.addWidget(self.cBox, 1, 2, 1, 2)
+                    
                     grid.addWidget(QLabel('Description'), 2, 0)
                     grid.addWidget(self.q2Edit, 2, 1 ,1 ,2)
                     
@@ -2537,13 +2550,17 @@ def articleRequest(mflag, btn):
                         mthumb = self.q10Edit.text()
                         mcategory = self.q11Edit.currentIndex()+1
                         mvat = self.q12Edit.currentText()
+                        if self.cBox.checkState():
+                            madd = 1
+                        else:
+                            madd = 0
                         updarticle = update(articles).where(articles.c.barcode==mbarcode)\
                           .values(barcode=mbarcode,description=mdescr,short_descr=mshort,\
                             item_price=mprice,selling_price=msellprice,selling_contents=\
                             msellcontents,item_stock=mstock,item_unit=munit,\
                             minimum_stock=mminstock,order_size=morder_size, \
                             location_warehouse=mlocation,article_group=martgroup,\
-                            thumbnail=mthumb,category=mcategory,VAT=mvat)
+                            thumbnail=mthumb,category=mcategory,VAT=mvat, additional = madd)
                         con.execute(updarticle)
                         insertOK()
                         self.close()
@@ -3309,7 +3326,8 @@ def insertArticles():
         Column('mutation_date', String),
         Column('annual_consumption_1', Float),
         Column('annual_consumption_2', Float),
-        Column('VAT', String))
+        Column('VAT', String),
+        Column('additional', Integer))
  
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
@@ -3485,6 +3503,14 @@ def insertArticles():
             self.q12Edit.addItem('low')
             self.q12Edit.addItem('zero')
             
+            #additional products
+            self.cBox = QCheckBox('Additional product')
+            self.cBox.setFont(QFont("Arial",10))
+            
+            def cboxChanged():
+                self.cBox.setCheckState(self.cBox.checkState())
+            self.cBox.stateChanged.connect(cboxChanged) 
+           
             def q2Changed():
                 self.q2Edit.setText(self.q2Edit.text())
             self.q2Edit.textChanged.connect(q2Changed)
@@ -3535,6 +3561,8 @@ def insertArticles():
            
             grid.addWidget(QLabel('Barcodenumber'), 1, 0)
             grid.addWidget(self.q1Edit, 1, 1)
+            
+            grid.addWidget(self.cBox, 1, 2, 1 , 2)
             
             grid.addWidget(QLabel('Description'), 2, 0)
             grid.addWidget(self.q2Edit, 2, 1 ,1 ,2)
@@ -3589,6 +3617,10 @@ def insertArticles():
                 mthumb = self.q10Edit.text()
                 mcategory = self.q11Edit.currentIndex()+1
                 mvat = self.q12Edit.currentText()
+                if self.cBox.checkState():
+                    madd = 1
+                else:
+                    madd = 0
                 self.mbarcode = mbarcode
                 if mdescr and mprice and morder_size and mlocation and mcategory:
                     insart = insert(articles).values(barcode=self.mbarcode,description=mdescr,\
@@ -3596,7 +3628,7 @@ def insertArticles():
                         selling_contents=msellcontent,item_unit=munit, minimum_stock=mminstock,\
                         order_size=morder_size, location_warehouse=mlocation,\
                         article_group=martgroup,thumbnail=mthumb,\
-                        category=mcategory,VAT=mvat)
+                        category=mcategory,VAT=mvat, additional = madd)
                     con.execute(insart)
                     ean = barcode.get('ean13',str(self.mbarcode), writer=ImageWriter())
                     if sys.platform == 'win32':
@@ -3627,8 +3659,7 @@ def insertArticles():
             cancelBtn.setStyleSheet("color: black;  background-color: gainsboro")
             
             grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 10, 0, 1, 4, Qt.AlignCenter)
-            
-    
+   
             self.setLayout(grid)
             self.setGeometry(800, 200, 150, 100)
  
@@ -4413,6 +4444,7 @@ def set_barcodenr(self):
         if rpart and rpart[3] < mnumber:
             self.albl.setText(str(int(rpart[3]))+' in stock!')
             giveAlarm()
+            return
         elif rpart and rpart[10]:
             if myear%2 == 1:     #odd year
                 updart = update(articles).where(articles.c.barcode == rpart[0])\
