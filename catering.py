@@ -3892,9 +3892,9 @@ def deliveryImport():
 def checkClient(self):
     metadata = MetaData()
     clients = Table('clients', metadata,
-          Column('clientID', Integer, primary_key=True),
-          Column('barcode', String),
-          Column('employee', String))
+        Column('clientID', Integer, primary_key=True),
+        Column('barcode', String),
+        Column('employee', String))
     order_lines = Table('order_lines', metadata,
         Column('ID', Integer(), primary_key=True),
         Column('barcode', String),
@@ -3954,6 +3954,8 @@ def logon(self, barcodenr):
     con = engine.connect()
     selacc = select([employees]).where(employees.c.barcodeID == barcodenr)
     rpacc = con.execute(selacc).first()
+    if not rpacc:
+        return
     self.mbarcode = rpacc[0]
     self.mcallname = rpacc[1]
     self.maccess = rpacc[2]
@@ -4400,6 +4402,8 @@ def set_barcodenr(self):
         selordlines = select([order_lines]).where(and_(order_lines.c.barcode == barcodenr,\
                 order_lines.c.clientID == self.mclient))
         rpart = con.execute(selart).first()
+        if not rpart:
+            return
         mdescr = rpart[1]
         mprice = rpart[2]
         munit = rpart[11]
