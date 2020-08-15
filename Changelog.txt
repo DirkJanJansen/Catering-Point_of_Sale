@@ -46,7 +46,7 @@
            This EAN number are reserved for personal use, so no conflict with existing numbers possible.
            Aim to make barcode inserts possible from scanning.
            Added a new table additional for products for additional use, so as sugar, milk cups and other small products.
-           The products are booked under articles_groups so the costs are to add add the different main products.
+           The products are booked under articles_groups so the costs are to add to the different main products.
            As a result 3 databases were made. The full extended old one. Not usable for the project, but usable for testing.
            One empty database, only provided with filled the main tables for buttons, tables_layout, 1 admin entrance, 
            and furthermore empth tables so you can fill your own.
