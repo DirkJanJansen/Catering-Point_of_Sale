@@ -42,13 +42,16 @@
            Thurdermore the login , client and articles barcodes changed. Logon barcode starts with 24 then random 5 digits and 
            1 digit checknr
            Client barcode starts with 26 then 5 digits clientnr and 1 digit checknr
-           Product barcode starts with 28 then 10 digits for articlenumber and 1 digit checknr.
-           This EAN numbers are reserved for personal use, so no conflict with existing numbers possible.
-           Aim to make barcode inserts possible from scanning.
+           Product barcode starts with 28 the 10 digits for articlesnumber and 1 digit checknr.
+           This EAN number are reserved for personal use, so no conflict with existing numbers possible.
            Added a new table additional for products for additional use, so as sugar, milk cups and other small products.
-           The products are booked under articles_groups so the costs are to add towards the different main products.
+           The products are booked under articles_groups so the costs are to add add the different main products.
            As a result 3 databases were made. The full extended old one. Not usable for the project, but usable for testing.
-           One empty database, only provided with filled the main tables for buttons, tables_layout with 1 admin entrance, 
-           and furthermore empty tables so you can fill your own.
+           One empty database, only provided with filled the main tables for buttons, tables_layout, 1 admin entrance, 
+           and furthermore empth tables so you can fill your own.
            One partially filled database for testing in the new environment.
            The project is still in development so this is not yet ready.
+           Print new admin barcode from folder ./Barcodes/employees for entrance.
+2020-08-16 catering.py error removed from check Ean8 barcode + insertArticles added barcodeScan overrule possibility with new articles inserting.
+           default generating barcode with personal barcode number, or overrule with scanning a existing barcode in commercial range.
+           barcode printing removed default by insert and moved by buttonpress to module change article.

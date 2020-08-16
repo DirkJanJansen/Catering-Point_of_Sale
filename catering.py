@@ -2564,6 +2564,18 @@ def articleRequest(mflag, btn):
                         con.execute(updarticle)
                         insertOK()
                         self.close()
+                        
+                    def prepareEan(self):
+                        ean = barcode.get('ean13', str(mbarcode[:13]), writer=ImageWriter()) # for barcode as png
+                        self.mbarcode = ean.get_fullcode()
+                        self.path = '.\\Barcodes\\Articles\\'
+                        if sys.platform == 'win32':
+                            self.path = '.\\Barcodes\\Articles\\'
+                            ean.save(self.path+self.mbarcode)
+                        else:
+                            self.path ='./Barcodes/Articles/'
+                            ean.save(self.path+self.mbarcode)
+                        printEan(self)
                                  
                     applyBtn = QPushButton('Update')
                     applyBtn.clicked.connect(lambda: updArticle(self))
@@ -2577,9 +2589,18 @@ def articleRequest(mflag, btn):
                     cancelBtn.clicked.connect(self.close)
                     
                     grid.addWidget(cancelBtn, 11, 3)
+                    
                     cancelBtn.setFont(QFont("Arial",10))
                     cancelBtn.setFixedWidth(90)
                     cancelBtn.setStyleSheet("color: black;  background-color: gainsboro")
+                    
+                    printBtn = QPushButton('Print Barcode')
+                    printBtn.clicked.connect(lambda: prepareEan(self))
+                    
+                    grid.addWidget(printBtn, 11, 2)
+                    printBtn.setFont(QFont("Arial",10))
+                    printBtn.setFixedWidth(120)
+                    printBtn.setStyleSheet("color: black;  background-color: gainsboro")
                     
                     grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 12, 0, 1, 4, Qt.AlignCenter)
              
@@ -3373,8 +3394,10 @@ def insertArticles():
             lblhead.setFont(QFont("Arial", 12))
             grid.addWidget(lblhead, 0, 1, 1, 3, Qt.AlignCenter)
             
+            self.mbarcode = mbarcode
+            
             #barcode
-            self.q1Edit = QLineEdit(str(mbarcode)) 
+            self.q1Edit = QLineEdit(str(self.mbarcode)) 
             self.q1Edit.setFixedWidth(130)
             self.q1Edit.setFont(QFont("Arial",10))
             self.q1Edit.setStyleSheet("color: black")
@@ -3507,6 +3530,13 @@ def insertArticles():
             self.cBox = QCheckBox('Additional product')
             self.cBox.setFont(QFont("Arial",10))
             
+            #barcode scanning!
+            self.q13Edit = QLineEdit() 
+            self.q13Edit.setFixedWidth(130)
+            self.q13Edit.setFont(QFont("Arial",10))
+            self.q13Edit.setStyleSheet('color: black; background-color: #F8F7EE')
+            self.q13Edit.setSelection(0,13)
+            
             def cboxChanged():
                 self.cBox.setCheckState(self.cBox.checkState())
             self.cBox.stateChanged.connect(cboxChanged) 
@@ -3556,8 +3586,12 @@ def insertArticles():
             self.q11Edit.currentIndexChanged.connect(q11Changed)
             
             def q12Changed():
-                self.q5Edit.setCurrentText(self.q12Edit.currentText()) 
+                self.q12Edit.setCurrentText(self.q12Edit.currentText()) 
             self.q12Edit.currentIndexChanged.connect(q12Changed)
+            
+            def q13Changed():
+                self.q13Edit.setText(self.q13Edit.text()) 
+            self.q13Edit.textChanged.connect(q13Changed)
            
             grid.addWidget(QLabel('Barcodenumber'), 1, 0)
             grid.addWidget(self.q1Edit, 1, 1)
@@ -3602,8 +3636,26 @@ def insertArticles():
             
             grid.addWidget(QLabel('VAT'), 8, 2 )
             grid.addWidget(self.q12Edit, 8, 3)
+            
+            lblscan = QLabel('Generated barcode overrule by Scanning')
+            lblscan.setFont(QFont("Arial", 12, 75))
+            grid.addWidget(lblscan, 9, 0, 1, 3, Qt.AlignRight )
+            grid.addWidget(self.q13Edit, 9, 3)  
   
             def insArticle(self):
+                if self.q13Edit.text():
+                    selart = select([articles]).where(articles.c.barcode==str(self.q13Edit.text()))
+                    rpart = con.execute(selart).first()
+                    if checkBarcode(self.q13.text()) == False:
+                        message = 'Scanfout Barcode!'
+                        alertText(message)
+                    elif  rpart:
+                        message = 'Barcode already exists!' 
+                        alertText(message)
+                        self.close()
+                    else:
+                        self.mbarcode = self.q13Edit.text()
+                
                 mdescr = self.q2Edit.text()
                 mshort = self.q2aEdit.text()
                 mprice = float(self.q3Edit.text())
@@ -3621,7 +3673,6 @@ def insertArticles():
                     madd = 1
                 else:
                     madd = 0
-                self.mbarcode = mbarcode
                 if mdescr and mprice and morder_size and mlocation and mcategory:
                     insart = insert(articles).values(barcode=self.mbarcode,description=mdescr,\
                         short_descr=mshort,item_price=mprice,selling_price=msellprice,\
@@ -3635,7 +3686,7 @@ def insertArticles():
                         ean.save('.\\Barcodes\\Articles\\'+str(self.mbarcode))
                     else:
                         ean.save('./Barcodes/Articles/'+str(self.mbarcode))
-                    printEan(self)
+                    #printEan(self)
                     self.close()
                 else:
                     message = 'Not all fields are filled in!'
@@ -3645,7 +3696,7 @@ def insertArticles():
             applyBtn = QPushButton('Insert')
             applyBtn.clicked.connect(lambda: insArticle(self))
     
-            grid.addWidget(applyBtn, 9, 3, 1, 1, Qt.AlignRight)
+            grid.addWidget(applyBtn, 10, 3, 1, 1, Qt.AlignRight)
             applyBtn.setFont(QFont("Arial",10))
             applyBtn.setFixedWidth(90)
             applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
@@ -3653,12 +3704,12 @@ def insertArticles():
             cancelBtn = QPushButton('Close')
             cancelBtn.clicked.connect(self.close)
             
-            grid.addWidget(cancelBtn, 9, 3)
+            grid.addWidget(cancelBtn, 10, 3)
             cancelBtn.setFont(QFont("Arial",10))
             cancelBtn.setFixedWidth(90)
             cancelBtn.setStyleSheet("color: black;  background-color: gainsboro")
             
-            grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 10, 0, 1, 4, Qt.AlignCenter)
+            grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 11, 0, 1, 4, Qt.AlignCenter)
    
             self.setLayout(grid)
             self.setGeometry(800, 200, 150, 100)
@@ -4364,9 +4415,11 @@ def plusminChange(self):
         self.qspin.setRange(1, 99)
         
 def checkEan8(c):
-    checksum = int(c[0])+int(c[2])+int(c[4])+int(c[6])+(int(c[1])+
-                int(c[3])+int(c[5]))*3
+    print(c)
+    checksum = (int(c[0])+int(c[2])+int(c[4])+int(c[6]))*3+(int(c[1])+
+                int(c[3])+int(c[5]))
     checkdigit = (10-(checksum%10))%10
+    print(checkdigit)
     if checkdigit == int(c[7]):
         return True
     else:
@@ -4534,7 +4587,7 @@ def set_barcodenr(self):
         self.printBtn.setStyleSheet("color: black;  background-color: #00FFFF")
         self.clientBtn.setEnabled(True)
         self.clientBtn.setStyleSheet("font: 12pt Arial; color: black; background-color: #00BFFF")
-    elif len(barcodenr) == 8 and barcodenr[0:2] == '24':
+    elif len(barcodenr) == 8 and barcodenr[0:2] == '24' and checkEan8(barcodenr):
         self.q1Edit.setStyleSheet("color:#F8F7EE;  background-color: #F8F7EE")
         self.q1Edit.setText('')
         self.mkop.setText('No client selected')
@@ -4553,7 +4606,7 @@ def set_barcodenr(self):
             self.checknr = barcodenr
             logon(self, barcodenr)
             self.albl.setText('')
-    elif len(barcodenr) == 8 and barcodenr[0:2] == '26':
+    elif len(barcodenr) == 8 and barcodenr[0:2] == '26' and checkEan8(barcodenr):
         self.q1Edit.setStyleSheet("color:#F8F7EE;  background-color: #F8F7EE")
         self.q1Edit.setText('')
         self.checknr = barcodenr
@@ -4798,6 +4851,7 @@ def choseClient(self):
     win.exec_()
     
 def printEan(self):
+    '''
     msgBox=QMessageBox()
     msgBox.setStyleSheet("color: black;  background-color: gainsboro")
     msgBox.setWindowIcon(QIcon('./logos/logo.jpg')) 
@@ -4810,17 +4864,18 @@ def printEan(self):
     msgBox.setStyleSheet("color: black;  background-color: gainsboro")
     msgBox.setDefaultButton(QMessageBox.Yes)
     if(msgBox.exec_() == QMessageBox.Yes):
-        self.printer = QPrinter()
-        self.pixmap = QPixmap(self.path+str(self.mbarcode)+'.png')
-        dialog = QPrintDialog(self.printer, self)
-        if dialog.exec_():
-             painter = QPainter(self.printer)
-             rect = painter.viewport()
-             size = self.pixmap.size()
-             size.scale(rect.size(), Qt.KeepAspectRatio)
-             painter.setViewport(rect.x(), rect.y(), 267.3 , 182.3) #aspect and size for barcodes ean 8
-             painter.setWindow(self.pixmap.rect())
-             painter.drawPixmap(0, 0, self.pixmap)
+    '''
+    self.printer = QPrinter()
+    self.pixmap = QPixmap(self.path+str(self.mbarcode)+'.png')
+    dialog = QPrintDialog(self.printer, self)
+    if dialog.exec_():
+         painter = QPainter(self.printer)
+         rect = painter.viewport()
+         size = self.pixmap.size()
+         size.scale(rect.size(), Qt.KeepAspectRatio)
+         painter.setViewport(rect.x(), rect.y(), 267.3 , 182.3) #aspect and size for barcodes ean 8
+         painter.setWindow(self.pixmap.rect())
+         painter.drawPixmap(0, 0, self.pixmap)
             
 def seatsArrange(self):
     if not self.maccess:
@@ -5442,9 +5497,9 @@ def barcodeScan():
                         grid.addWidget(aBtn, 5, a%3) 
                     
                     if self.maccess < 2:
-                        aBtn.clicked.connect(lambda checked, btn = btnlist[a%18] : getbarcode(btn))
+                        aBtn.clicked.connect(lambda checked, btnbarcode = btnlist[a%18] : getbarcode(btnbarcode))
                     else:
-                        aBtn.clicked.connect(lambda checked, btn = btnlist[a%18] : getbuttonnr(btn))                                                                 
+                        aBtn.clicked.connect(lambda checked, btnnumber = btnlist[a%18] : getbuttonnr(btnnumber))                                                                 
                      
                     a += 1
                                     
@@ -5454,17 +5509,17 @@ def barcodeScan():
            
             btngroupChange(self)
                                                      
-            def getbarcode(btn):
-                self.q1Edit.setText(btn) 
+            def getbarcode(btnbarcode):
+                self.q1Edit.setText(btnbarcode) 
                 if sys.platform == 'win32':
                     import keyboard
                     keyboard.write('\n')                          #Windows
                 else:
                     subprocess.call(["xdotool", "key", "Return"]) #Linux
                     
-            def getbuttonnr(btn):
+            def getbuttonnr(btnnumber):
                 mflag = 4
-                articleRequest(mflag, btn)
+                articleRequest(mflag, btnnumber)
                 
             def clientLines(self):
                 if self.maccess:
