@@ -13,8 +13,6 @@ Final implementation begins to emerge.
 
 Still todoo:
 
-Debugging for button products selecting
-
 Implementing imports by csv fileformats
 
 Purchasing and delivery modules
