@@ -3832,7 +3832,7 @@ def insertArticles():
                     selart = select([articles]).where(articles.c.barcode==str(self.q13Edit.text()))
                     rpart = con.execute(selart).first()
                     if checkBarcode(self.q13Edit.text()) == False:
-                        message = 'Scanfout Barcode!'
+                        message = 'Scanning error barcode!'
                         alertText(message)
                     elif  rpart:
                         message = 'Barcode already exists!' 
@@ -5603,7 +5603,6 @@ def barcodeScan():
                     self.btngroup = 5
                 elif self.btngroup == 5:
                     self.index += 18
-                    self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     if self.maccess < 2:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
@@ -5615,7 +5614,7 @@ def barcodeScan():
                 self.hBtn.setFont(QFont("Consolas", 12, 75))
                 self.hBtn.setFocusPolicy(Qt.NoFocus)
                 self.hBtn.setFixedSize(200,150)
-                grid.addWidget(self.hBtn, 0, 3) #position groupbutton on first position from thirst row
+                grid.addWidget(self.hBtn, 0, 3) 
                 
                 nextgrpBtn = QPushButton('\u21c8')
                 nextgrpBtn.setStyleSheet("color: black;  background-color: #e7e71c")
@@ -5654,18 +5653,17 @@ def barcodeScan():
                     accent = ''
                     if row[4]:
                         accent = '\n\u2B24'
-                    aBtn = QPushButton(row[1].strip()+accent) #choose buttontext
-                    if self.maccess == 2: #showbuttonnumber reference and barcode for administrator
+                    if self.maccess < 2:               #choose buttontext
+                        aBtn = QPushButton(row[1].strip()+accent) 
+                        btnlist.append(row[3].strip()) #choose barcode
+                    else:    #showbuttonnumber reference and barcode for administrator
                         aBtn = QPushButton(str(row[0])+'\n'+row[2].strip()+'\n'+row[3])
+                        btnlist.append(str(row[0]))    #choose buttonnumber
                     aBtn.setFont(QFont("Consolas", 12, 75))
                     aBtn.setStyleSheet('color: black; background-color:'+row[5])
                     aBtn.setFocusPolicy(Qt.NoFocus)
                     aBtn.setFixedSize(200, 150)
-                    if self.maccess < 2:
-                        btnlist.append(row[3].strip()) #choose barcode
-                    else:
-                        btnlist.append(str(row[0])) #choose buttonnumber
-                    
+                                
                     if a < self.index+3:
                         grid.addWidget(aBtn, 0, a%3)
                     elif a < self.index+6:
