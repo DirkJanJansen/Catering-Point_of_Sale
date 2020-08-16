@@ -12,7 +12,7 @@ Logon with barcode
 
 Switching between client by barcodescan for fast switching clients
 
-Employee switching for take over by absent over end work.
+Employee switching for take over by absent or end worktime.
 
 Product selection by scanning and buttons.
 
