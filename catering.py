@@ -226,6 +226,7 @@ def groupLines():
                         updline = update(article_grouplines).where(article_grouplines.\
                          c.lineID == linenr).values(grouplinetext = linetext)
                         con.execute(updline)
+                        self.close()
                         
                     applyBtn = QPushButton('Change')
                     applyBtn.clicked.connect(lambda: changeLine(self))  
