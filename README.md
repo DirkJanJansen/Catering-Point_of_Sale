@@ -10,7 +10,7 @@ Features:
 
 Logon with barcode
 
-Switching between client by barcodescan for fast switching between clients
+Switching between client by barcodescan for fast switching clients
 
 Employee switching for take over by absent over end work.
 
