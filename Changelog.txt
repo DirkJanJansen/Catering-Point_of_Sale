@@ -54,4 +54,6 @@
            Print new admin barcode from folder ./Barcodes/employees for entrance.
 2020-08-16 catering.py error removed from check Ean8 barcode + insertArticles added barcodeScan overrule possibility with new articles inserting.
            default generating barcode with personal barcode number, or overrule with scanning a existing barcode in commercial range.
-           barcode printing removed default by insert and moved by buttonpress to module change article.
+2020-08-16 catering.py made adjustable combobox items for article groups, so user can make it's own items in database proprietary choices.
+           in catering.py choices added, but not yet implemented for inserting and changing will follow.
+2020-08-16 databases catering.backup empty-catering.backup and full_catering.backup extended with table article_grouplines           

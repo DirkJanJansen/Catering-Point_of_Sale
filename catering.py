@@ -89,6 +89,9 @@ def windowClose(self):
     self.close()
     sys.exit()
     
+def grouplineMenu():
+    pass
+    
 def countTurnover(mindex):
     metadata = MetaData()
     sales = Table('sales', metadata,
@@ -1200,6 +1203,7 @@ def adminMenu():
             self.k0Edit.addItem('Buttons Submenu')
             self.k0Edit.addItem('Parameters - View / Change')
             self.k0Edit.addItem('Turnover Submenu')
+            self.k0Edit.addItem('Groupline Submenu')
             
             def k0Changed():
                 self.k0Edit.setCurrentIndex(self.k0Edit.currentIndex())
@@ -1228,6 +1232,8 @@ def adminMenu():
                     paramChange()
                 elif mindex == 8:
                     turnoverMenu()
+                elif mindex == 9:
+                    grouplineMenu()
 
             applyBtn = QPushButton('Select')
             applyBtn.clicked.connect(lambda: menuChoice(self))  
@@ -1960,13 +1966,16 @@ def articleRequest(mflag, btn):
         Column('annual_consumption_2', Float),
         Column('VAT', String),
         Column('additional', Integer))
-    
+    article_grouplines = Table('article_grouplines', metadata,
+        Column('lineID', Integer, primary_key=True),
+        Column('grouplinetext', String))
+     
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
-     
+    
     selarticles = select([articles]).order_by(articles.c.barcode)
     rparticles = con.execute(selarticles)
-            
+
     class Mainwindow(QDialog):
         def __init__(self, data_list, header, *args):
             QWidget.__init__(self, *args)
@@ -2220,6 +2229,8 @@ def articleRequest(mflag, btn):
         mbarcode = idx.data() 
         selarticle = select([articles]).where(articles.c.barcode == mbarcode)
         rparticle = con.execute(selarticle).first()
+        sellines = select([article_grouplines]).order_by(article_grouplines.c.lineID)
+        rplines = con.execute(sellines)
         if idx.column() == 0:
             class Widget(QDialog):
                 def __init__(self, parent=None):
@@ -2366,10 +2377,13 @@ def articleRequest(mflag, btn):
                     self.q8Edit.setFont(QFont("Arial",10))
                                 
                     # article_group
-                    self.q9Edit = QLineEdit(rparticle[11])
-                    self.q9Edit.setFixedWidth(200)
+                    self.q9Edit = QComboBox()
+                    self.q9Edit.setFixedWidth(260)
                     self.q9Edit.setStyleSheet('color: black; background-color: #F8F7EE')
                     self.q9Edit.setFont(QFont("Arial",10))
+                    for row in rplines:
+                        self.q9Edit.addItem(row[1])
+                    self.q9Edit.setCurrentIndex(self.q9Edit.findText(rparticle[11]))
                         
                     #thumbnail
                     self.q10Edit = QLineEdit(rparticle[12])
@@ -2463,8 +2477,8 @@ def articleRequest(mflag, btn):
                     self.q8Edit.textChanged.connect(q8Changed)
                     
                     def q9Changed():
-                        self.q9Edit.setText(self.q9Edit.text())
-                    self.q9Edit.textChanged.connect(q9Changed)
+                        self.q9Edit.setCurrentText(self.q9Edit.currentText()) 
+                    self.q9Edit.currentIndexChanged.connect(q9Changed)
                     
                     def q10Changed():
                         self.q10Edit.setText(self.q10Edit.text())
@@ -2546,7 +2560,7 @@ def articleRequest(mflag, btn):
                         mminstock = float(self.q6Edit.text())
                         morder_size = float(self.q7Edit.text())
                         mlocation = self.q8Edit.text()
-                        martgroup = self.q9Edit.text()
+                        martgroup = self.q9Edit.currentText()
                         mthumb = self.q10Edit.text()
                         mcategory = self.q11Edit.currentIndex()+1
                         mvat = self.q12Edit.currentText()
@@ -3349,6 +3363,9 @@ def insertArticles():
         Column('annual_consumption_2', Float),
         Column('VAT', String),
         Column('additional', Integer))
+    article_grouplines = Table('article_grouplines', metadata,
+        Column('lineID', Integer, primary_key=True),
+        Column('grouplinetext', String))
  
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
@@ -3362,6 +3379,8 @@ def insertArticles():
         mbarcode = 280000000001
         ean = barcode.get('ean13',str(mbarcode), writer=ImageWriter()) #for barcode as png
         mbarcode = ean.get_fullcode()
+    sellines = select([article_grouplines]).order_by(article_grouplines.c.lineID)  
+    rplines = con.execute(sellines)
     class Widget(QDialog):
         def __init__(self, parent=None):
             super(Widget, self).__init__(parent)
@@ -3489,10 +3508,12 @@ def insertArticles():
             self.q8Edit.setFixedWidth(100)
             self.q8Edit.setStyleSheet('color: black; background-color: #F8F7EE')
             self.q8Edit.setFont(QFont("Arial",10))
-                        
+
             # article_group
-            self.q9Edit = QLineEdit()
-            self.q9Edit.setFixedWidth(200)
+            self.q9Edit = QComboBox()
+            self.q9Edit.setFixedWidth(260)
+            for row in rplines:
+                self.q9Edit.addItem(row[1])
             self.q9Edit.setStyleSheet('color: black; background-color: #F8F7EE')
             self.q9Edit.setFont(QFont("Arial",10))
                 
@@ -3574,8 +3595,8 @@ def insertArticles():
             self.q8Edit.textChanged.connect(q8Changed)
             
             def q9Changed():
-                self.q9Edit.setText(self.q9Edit.text())
-            self.q9Edit.textChanged.connect(q9Changed)
+                self.q9Edit.setCurrentText(self.q9Edit.currentText()) #+1
+            self.q9Edit.currentIndexChanged.connect(q9Changed)
             
             def q10Changed():
                 self.q10Edit.setText(self.q10Edit.text())
@@ -3646,7 +3667,7 @@ def insertArticles():
                 if self.q13Edit.text():
                     selart = select([articles]).where(articles.c.barcode==str(self.q13Edit.text()))
                     rpart = con.execute(selart).first()
-                    if checkBarcode(self.q13.text()) == False:
+                    if checkBarcode(self.q13Edit.text()) == False:
                         message = 'Scanfout Barcode!'
                         alertText(message)
                     elif  rpart:
@@ -3665,7 +3686,7 @@ def insertArticles():
                 mminstock = float(self.q6Edit.text())
                 morder_size = float(self.q7Edit.text())
                 mlocation = self.q8Edit.text()
-                martgroup = self.q9Edit.text()
+                martgroup = self.q9Edit.currentText()
                 mthumb = self.q10Edit.text()
                 mcategory = self.q11Edit.currentIndex()+1
                 mvat = self.q12Edit.currentText()
