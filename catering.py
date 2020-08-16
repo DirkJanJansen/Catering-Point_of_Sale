@@ -2849,8 +2849,6 @@ def additionRequest():
     
     engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
     con = engine.connect()
-    
-    mgroup = 'liquors'
    
     class MyWindow(QDialog):
         def __init__(self, data_list, header, *args):
@@ -2900,8 +2898,7 @@ def additionRequest():
     header = ['addID','Barcode','Description','Item-price','Number',\
               'Item_unit','Article_Group','Location-Warehouse'] 
     
-    seladd = select([additional]).where(additional.c.article_group == mgroup)\
-        .order_by(additional.c.barcode)
+    seladd = select([additional]).order_by(additional.c.article_group, additional.c.barcode)
     rpadd = con.execute(seladd)                                      
         
     data_list=[]
@@ -4438,7 +4435,7 @@ def plusminChange(self):
 def checkEan8(c):
     checksum = (int(c[0])+int(c[2])+int(c[4])+int(c[6]))*3+(int(c[1])+
                 int(c[3])+int(c[5]))
-    checkdigit = (10-(checksum%10))%10
+    checkdigit = (10-(checksum%10))
     if checkdigit == int(c[7]):
         return True
     else:
