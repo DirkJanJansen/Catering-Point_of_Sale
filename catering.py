@@ -4415,11 +4415,9 @@ def plusminChange(self):
         self.qspin.setRange(1, 99)
         
 def checkEan8(c):
-    print(c)
     checksum = (int(c[0])+int(c[2])+int(c[4])+int(c[6]))*3+(int(c[1])+
                 int(c[3])+int(c[5]))
     checkdigit = (10-(checksum%10))%10
-    print(checkdigit)
     if checkdigit == int(c[7]):
         return True
     else:
