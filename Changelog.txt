@@ -56,4 +56,5 @@
            default generating barcode with personal barcode number, or overrule with scanning a existing barcode in commercial range.
 2020-08-16 catering.py made adjustable combobox items for article groups, so user can make it's own items in database proprietary choices.
            in catering.py choices added, but not yet implemented for inserting and changing will follow.
-2020-08-16 databases catering.backup empty-catering.backup and full_catering.backup extended with table article_grouplines           
+2020-08-16 databases catering.backup empty-catering.backup and full_catering.backup extended with table article_grouplines  
+2020-08-16 catering.py module added for article_grouplines, changing /adding maximum 20 lines for qcombobox         

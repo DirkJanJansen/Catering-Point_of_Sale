@@ -89,8 +89,172 @@ def windowClose(self):
     self.close()
     sys.exit()
     
-def grouplineMenu():
-    pass
+def groupLines():
+    metadata = MetaData()
+    article_grouplines = Table('article_grouplines', metadata,
+        Column('lineID', Integer, primary_key=True),
+        Column('grouplinetext', String))
+    
+    engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
+    con = engine.connect()
+    
+    sellines = select([article_grouplines]).order_by(article_grouplines.c.lineID)
+    rplines = con.execute(sellines)
+    class Widget(QDialog):
+        def __init__(self, data_list, header, *args):
+            QWidget.__init__(self, *args)
+            self.setWindowTitle('Groupbuttons buttontext')
+            self.setWindowIcon(QIcon('./images/logos/logo.jpg'))
+            self.setWindowFlags(self.windowFlags()| Qt.WindowSystemMenuHint |
+                    Qt.WindowMinMaxButtonsHint)
+            self.setFont(QFont('Arial', 10))
+            
+            grid = QGridLayout()
+            grid.setSpacing(20)
+            
+            table_model = MyTableModel(self, data_list, header)
+            table_view = QTableView()
+            table_view.setModel(table_model)
+            font = QFont("Arial", 10)
+            table_view.setFont(font)
+            table_view.resizeColumnsToContents()
+            table_view.setSelectionBehavior(QTableView.SelectRows)
+            table_view.clicked.connect(changeGroupline)
+            grid.addWidget(table_view, 0, 0)
+                       
+            reglbl = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
+            reglbl.setFont(QFont("Arial", 10))
+            grid.addWidget(reglbl, 1, 0)
+            
+            self.setLayout(grid)
+            self.setGeometry(900, 100, 300, 600)
+            self.setLayout(grid)
+    
+    class MyTableModel(QAbstractTableModel):
+        def __init__(self, parent, mylist, header, *args):
+            QAbstractTableModel.__init__(self, parent, *args)
+            self.mylist = mylist
+            self.header = header
+        def rowCount(self, parent):
+            return len(self.mylist)
+        def columnCount(self, parent):
+            return len(self.mylist[0])
+        def data(self, index, role):
+            veld = self.mylist[index.row()][index.column()]
+            if not index.isValid():
+                return None
+            elif role == Qt.TextAlignmentRole and (type(veld) == float or type(veld) == int):
+                return Qt.AlignRight | Qt.AlignVCenter
+            elif role != Qt.DisplayRole:
+                return None
+            if type(veld) == float:
+                return '{:12.2f}'.format(veld)
+            else:
+                return veld
+        def headerData(self, col, orientation, role):
+            if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+                return self.header[col]
+            return None
+             
+    header = ['Artlicle-grouplineID', 'Grouplinetext']
+    
+    data_list=[]
+    for row in rplines:
+        data_list += [(row)]
+        
+    def changeGroupline(idx):
+        linenr = idx.data()
+        if idx.column() == 0:
+            selline = select([article_grouplines]).where(article_grouplines.c.lineID == linenr)
+            rpline = con.execute(selline).first()
+            
+            class MainWindow(QDialog):
+                def __init__(self):
+                    QDialog.__init__(self)
+                    
+                    grid = QGridLayout()
+                    grid.setSpacing(20)
+                    self.setWindowTitle("Changing Article-groupline items")
+                    self.setWindowIcon(QIcon('./images/logos/logo.jpg'))
+                    
+                    self.setStyleSheet("background-color: #D9E1DF")
+                    self.setFont(QFont('Arial', 10))  
+                    
+                    grid = QGridLayout()
+                    grid.setSpacing(20)      
+                
+                    pyqt = QLabel()
+                    movie = QMovie('./logos/pyqt.gif')
+                    pyqt.setMovie(movie)
+                    movie.setScaledSize(QSize(240,80))
+                    movie.start()
+                    grid.addWidget(pyqt, 0 ,0, 1, 2)
+               
+                    logo = QLabel()
+                    pixmap = QPixmap('./logos/logo.jpg')
+                    logo.setPixmap(pixmap.scaled(70,70))
+                    grid.addWidget(logo , 0, 1, 1 ,1, Qt.AlignRight)
+                    
+                    #ID
+                    self.q1Edit = QLineEdit(str(rpline[0]))
+                    self.q1Edit.setFixedWidth(40)
+                    self.q1Edit.setFont(QFont("Arial",10))
+                    self.q1Edit.setStyleSheet('color: black; background-color: gainsboro')
+                    self.q1Edit.setDisabled(True)
+                    
+                    #QCombotextline
+                    self.q2Edit = QLineEdit(rpline[1])
+                    self.q2Edit.setFixedWidth(260)
+                    self.q2Edit.setFont(QFont("Arial",10))
+                    self.q2Edit.setStyleSheet('color: black; background-color: #F8F7EE')
+                    
+                    lblq1 = QLabel('Linenumber')
+                    lblq1.setFont(QFont("Arial", 10))
+                    grid.addWidget(lblq1, 1, 0)
+                    grid.addWidget(self.q1Edit, 1, 1)
+                    lblq2 = QLabel('Combobox textline')
+                    lblq2.setFont(QFont("Arial", 10))
+                    grid.addWidget(lblq2, 2, 0)
+                    grid.addWidget(self.q2Edit, 2, 1)
+                        
+                    def q2Changed():
+                        self.q2Edit.setText(self.q2Edit.text())
+                    self.q2Edit.textChanged.connect(q2Changed) 
+                    
+                    def changeLine(self):
+                        linetext = self.q2Edit.text()
+                        updline = update(article_grouplines).where(article_grouplines.\
+                         c.lineID == linenr).values(grouplinetext = linetext)
+                        con.execute(updline)
+                        
+                    applyBtn = QPushButton('Change')
+                    applyBtn.clicked.connect(lambda: changeLine(self))  
+                    applyBtn.setFont(QFont("Arial",10))
+                    applyBtn.setFixedWidth(100)
+                    applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
+                    
+                    grid.addWidget(applyBtn, 3, 1, 1, 1, Qt.AlignRight)
+        
+                    closeBtn = QPushButton('Close')
+                    closeBtn.clicked.connect(self.close)  
+                    closeBtn.setFont(QFont("Arial",10))
+                    closeBtn.setFixedWidth(100)
+                    closeBtn.setStyleSheet("color: black;  background-color: gainsboro")
+                    
+                    grid.addWidget(closeBtn, 3, 1)                 
+        
+                    lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
+                    lbl3.setFont(QFont("Arial", 10))
+                    grid.addWidget(lbl3, 4, 0, 1, 2, Qt.AlignCenter)
+                   
+                    self.setLayout(grid)
+                    self.setGeometry(900, 150, 150, 100)      
+        
+            window = MainWindow()
+            window.exec_()
+        
+    win = Widget(data_list, header)
+    win.exec_()
     
 def countTurnover(mindex):
     metadata = MetaData()
@@ -1202,9 +1366,9 @@ def adminMenu():
             self.k0Edit.addItem('Purchases Submenu')
             self.k0Edit.addItem('Buttons Submenu')
             self.k0Edit.addItem('Parameters - View / Change')
+            self.k0Edit.addItem('Grouplines - View / Change')
             self.k0Edit.addItem('Turnover Submenu')
-            self.k0Edit.addItem('Groupline Submenu')
-            
+             
             def k0Changed():
                 self.k0Edit.setCurrentIndex(self.k0Edit.currentIndex())
             self.k0Edit.currentIndexChanged.connect(k0Changed)
@@ -1231,9 +1395,9 @@ def adminMenu():
                 elif mindex == 7:
                     paramChange()
                 elif mindex == 8:
-                    turnoverMenu()
+                    groupLines()
                 elif mindex == 9:
-                    grouplineMenu()
+                    turnoverMenu()
 
             applyBtn = QPushButton('Select')
             applyBtn.clicked.connect(lambda: menuChoice(self))  
@@ -2382,7 +2546,8 @@ def articleRequest(mflag, btn):
                     self.q9Edit.setStyleSheet('color: black; background-color: #F8F7EE')
                     self.q9Edit.setFont(QFont("Arial",10))
                     for row in rplines:
-                        self.q9Edit.addItem(row[1])
+                        if row[1]:
+                            self.q9Edit.addItem(row[1])
                     self.q9Edit.setCurrentIndex(self.q9Edit.findText(rparticle[11]))
                         
                     #thumbnail
@@ -3510,7 +3675,8 @@ def insertArticles():
             self.q9Edit = QComboBox()
             self.q9Edit.setFixedWidth(260)
             for row in rplines:
-                self.q9Edit.addItem(row[1])
+                if row[1]:
+                    self.q9Edit.addItem(row[1])
             self.q9Edit.setStyleSheet('color: black; background-color: #F8F7EE')
             self.q9Edit.setFont(QFont("Arial",10))
                 
