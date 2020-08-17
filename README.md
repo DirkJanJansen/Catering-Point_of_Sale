@@ -10,17 +10,17 @@ Features:
 
 Logon with barcode
 
-Switching between client by barcodescan for fast switching clients
+Switching between clients by barcodescan for fast switching.
 
-Employee switching for take over by absent or end worktime.
+Employee switching for take over by absent or ending worktime.
 
-Product selection by scanning and buttons.
+Product selection by scanning and buttonselect.
 
 Buttons programmable (also colors) in mainscreen by clicking the productbuttons as admin.
 
 Stock management included.
 
-Adding new products possible by generating reserved barcodes for personal use, or scanning by commercial products provided with barcode.
+Adding new products possible by generating barcodes in reserved range, or scanning commercial products.
 
 *****
 
