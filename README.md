@@ -33,7 +33,7 @@ Still todoo:
 
 Implementing imports by csv fileformats
 
-Purchasing and delivery modules
+Purchasing, delivery and supplier modules
 
 Writing documentation.
 
