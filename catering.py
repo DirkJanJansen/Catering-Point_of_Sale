@@ -4670,6 +4670,9 @@ def set_barcodenr(self):
                 order_lines.c.clientID == self.mclient))
         rpart = con.execute(selart).first()
         if not rpart:
+            self.albl.setText('Article not in assortment!')
+            giveAlarm()
+            self.q1Edit.setSelection(0,13)
             return
         mdescr = rpart[1]
         mprice = rpart[2]
@@ -5158,13 +5161,13 @@ def seatsArrange(self):
             qcbEdit = QComboBox()
             qcbEdit.addItem('Open new table')
             selclient = select([clients]).where(clients.c.employee ==\
-            self.mcallname).order_by(clients.c.clientID)
+                            self.mcallname).order_by(clients.c.clientID)
             rpclient = con.execute(selclient)
             tablelist = []
             for row in rpclient:
                 qcbEdit.addItem('Change seats client '+str(row[0]))
                 tablelist.append(row[1])
-                
+                                       
             qcbEdit.setFixedSize(200, 40)
             qcbEdit.setStyleSheet('font: 18px bold; color:black; background-color: #F8F7EE')
             grid.addWidget(qcbEdit, 3, 10, 1, 2, Qt.AlignBottom)
