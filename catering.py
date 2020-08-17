@@ -4800,7 +4800,7 @@ def set_barcodenr(self):
     elif not self.mcallname:
         self.albl.setText('Please logon with your barcodecard!')
     elif self.mclient == 0:
-            self.albl.setText('First compose or choose existing table-arrangement!')
+            self.albl.setText('Compose or choose existing table-arrangement!')
     else:
         #alarm if barcode scan failed
         self.albl.setText('Scanning error barcode!')
@@ -5170,7 +5170,7 @@ def seatsArrange(self):
                                        
             qcbEdit.setFixedSize(200, 40)
             qcbEdit.setStyleSheet('font: 18px bold; color:black; background-color: #F8F7EE')
-            grid.addWidget(qcbEdit, 3, 10, 1, 2, Qt.AlignBottom)
+            grid.addWidget(qcbEdit, 1, 10, 1, 2, Qt.AlignBottom)
             
             def qclientChanged():
                 qcbEdit.setCurrentText(qcbEdit.currentText())
@@ -5268,28 +5268,28 @@ def seatsArrange(self):
             clientBtn.setFixedSize(200, 80)
             clientBtn.setStyleSheet("font: 24px bold; color: black; background-color: #39CCCC")
 
-            grid.addWidget(clientBtn, 4, 10, 1, 2)
+            grid.addWidget(clientBtn, 2, 10, 1, 2)
             
             emplBtn = QPushButton('Switch Employee')
             emplBtn.clicked.connect(lambda: switchEmployee(mcallname, self.lblseats))
             emplBtn.setFixedSize(200, 80)
             emplBtn.setStyleSheet("font: 24px bold; color: black; background-color: #00BFFF")
 
-            grid.addWidget(emplBtn, 1, 10, 1, 2, Qt.AlignTop)
+            grid.addWidget(emplBtn, 3, 10, 1, 2)
 
             closeBtn = QPushButton('Close')
             closeBtn.clicked.connect(self.close)
             closeBtn.setStyleSheet('font: 24px bold; color: black; background-color:  #00FFFF')
             closeBtn.setFixedSize(200, 80)
             
-            grid.addWidget(closeBtn, 2, 10, 1, 2)
+            grid.addWidget(closeBtn, 4, 10, 1, 2)
             
             refreshBtn = QPushButton('Refresh')
             refreshBtn.clicked.connect(lambda: refresh(self))
             refreshBtn.setFixedSize(200, 40)
             refreshBtn.setStyleSheet("font: 24px bold; color: black; background-color: #FFD700")
 
-            grid.addWidget(refreshBtn, 3, 10, 1, 2, Qt.AlignTop)
+            grid.addWidget(refreshBtn, 1, 10, 1, 2, Qt.AlignTop)
             
             lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
             lbl3.setFont(QFont("Arial", 10))
