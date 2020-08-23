@@ -29,11 +29,11 @@ Program released for preview purposes. Program still in development!
 
 Final implementation begins to emerge.
 
+# The finish line is in sight
+
 Still todoo:
 
-Implementing imports by csv fileformats
-
-Purchasing, delivery and supplier modules
+Purchase printing modules
 
 Writing documentation.
 
