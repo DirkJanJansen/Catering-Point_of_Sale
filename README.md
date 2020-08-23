@@ -27,13 +27,11 @@ Adding new products possible by generating barcodes in reserved range, or scanni
 
 Program released for preview purposes. Program still in development! 
 
-Final implementation begins to emerge.
-
 # The finish line is in sight
 
 Still todoo:
 
-Purchase printing modules
+Printing modules of purchasing
 
 Writing documentation.
 
