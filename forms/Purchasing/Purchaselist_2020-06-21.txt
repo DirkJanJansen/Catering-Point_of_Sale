@@ -1,0 +1,25 @@
+Sales - Purchaselist: 2020-06-21 Pagenumber 1 
+==================================================================================================
+Barcode       Description                                     Item-Price   Item-Unit   Ordersize  
+==================================================================================================
+8002000000327 Router Asus RT-N66U                                  56.55        stuk       47.00
+8002000000440 Router TP-Link Archer C7                             49.34        stuk       43.00
+8002000000563 Printer Canon MG 3650                                56.78        stuk       67.00
+8002000000686 Tablet Ipad Pro 10" wit WIFI 128GB                  436.45        stuk        6.00
+8002000000815 Computervoeding Corsair CS550M                       67.90        stuk       56.00
+8002000000938 Midi Tower Antec GX500                               45.90        stuk       81.00
+8002000001119 Moederbord MSI Z97 U3 Plus                          108.85        stuk       33.00
+8002000001355 Harddisk Seagate Barracuda 2TB STBD2000201           86.90        stuk       43.00
+8002000001478 Video Kaart Sapphire Radeon R7 265                  136.80        stuk       21.00
+8002000001607 Cooler Scythe Mugen 4                                37.99        stuk       75.00
+8002000001720 Crucial CT240M500SSD1                                95.90        stuk       36.00
+8002000001966 SD Geheugenkaartje 2GB                                4.55        stuk      709.00
+8002000002024 M-Audio 2496 Delta AudioPhile Geluidskaart           89.95        stuk       43.00
+8002000002147 Ventielhuis Aluminium warmperswerk                   91.43        stuk       27.00
+8002000002260 Klepzitting messing warmperswerk                     56.34        stuk       60.00
+8002000002383 Passtuk aluminium warmperswerk                       23.67        stuk      133.00
+8002000002512 Rvs Badkraanhuis warmperswerk                       123.45        stuk       25.00
+8002000002635 Kruisfitting 3/4" messing warmperswerk               13.45        stuk      164.00
+8002000002871 Haakse fitting 3/4 met bev. messing warmpersw         6.67        stuk      468.00
+8002000002994 Thermostaathuis kunstof spuitgietwerk                23.45        stuk      115.00
+8002000003052 Spruitstuk voor hydroliek spuitgiet aluminium        78.56        stuk       41.00
