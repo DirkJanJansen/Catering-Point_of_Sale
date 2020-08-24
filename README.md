@@ -24,6 +24,7 @@ Adding new products possible by generating barcodes in reserved range, or scanni
 
 *****
 The program is ready besides testing and debugging
+
 Still todoo:
 
 Writing documentation.
