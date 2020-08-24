@@ -23,15 +23,8 @@ Stock management included.
 Adding new products possible by generating barcodes in reserved range, or scanning commercial products.
 
 *****
-
-
-Program released for preview purposes. Program still in development! 
-
-# The finish line is in sight
-
+The program is ready besides testing and debugging
 Still todoo:
-
-Printing modules of purchasing
 
 Writing documentation.
 
