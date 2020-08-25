@@ -48,7 +48,7 @@ def reprintForms(path):
     class combo(QDialog):
         def __init__(self, parent=None):
               super(combo, self).__init__(parent)
-              self.setWindowTitle("Reprinting lists")
+              self.setWindowTitle("Reprinting forms")
               self.setWindowIcon(QIcon('./images/logos/logo.jpg'))
               self.setFont(QFont("Arial", 10))
               self.setStyleSheet("background-color: #D9E1DF") 
@@ -795,8 +795,8 @@ def importMenu():
                                     mgroup = line[5]         
                                     mthumb = line[6]       
                                     mcat = line[7]    
-                                    mvat = line[8]   
-                                    msupplier = line[9]
+                                    mvat = line[8]
+                                    msupplier = int(line[9])
                                     sel = select([articles]).where(articles.c.barcode == mbarcode)
                                     if con.execute(sel).fetchone():
                                         message = mtoday+' new items Barcode '+mbarcode+' exists!\n'
