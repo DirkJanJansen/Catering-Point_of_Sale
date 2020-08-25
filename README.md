@@ -23,13 +23,6 @@ Stock management included.
 Adding new products possible by generating barcodes in reserved range, or scanning commercial products.
 
 *****
-The program is ready besides testing.
-
-Still todoo:
-
-Writing documentation.
-
-# Keep in touch and stay tuned!
 
 # Mainscreen
 ![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/mainScreen.png)
