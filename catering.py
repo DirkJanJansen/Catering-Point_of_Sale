@@ -131,7 +131,7 @@ def reprintForms(path):
               grid.addWidget(QLabel('\u00A9 2017 all rights reserved dj.jansen@casema.nl'), 4, 0, 1, 3, Qt.AlignCenter)
                 
               self.setLayout(grid)
-              self.setGeometry(900, 300, 150, 150)
+              self.setGeometry(900, 200, 150, 150)
               
     win = combo()
     win.exec_()
@@ -4722,7 +4722,7 @@ def salesRequest():
     
 def additionRequest():
     metadata = MetaData()
-    additional = Table('additional', metadata,
+    addition = Table('addition', metadata,
         Column('addID', Integer, primary_key=True),
         Column('barcode', String),
         Column('description', String),
@@ -4783,7 +4783,7 @@ def additionRequest():
     header = ['addID','Barcode','Description','Item-price','Number',\
               'Item_unit','Article_Group','Location-Warehouse'] 
     
-    seladd = select([additional]).order_by(additional.c.article_group, additional.c.barcode)
+    seladd = select([addition]).order_by(addition.c.article_group, addition.c.barcode)
     rpadd = con.execute(seladd)                                      
         
     data_list=[]
