@@ -23,7 +23,7 @@ Stock management included.
 Adding new products possible by generating barcodes in reserved range, or scanning commercial products.
 
 *****
-The program is ready besides testing and debugging
+The program is ready besides testing.
 
 Still todoo:
 
