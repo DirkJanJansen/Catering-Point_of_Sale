@@ -33,37 +33,37 @@ rpbtn = con.execute(selbtn)
 x = 0
 for row in rpbtn:
     if x%18 < 3:
-        color = '#FFFFF0'   #'#e36f43'  
+        color =   '#e36f43'  # '#FFFFF0'
         upd = update(buttons).where(buttons.c.buttonID == row[0])\
           .values(bg_color = color)
         con.execute(upd)
         print(row[0], color)
     elif x%18 < 6:
-        color = '#FFFFF0'   #'#e3ba21'
+        color =   '#e3ba21'  3'#FFFFF0'
         upd = update(buttons).where(buttons.c.buttonID == row[0])\
           .values(bg_color = color)
         con.execute(upd)
         print(row[0], color)
     elif x%18 < 9:
-        color = '#FFFFF0'   #'#aee84e'
+        color =  '#aee84e' '#FFFFF0'
         upd = update(buttons).where(buttons.c.buttonID == row[0])\
           .values(bg_color = color)
         con.execute(upd)
         print(row[0], color)
     elif x%18 < 12:
-        color = '#FFFFF0'   #'#5fa5df'
+        color =   '#5fa5df' #'#FFFFF0' 
         upd = update(buttons).where(buttons.c.buttonID == row[0])\
           .values(bg_color = color)
         con.execute(upd)
         print(row[0],color)
     elif x%18 < 15:
-        color = '#FFFFF0'   #'#d75898'
+        color = '#d75898'    #'#FFFFF0'
         upd = update(buttons).where(buttons.c.buttonID == row[0])\
           .values(bg_color = color)
         con.execute(upd)
         print(row[0], color)
     elif x%18 < 18:
-        color = '#FFFFF0'   #'#ffdc00'
+        color = '#ffdc00' 3'#FFFFF0'
         upd = update(buttons).where(buttons.c.buttonID == row[0])\
           .values(bg_color = color)
         con.execute(upd)
