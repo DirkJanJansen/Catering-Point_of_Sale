@@ -895,7 +895,7 @@ def importMenu():
                                     selart = select([articles]).where(articles.c.barcode==mbarcode)
                                     rpart = con.execute(selart).first()
                                     if not rpart:
-                                        message = mtoday+' Deliveries items Barcode '+mbarcode+' not found!\n'
+                                        message = mtoday+' Delivery items: Barcode '+mbarcode+' not found!\n'
                                         log = open(str(home)+'/catering_import.log', 'a')
                                         log.write(message)
                                         continue
@@ -937,14 +937,19 @@ def importMenu():
                         x += 1
                     if x == 0:
                         message = 'No imports available!'
-                        actionOK(message)    
+                        actionOK(message) 
+                        
+            lbllog = QLabel('Messages: "catering_import.log" in your home folder!')  
+            lbllog.setFont(QFont("Arial", 10))
+            grid.addWidget(lbllog, 2, 0, 1, 3, Qt.AlignCenter)
+                        
             applyBtn = QPushButton('Import')
             applyBtn.clicked.connect(lambda: menuChoice(self))  
             applyBtn.setFont(QFont("Arial",10))
             applyBtn.setFixedWidth(100)
             applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
             
-            grid.addWidget(applyBtn, 2, 2)
+            grid.addWidget(applyBtn, 3, 2)
             
             closeBtn = QPushButton('Close')
             closeBtn.clicked.connect(self.close)  
@@ -952,11 +957,11 @@ def importMenu():
             closeBtn.setFixedWidth(100)
             closeBtn.setStyleSheet("color: black;  background-color: gainsboro")
             
-            grid.addWidget(closeBtn, 2, 1, 1, 1, Qt.AlignRight)
+            grid.addWidget(closeBtn, 3, 1, 1, 1, Qt.AlignRight)
                  
             lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
             lbl3.setFont(QFont("Arial", 10))
-            grid.addWidget(lbl3, 3, 0, 1, 3, Qt.AlignCenter)
+            grid.addWidget(lbl3, 4, 0, 1, 3, Qt.AlignCenter)
            
             self.setLayout(grid)
             self.setGeometry(900, 200, 150, 100)
