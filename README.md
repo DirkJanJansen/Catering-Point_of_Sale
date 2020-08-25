@@ -30,8 +30,7 @@ Adding new products possible by generating barcodes in reserved range, or scanni
 # Table management
 ![Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/table_management.png)
 
-# Big display
-![Catering Table_reservationscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/bigDisplay.png)
+
 
 
 
