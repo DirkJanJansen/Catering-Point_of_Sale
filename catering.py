@@ -5304,9 +5304,9 @@ def insertArticles():
             self.q1Edit = QLineEdit(str(self.mbarcode)) 
             self.q1Edit.setFixedWidth(130)
             self.q1Edit.setFont(QFont("Arial",10))
-            self.q1Edit.setStyleSheet("color: black; background-color: #F8F7EE")
-            self.q1Edit.setSelection(0,13)
-
+            self.q1Edit.setStyleSheet("color: black")
+            self.q1Edit.setDisabled(True)
+ 
             #description
             self.q2Edit = QLineEdit()    
             self.q2Edit.setFixedWidth(400)
@@ -5450,6 +5450,12 @@ def insertArticles():
             self.cBox = QCheckBox('Additional product')
             self.cBox.setFont(QFont("Arial",10))
             
+            self.q13Edit = QLineEdit() 
+            self.q13Edit.setFixedWidth(130)
+            self.q13Edit.setFont(QFont("Arial",10))
+            self.q13Edit.setStyleSheet("color: black; background-color: #F8F7EE")
+            self.q13Edit.setSelection(0,13)
+            
             def q1Changed():
                 self.q1Edit.setText(self.q1Edit.text())
             self.q1Edit.textChanged.connect(q1Changed)
@@ -5514,7 +5520,11 @@ def insertArticles():
                 self.q12Edit.setCurrentText(self.q12Edit.currentText()) 
             self.q12Edit.currentIndexChanged.connect(q12Changed)
             
-            grid.addWidget(QLabel('Barcodenumber\nOr scanning overrule'), 1, 0)
+            def q13Changed():
+                self.q13Edit.setText(self.q13Edit.text()) 
+            self.q13Edit.textChanged.connect(q13Changed)
+            
+            grid.addWidget(QLabel('Barcodenumber'), 1, 0)
             grid.addWidget(self.q1Edit, 1, 1)
             
             grid.addWidget(self.cBox, 1, 2, 1 , 2)
@@ -5563,22 +5573,15 @@ def insertArticles():
             grid.addWidget(QLabel('Suppliernumber'), 9, 2)
             grid.addWidget(self.q7aEdit, 9, 3)
             
+            grid.addWidget(QLabel('Barcode overruled by scanning'), 10, 0)
+            grid.addWidget(self.q13Edit, 10, 1)
+            grid.addWidget(QLabel('Fill all fields before scanning'), 10, 2)
+            
             def insArticle(self):
-                if self.q1Edit.text():
-                    selart = select([articles]).where(articles.c.barcode==str(self.q1Edit.text()))
-                    rpart = con.execute(selart).first()
-                    if checkBarcode(self.q1Edit.text()) == False:
-                        message = 'Scanning error barcode!'
-                        alertText(message)
-                        return
-                    elif  rpart:
-                        message = 'Barcode already exists!' 
-                        alertText(message)
-                        return
-                    else:
-                        self.mbarcode = self.q1Edit.text()
-                
-                mbarcode = self.q1Edit.text()
+                if len(self.q13Edit.text())==13 and checkBarcode(self.q13Edit.text()):
+                    mbarcode = str(self.q13Edit.text())
+                else:
+                    mbarcode = str(self.mbarcode)
                 mdescr = self.q2Edit.text()
                 mshort = self.q2aEdit.text()
                 mprice = float(self.q3Edit.text())
@@ -5625,7 +5628,7 @@ def insertArticles():
             applyBtn = QPushButton('Insert')
             applyBtn.clicked.connect(lambda: insArticle(self))
     
-            grid.addWidget(applyBtn, 10, 3, 1, 1, Qt.AlignRight)
+            grid.addWidget(applyBtn, 11, 3, 1, 1, Qt.AlignRight)
             applyBtn.setFont(QFont("Arial",10))
             applyBtn.setFixedWidth(90)
             applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
@@ -5633,12 +5636,12 @@ def insertArticles():
             cancelBtn = QPushButton('Close')
             cancelBtn.clicked.connect(self.close)
             
-            grid.addWidget(cancelBtn, 10, 3)
+            grid.addWidget(cancelBtn, 11, 3)
             cancelBtn.setFont(QFont("Arial",10))
             cancelBtn.setFixedWidth(90)
             cancelBtn.setStyleSheet("color: black;  background-color: gainsboro")
             
-            grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 11, 0, 1, 4, Qt.AlignCenter)
+            grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 12, 0, 1, 4, Qt.AlignCenter)
    
             self.setLayout(grid)
             self.setGeometry(800, 200, 150, 100)
