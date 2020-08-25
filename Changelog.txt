@@ -62,4 +62,4 @@
 2020-08-24 databases added tables invoices, purchase_orderlines and changed articles added columns
            3 databases included empty, default and full for testing.  
            This version is roughly ready, but not fully tested. Documenting gets started.
-      
+2020-08-25 catering.py imports errormessages not shown but written in catering_import.log in home directory of user.

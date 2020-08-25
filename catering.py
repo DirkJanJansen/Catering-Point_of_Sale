@@ -773,6 +773,9 @@ def importMenu():
             grid.addWidget(self.k0Edit, 1, 1, 1, 2)
                            
             def menuChoice(self):
+                mtoday = str(datetime.datetime.now())[0:10]
+                home = os.path.expanduser("~")
+                log = open(str(home)+'/catering_import.log', 'a+')
                 mindex = self.k0Edit.currentIndex()
                 if mindex == 0:
                     path = "./forms/Imports/New/"
@@ -796,8 +799,9 @@ def importMenu():
                                     msupplier = line[9]
                                     sel = select([articles]).where(articles.c.barcode == mbarcode)
                                     if con.execute(sel).fetchone():
-                                        message = 'Barcode '+mbarcode+' exists\nPress any key to continue!'
-                                        alertText(message)
+                                        message = mtoday+' new items Barcode '+mbarcode+' exists!\n'
+                                        log = open(str(home)+'/catering_import.log', 'a')
+                                        log.write(message)
                                         continue
                                     else:
                                         insart = insert(articles).values(barcode=mbarcode,\
@@ -811,6 +815,7 @@ def importMenu():
                                             ean.save('.\\Barcodes\\Articles\\'+str(mbarcode))
                                         else:
                                             ean.save('./Barcodes/Articles/'+str(mbarcode))
+                            message = 'Import done!'                
                             actionOK(message)
                             filename.close()
                             shutil.move(path+file,newpath+file)
@@ -836,8 +841,9 @@ def importMenu():
                                           .values(item_price=mprice)
                                         con.execute(updart)
                                     else:
-                                        message = 'Article '+mbarcode+' not found\nPress any key to continue!'
-                                        alertText(message)
+                                        message = mtoday+' Article price changes Barcode '+mbarcode+' not found!\n'
+                                        log = open(str(home)+'/catering_import.log', 'a')
+                                        log.write(message)
                                         continue
                             message = 'Import done!'
                             actionOK(message)
@@ -863,8 +869,9 @@ def importMenu():
                                         delart = delete(articles).where(articles.c.barcode == mbarcode)
                                         con.execute(delart)
                                     else:
-                                        message = 'Article '+mbarcode+' not found\nPress any key to continue!'
-                                        alertText(message)
+                                        message = mtoday+' Article expired items Barcode '+mbarcode+' not found!\n'
+                                        log = open(str(home)+'/catering_import.log', 'a')
+                                        log.write(message)
                                         continue
                             message = 'Import done!'
                             actionOK(message)
@@ -877,7 +884,6 @@ def importMenu():
                 elif mindex == 3:
                     path = "./forms/Imports/Deliveries/"
                     newpath = "./forms/ImportsDone/Deliveries/"
-                    mtoday = str(datetime.datetime.now())[0:10]
                     x = 0
                     for file in os.listdir(path):
                         filename = open(path+file,'r')
@@ -889,8 +895,9 @@ def importMenu():
                                     selart = select([articles]).where(articles.c.barcode==mbarcode)
                                     rpart = con.execute(selart).first()
                                     if not rpart:
-                                        message = 'Article '+mbarcode+' not found\nPress any key to continue!'
-                                        alertText(message)
+                                        message = mtoday+' Deliveries items Barcode '+mbarcode+' not found!\n'
+                                        log = open(str(home)+'/catering_import.log', 'a')
+                                        log.write(message)
                                         continue
                                     mdescription = rpart[1]
                                     mprice = rpart[3]
@@ -925,6 +932,7 @@ def importMenu():
                             message = 'Import done!'
                             actionOK(message)
                             filename.close()
+                            log.close()
                             shutil.move(path+file,newpath+file)
                         x += 1
                     if x == 0:
