@@ -65,4 +65,4 @@
 2020-08-25 catering.py imports errormessages not shown but written in catering_import.log in home directory of user.
 2020-08-26 catering.py insert articles barcodescan and generating barcode separated
 2020-08-26 catering.py bug repaired by viewing additional products.
-2020=08-26 Documentatation_Catering_POS.pdf started, backend documnetation follows
+2020=08-26 Documentatation_Catering_POS.pdf started, backend documentation follows
