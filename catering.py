@@ -803,6 +803,11 @@ def importMenu():
                                         log = open(str(home)+'/catering_import.log', 'a')
                                         log.write(message)
                                         continue
+                                    elif not checkBarcode(mbarcode):
+                                        message = mtoday+' new items Barcode '+mbarcode+' is invalid!\n'
+                                        log = open(str(home)+'/catering_import.log', 'a')
+                                        log.write(message)
+                                        continue
                                     else:
                                         insart = insert(articles).values(barcode=mbarcode,\
                                          description=mdescr,short_descr=mshort,\
