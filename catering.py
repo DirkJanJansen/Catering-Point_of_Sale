@@ -645,7 +645,7 @@ def employeeMenu():
             self.k0Edit.setFont(QFont("Arial",12))
             self.k0Edit.setStyleSheet('color: black; background-color: #F8F7EE')
             self.k0Edit.addItem('New employee')
-            self.k0Edit.addItem('View / Change employees')
+            self.k0Edit.addItem('View / change employees')
                                        
             def k0Changed():
                 self.k0Edit.setCurrentIndex(self.k0Edit.currentIndex())
@@ -944,7 +944,7 @@ def importMenu():
                         message = 'No imports available!'
                         actionOK(message) 
                         
-            lbllog = QLabel('Messages: "catering_import.log" in your home folder!')  
+            lbllog = QLabel('View catering_import.log in your home folder!')  
             lbllog.setFont(QFont("Arial", 10))
             grid.addWidget(lbllog, 2, 0, 1, 3, Qt.AlignCenter)
                         
@@ -1007,7 +1007,7 @@ def articleMenu():
             self.k0Edit.setFont(QFont("Arial",12))
             self.k0Edit.setStyleSheet('color: black; background-color: #F8F7EE')
             self.k0Edit.addItem('Insert new articles')
-            self.k0Edit.addItem('View / Change articles')
+            self.k0Edit.addItem('View / change articles')
             self.k0Edit.addItem('Booking loss articles')
             self.k0Edit.addItem('View loss articles')
                                          
@@ -2140,7 +2140,6 @@ def processOrders():
                         grid.addWidget(table_view, 0, 0, 1, 6)
                         
                         def processOrders(self,rpord):
-                            mtoday = str(datetime.datetime.now())[0:10]
                             mtotal = 0
                             mpage = 0
                             rgl = 0
@@ -2539,7 +2538,6 @@ def processOrders():
                                             return
                                         msuppliernr = rporderline[13]
                                         msupplier = rporderline[14]
-                                        mtoday = str(datetime.datetime.now())[0:10]
                                         mordered=float(self.q9Edit.text())
                                         upd = update(purchase_orderlines)\
                                           .where(purchase_orderlines.c.orderlineID==rporderline[0])\
@@ -3255,18 +3253,19 @@ def adminMenu():
             self.k0Edit.setFixedWidth(400)
             self.k0Edit.setFont(QFont("Arial",12))
             self.k0Edit.setStyleSheet('color: black; background-color: #F8F7EE') 
-            self.k0Edit.addItem('Employees Submenu')
-            self.k0Edit.addItem('Articles Submenu')
-            self.k0Edit.addItem('Article-groups lines - View / Change')
-            self.k0Edit.addItem('Purchase Submenu')
-            self.k0Edit.addItem('Suppliers Submenu')
-            self.k0Edit.addItem('Imports Submenu')
+            self.k0Edit.setMaxVisibleItems(14)
+            self.k0Edit.addItem('Employees submenu')
+            self.k0Edit.addItem('Articles submenu')
+            self.k0Edit.addItem('Article-groups lines - view / change')
+            self.k0Edit.addItem('Purchase submenu')
+            self.k0Edit.addItem('Suppliers submenu')
+            self.k0Edit.addItem('Imports submenu')
             self.k0Edit.addItem('Groupbuttons grouptext / color')
-            self.k0Edit.addItem('Payments - View / Pay')
-            self.k0Edit.addItem('Parameters - View / Change')
-            self.k0Edit.addItem('Sales - View')
-            self.k0Edit.addItem('Additionals - View')
-            self.k0Edit.addItem('Turnover Submenu - View')
+            self.k0Edit.addItem('Payments - view / pay')
+            self.k0Edit.addItem('Parameters - view / change')
+            self.k0Edit.addItem('Sales - view')
+            self.k0Edit.addItem('Additionals - view')
+            self.k0Edit.addItem('Turnover Submenu - view')
             self.k0Edit.addItem('Reprint purchase orders')
             self.k0Edit.addItem('Reprint sales receipts')
              
