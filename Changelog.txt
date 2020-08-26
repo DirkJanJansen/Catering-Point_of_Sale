@@ -66,3 +66,4 @@
 2020-08-26 catering.py insert articles barcodescan and generating barcode separated
 2020-08-26 catering.py bug repaired by viewing additional products.
 2020-08-26 Documentatation_Catering_POS.pdf started, backend documentation follows
+2020-08-26 catering.py by imports new products a log message is made for invalid barcode checks.
