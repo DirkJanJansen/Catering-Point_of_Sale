@@ -69,3 +69,4 @@
 2020-08-26 catering.py by imports new products a log message is made for invalid barcode checks.
 2020-08-27 Documentation changed and added explanation article menu
 2020-08-27 catering.py not necessary menu purchasing removed and integrated in submenu.
+2020-08-27 Documentation Catering_POS.pdf ready.
