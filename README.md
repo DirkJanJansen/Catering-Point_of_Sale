@@ -23,8 +23,8 @@ Stock management included.
 Adding new products possible by generating barcodes in reserved range, or scanning commercial products.
 
 *****
-
-![Catering Mainscreen](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/mainScreen.png)
+# Documentation
+![Documentation](https://raw.githubusercontent.com/DirkJanJansen/Catering/master/Documentation_Catering_POS.pdf)
 
 Link to Installation : https://github.com/DirkJanJansen/Catering/tree/master/installation/install.txt
 
