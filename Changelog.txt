@@ -71,3 +71,5 @@
 2020-08-27 catering.py not necessary menu purchasing removed and integrated in submenu.
 2020-08-27 Documentation Catering_POS.pdf ready.
 2020-08-27 catering.py bug in default bg_color groupbuttons repaired
+2020-08-27 catering.py bug repaired with addition tables wrong name
+2020-08-27 catering.backup and empty-catering.backup table addition name changed from additional in addition
