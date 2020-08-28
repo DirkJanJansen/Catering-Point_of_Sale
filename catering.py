@@ -6295,7 +6295,7 @@ def set_barcodenr(self):
             Column('clientID', Integer),
             Column('callname', String),
             Column('short_descr', String))
-        additional = Table('additional', metadata,
+        addition = Table('addition', metadata,
             Column('addID', Integer, primary_key=True),
             Column('barcode', String),
             Column('description', String),
@@ -6339,11 +6339,11 @@ def set_barcodenr(self):
                      annual_consumption_1 = articles.c.annual_consumption_1 + mnumber)
                 con.execute(updart)
             try:
-                idnr = (con.execute(select([func.max(additional.c.addID, type_=Integer)])).scalar()) 
+                idnr = (con.execute(select([func.max(addition.c.addID, type_=Integer)])).scalar()) 
                 idnr += 1
             except:
                 idnr = 1
-            insadd = insert(additional).values(addID = idnr, barcode = barcodenr, description = mdescr,\
+            insadd = insert(addition).values(addID = idnr, barcode = barcodenr, description = mdescr,\
                 item_price = mprice, number = mnumber, item_unit = munit, article_group =\
                 mgroup, location_warehouse = mloc)
             con.execute(insadd)
