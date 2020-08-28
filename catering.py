@@ -207,7 +207,7 @@ def groupLines():
     data_list=[]
     for row in rplines:
         data_list += [(row)]
-        
+            
     def changeGroupline(idx):
         linenr = idx.data()
         if idx.column() == 0:
@@ -4647,8 +4647,8 @@ def salesRequest():
         
     data_list=[]
     for row in rpsales:
-        data_list += [(row)] 
-                                   
+        data_list += [(row)]
+                                    
     win = MyWindow(data_list, header)
     win.exec_()
     
@@ -4666,7 +4666,7 @@ def additionRequest():
     
     engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
     con = engine.connect()
-   
+     
     class MyWindow(QDialog):
         def __init__(self, data_list, header, *args):
             QWidget.__init__(self, *args)
@@ -4716,12 +4716,12 @@ def additionRequest():
               'Item_unit','Article_Group','Location-Warehouse'] 
     
     seladd = select([addition]).order_by(addition.c.article_group, addition.c.barcode)
-    rpadd = con.execute(seladd)                                      
+    rpadd = con.execute(seladd) 
         
     data_list=[]
     for row in rpadd:
         data_list += [(row)] 
-        
+ 
     win = MyWindow(data_list, header)
     win.exec_()
                
@@ -5551,6 +5551,8 @@ def insertArticles():
                     else:
                         ean.save('./Barcodes/Articles/'+str(self.mbarcode))
                     #printEan(self)
+                    message =  "Insert succeeded"
+                    actionOK(message)
                     self.close()
                 else:
                     message = 'Not all fields are filled in!'
