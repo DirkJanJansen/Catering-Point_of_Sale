@@ -2872,7 +2872,7 @@ def groupButtons():
                         mlist = mbuttontext.split('\n')
                         mbtncolor = self.q4Edit.text()
                         if len(mbtncolor) < 7:
-                            mbtncolor = '#FFFFFF0'
+                            mbtncolor = '#FFFFF0'
                         for line in mlist:
                             if len(line) > 14:
                                  message = 'No more then 14 characters per line allowed'
