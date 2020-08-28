@@ -4118,7 +4118,7 @@ def articleRequest(mflag, btn):
                     self.q5Edit.setFixedWidth(170)
                     self.q5Edit.setStyleSheet('color: black; background-color: #F8F7EE')
                     self.q5Edit.setFont(QFont("Arial",10))
-                    self.q5Edit.addItem('stuk')
+                    self.q5Edit.addItem('piece')
                     self.q5Edit.addItem('100')
                     self.q5Edit.addItem('meter')
                     self.q5Edit.addItem('kg')
