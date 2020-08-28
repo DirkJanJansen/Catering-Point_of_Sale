@@ -73,3 +73,4 @@
 2020-08-27 catering.py bug in default bg_color groupbuttons repaired
 2020-08-27 catering.py bug repaired with addition tables wrong name
 2020-08-27 catering.backup and empty-catering.backup table addition name changed from additional in addition
+2020-08-27 documentation added replace pictures from maingroups and logo
