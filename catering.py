@@ -2003,19 +2003,10 @@ def purchaseMenu():
     
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
-    
-    sel = select([purchase_orderlines,suppliers]).where(suppliers.c.supplierID==\
-         purchase_orderlines.c.supplierID).distinct(purchase_orderlines.c.supplierID)\
-        .order_by(purchase_orderlines.c.supplierID)
-    if con.execute(sel).fetchone():
-        selsup = select([purchase_orderlines,suppliers]).where(suppliers.c.supplierID==\
-           purchase_orderlines.c.supplierID).distinct(purchase_orderlines.c.supplierID)\
-          .order_by(purchase_orderlines.c.supplierID)
-        rpsup = con.execute(selsup)
-    else:
-        message = 'No records found!'
-        alertText(message)
-        return
+    selsup = select([purchase_orderlines,suppliers]).where(suppliers.c.supplierID==\
+       purchase_orderlines.c.supplierID).distinct(purchase_orderlines.c.supplierID)\
+      .order_by(purchase_orderlines.c.supplierID)
+    rpsup = con.execute(selsup)
     class Widget(QDialog):
         def __init__(self, parent=None):
             super(Widget, self).__init__(parent)
@@ -2073,64 +2064,128 @@ def purchaseMenu():
                 if self.k0Edit.currentText().startswith('Collecting'):
                     purchaseCollect(self)
                 elif self.k0Edit.currentText().startswith('Manual'):
-                    selord = select([purchase_orderlines,suppliers]).where(and_\
+                    sel = selord = select([purchase_orderlines,suppliers]).where(and_\
                       (purchase_orderlines.c.ordering_manual==1, purchase_orderlines.c.\
                        order_date=='', purchase_orderlines.c.supplierID==\
-                       suppliers.c.supplierID)).order_by(suppliers.c.company_name)
-                    rpord = con.execute(selord)
+                       suppliers.c.supplierID))
+                    if con.execute(sel).fetchone():
+                        selord = select([purchase_orderlines,suppliers]).where(and_\
+                           (purchase_orderlines.c.ordering_manual==1, purchase_orderlines.c.\
+                            order_date=='', purchase_orderlines.c.supplierID==\
+                            suppliers.c.supplierID)).order_by(suppliers.c.company_name)
+                        rpord = con.execute(selord)
+                    else:
+                        message = 'No records found!'
+                        alertText(message)
+                        return
                     mconnect = 1
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('Unknown'): 
-                    selord = select([purchase_orderlines])\
+                    sel = select([purchase_orderlines])\
                        .where(purchase_orderlines.c.supplierID==0)
-                    rpord = con.execute(selord)
+                    if con.execute(sel).fetchone():
+                        selord = select([purchase_orderlines])\
+                            .where(purchase_orderlines.c.supplierID==0)
+                        rpord = con.execute(selord)
+                    else:
+                        message = 'No records found!'
+                        alertText(message)
+                        return
                     mconnect = 2
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('Receiving'):
-                    selord = select([purchase_orderlines,suppliers])\
-                     .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
-                      purchase_orderlines.c.order_date != '')).order_by(suppliers.c.company_name)
-                    rpord = con.execute(selord)
+                    sel = select([purchase_orderlines,suppliers])\
+                      .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
+                      purchase_orderlines.c.order_date != ''))
+                    if con.execute(sel).fetchone():
+                        selord = select([purchase_orderlines,suppliers])\
+                          .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
+                          purchase_orderlines.c.order_date != '')).order_by(suppliers.c.company_name)
+                        rpord = con.execute(selord)
+                    else:
+                        message = 'No records found!'
+                        alertText(message)
+                        return 
                     mconnect = 3
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('Ordering'):
                     mpos = self.k0Edit.currentText().find('\u2003')
                     self.msuppliernr = int(self.k0Edit.currentText()[20:mpos])
                     self.msupplier = self.k0Edit.currentText()[mpos+1:]
-                    selord = select([purchase_orderlines,suppliers])\
+                    sel = select([purchase_orderlines,suppliers])\
                         .where(and_(purchase_orderlines.c.supplierID==self.msuppliernr,\
                         purchase_orderlines.c.order_date=='',suppliers.c.supplierID==\
                         purchase_orderlines.c.supplierID, purchase_orderlines.c.ordering_manual==0))
-                    rpord = con.execute(selord)
+                    if con.execute(sel).fetchone():
+                        selord = select([purchase_orderlines,suppliers])\
+                          .where(and_(purchase_orderlines.c.supplierID==self.msuppliernr,\
+                           purchase_orderlines.c.order_date=='',suppliers.c.supplierID==\
+                           purchase_orderlines.c.supplierID, purchase_orderlines.c.ordering_manual==0))
+                        rpord = con.execute(selord)
+                    else:
+                        message = 'No records found!'
+                        alertText(message)
+                        return                         
                     mconnect = 4
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('To'):
-                    selord = select([purchase_orderlines,suppliers])\
+                    sel = select([purchase_orderlines,suppliers])\
                      .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
-                      purchase_orderlines.c.order_date == '')).order_by(suppliers.c.company_name)
-                    rpord = con.execute(selord)
+                      purchase_orderlines.c.order_date == ''))
+                    if con.execute(sel).fetchone():
+                        selord = select([purchase_orderlines,suppliers])\
+                          .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
+                          purchase_orderlines.c.order_date == '')).order_by(suppliers.c.company_name)
+                        rpord = con.execute(selord)
+                    else:
+                        message = 'No records found!'
+                        alertText(message)
+                        return    
                     mconnect = 5
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('Ordered'):
-                    selord = select([purchase_orderlines,suppliers])\
+                    sel = select([purchase_orderlines,suppliers])\
                      .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
-                      purchase_orderlines.c.order_date != '')).order_by(suppliers.c.company_name)
-                    rpord = con.execute(selord)
+                      purchase_orderlines.c.order_date != '')) 
+                    if con.execute(sel).fetchone():
+                        selord = select([purchase_orderlines,suppliers])\
+                         .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
+                          purchase_orderlines.c.order_date != '')).order_by(suppliers.c.company_name)
+                        rpord = con.execute(selord)
+                    else:
+                        message = 'No records found!'
+                        alertText(message)
+                        return                        
                     mconnect = 6
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('All'):
-                    selord = select([purchase_orderlines,suppliers])\
-                     .where(purchase_orderlines.c.supplierID==suppliers.c.supplierID)\
-                        .order_by(suppliers.c.company_name)
-                    rpord = con.execute(selord)
+                    sel = select([purchase_orderlines,suppliers])\
+                     .where(purchase_orderlines.c.supplierID==suppliers.c.supplierID) 
+                    if con.execute(sel).fetchone():
+                        selord = select([purchase_orderlines,suppliers])\
+                            .where(purchase_orderlines.c.supplierID==suppliers.c.supplierID)\
+                            .order_by(suppliers.c.company_name)
+                        rpord = con.execute(selord)
+                    else:
+                        message = 'No records found!'
+                        alertText(message)
+                        return                         
                     mconnect = 7
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('Delivered'):
-                    selord = select([purchase_orderlines,suppliers])\
+                    sel = select([purchase_orderlines,suppliers])\
                      .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
-                      purchase_orderlines.c.delivery_date != '')).order_by(suppliers.c.company_name)
-                    rpord = con.execute(selord)
-                    mconnect = 7
+                      purchase_orderlines.c.delivery_date != ''))
+                    if con.execute(sel).fetchone():
+                         selord = select([purchase_orderlines,suppliers])\
+                             .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
+                             purchase_orderlines.c.delivery_date != '')).order_by(suppliers.c.company_name)
+                         rpord = con.execute(selord)
+                    else:
+                        message = 'No records found!'
+                        alertText(message)
+                        return                         
+                    mconnect = 8
                     orderViews(self,rpord, mconnect)
                 
             def orderViews(self,rpord, mconnect):
