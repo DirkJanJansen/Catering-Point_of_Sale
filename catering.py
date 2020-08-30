@@ -1058,6 +1058,29 @@ def articleMenu():
     window.exec_()
     
 def requestSupplier():
+    metadata = MetaData()
+    suppliers = Table('suppliers', metadata,
+        Column('supplierID', Integer, primary_key=True),
+        Column('company_name', String),
+        Column('street', String),
+        Column('housenumber', String),
+        Column('zipcode', String),
+        Column('residence', String),
+        Column('telephone', String),
+        Column('email', String),
+        Column('addition', String))
+    
+    engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
+    con = engine.connect()
+     
+    sel = select([suppliers]).order_by(suppliers.c.supplierID)
+    if con.execute(sel).fetchone():
+        selsup = select([suppliers]).order_by(suppliers.c.supplierID)
+        rpsup = con.execute(selsup)
+    else:
+        message = "No records found!"
+        alertText(message)
+        return
     class Widget(QDialog):
         def __init__(self, data_list, header, *args):
             QWidget.__init__(self, *args)
@@ -1117,28 +1140,10 @@ def requestSupplier():
     header = ['Suppliernr', 'Company name', 'Street', 'Housenumber','Zip-code',\
               'Residence','Telephone', 'E-mail','Addional']
     
-    metadata = MetaData()
-    suppliers = Table('suppliers', metadata,
-        Column('supplierID', Integer, primary_key=True),
-        Column('company_name', String),
-        Column('street', String),
-        Column('housenumber', String),
-        Column('zipcode', String),
-        Column('residence', String),
-        Column('telephone', String),
-        Column('email', String),
-        Column('addition', String))
-    
-    engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
-    con = engine.connect()
-        
-    selsup = select([suppliers]).order_by(suppliers.c.supplierID)
-    rpsup = con.execute(selsup)
-    
     data_list=[]
     for row in rpsup:
         data_list += [(row)]
-        
+         
     def changeSupplier(idx):
         suppliernr = idx.data()
         selsupl = select([suppliers]).where(suppliers.c.supplierID == suppliernr)
@@ -1632,7 +1637,13 @@ def handleInvoices():
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
     sel = select([invoices]).order_by(invoices.c.supplierID, invoices.c.paydate)
-    rp = con.execute(sel)
+    if con.execute(sel).fetchone():
+        selinv = select([invoices]).order_by(invoices.c.supplierID, invoices.c.paydate)
+        rpinv = con.execute(selinv)
+    else:
+        message = "no records found!"
+        alertText(message)
+        return
     class tableView(QDialog):
         def __init__(self, data_list, header, *args):
             QWidget.__init__(self, *args,)
@@ -1683,7 +1694,7 @@ def handleInvoices():
               'SupplierID', 'OrderlineID','Paydate','Bookdate','Item-unit']
     
     data_list=[]
-    for row in rp:
+    for row in rpinv:
         data_list += [(row)]
     
     def invoicePaying(idx):
@@ -1992,10 +2003,19 @@ def purchaseMenu():
     
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
-    selsup = select([purchase_orderlines,suppliers]).where(suppliers.c.supplierID==\
+    
+    sel = select([purchase_orderlines,suppliers]).where(suppliers.c.supplierID==\
          purchase_orderlines.c.supplierID).distinct(purchase_orderlines.c.supplierID)\
         .order_by(purchase_orderlines.c.supplierID)
-    rpsup = con.execute(selsup)
+    if con.execute(sel).fetchone():
+        selsup = select([purchase_orderlines,suppliers]).where(suppliers.c.supplierID==\
+           purchase_orderlines.c.supplierID).distinct(purchase_orderlines.c.supplierID)\
+          .order_by(purchase_orderlines.c.supplierID)
+        rpsup = con.execute(selsup)
+    else:
+        message = 'No records found!'
+        alertText(message)
+        return
     class Widget(QDialog):
         def __init__(self, parent=None):
             super(Widget, self).__init__(parent)
@@ -2265,7 +2285,7 @@ def purchaseMenu():
                 data_list=[]
                 for row in rpord:
                     data_list += [(row)]
-                    
+                     
                 if mconnect == 4:
                     msuppliernr = int(self.k0Edit.currentText()[30:])
                     selord = select([purchase_orderlines,suppliers])\
@@ -3754,10 +3774,15 @@ def articleRequest(mflag, btn):
      
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
-    
-    selarticles = select([articles]).order_by(articles.c.barcode)
-    rparticles = con.execute(selarticles)
-
+    sel = select([articles])
+    if con.execute(sel).fetchone():
+        selarticles = select([articles]).order_by(articles.c.barcode)
+        rparticles = con.execute(selarticles)
+    else:
+        message = "no records found!"
+        alertText(message)
+        return
+ 
     class Mainwindow(QDialog):
         def __init__(self, data_list, header, *args):
             QWidget.__init__(self, *args)
@@ -4592,9 +4617,15 @@ def salesRequest():
       
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
-     
-    selsales = select([sales]).order_by(sales.c.receiptnumber)
-    rpsales = con.execute(selsales)
+    
+    sel = select([sales])
+    if con.execut(sel).fetchone():
+        selsales = select([sales]).order_by(sales.c.receiptnumber)
+        rpsales = con.execute(selsales)
+    else:
+        message = "no records found!"
+        alertText(message)
+        return
     
     class MyWindow(QDialog):
         def __init__(self, data_list, header, *args):
@@ -4666,6 +4697,14 @@ def additionRequest():
     
     engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
     con = engine.connect()
+    sel = select([addition])
+    if con.execute(sel).fetchone():
+        seladd = select([addition]).order_by(addition.c.article_group, addition.c.barcode)
+        rpadd = con.execute(seladd) 
+    else:
+        message = 'No records found!'
+        alertText(message)
+        return
      
     class MyWindow(QDialog):
         def __init__(self, data_list, header, *args):
@@ -4714,9 +4753,6 @@ def additionRequest():
     
     header = ['addID','Barcode','Description','Item-price','Number',\
               'Item_unit','Article_Group','Location-Warehouse'] 
-    
-    seladd = select([addition]).order_by(addition.c.article_group, addition.c.barcode)
-    rpadd = con.execute(seladd) 
         
     data_list=[]
     for row in rpadd:
@@ -4739,9 +4775,15 @@ def paymentsRequest():
  
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
-     
-    selpay = select([payments]).order_by(payments.c.paydate, payments.c.ovorderID)
-    rppay = con.execute(selpay)
+    
+    sel = select([payments])
+    if con.execute(sel).fetchone():
+        selpay = select([payments]).order_by(payments.c.paydate, payments.c.ovorderID)
+        rppay = con.execute(selpay)
+    else:
+        message = 'No records found!'
+        alertText(message)
+        return
     
     class MyWindow(QDialog):
         def __init__(self, data_list, header, *args):
@@ -5598,9 +5640,16 @@ def requestLoss():
     
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
-    selloss = select([loss, articles]).where(articles.c.barcode==loss.c.barcode).\
+    sel = select([loss, articles]).where(articles.c.barcode==loss.c.barcode).\
         order_by(loss.c.category, loss.c.bookdate)
-    rploss = con.execute(selloss)
+    if con.execute(sel).fetchone():
+        selloss = select([loss, articles]).where(articles.c.barcode==loss.c.barcode).\
+            order_by(loss.c.category, loss.c.bookdate)
+        rploss = con.execute(selloss)
+    else:
+        message = "No records found!"
+        alertText(message)
+        return
     class Widget(QDialog):
         def __init__(self, data_list, header, *args):
             QWidget.__init__(self, *args)

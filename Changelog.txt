@@ -74,4 +74,5 @@
 2020-08-27 catering.py bug repaired with addition tables wrong name
 2020-08-27 catering.backup and empty-catering.backup table addition name changed from additional in addition
 2020-08-27 documentation added replace pictures from maingroups and logo
-2020-08-27 backups databases empty tables supplied 0 record for empty tables for browsing tableview
+2020-08-30 catering.py views bug repaired by viewing tableviews with no records in database
+2020-08-30 databases full_catering.backup catering.backup and empty-catering.backup changed for above problems
