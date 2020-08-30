@@ -7133,8 +7133,11 @@ def barcodeScan():
             
             def calcChange(self):
                 self.qcashEdit.setText(self.text)
-                total = float(self.qtotalEdit.text())
-                if self.qcashEdit.text():
+                if self.qtotalEdit.text():
+                    total = float(self.qtotalEdit.text())
+                else:
+                    total = 0
+                if not (self.qcashEdit.text() == '.' or self.qcashEdit.text() == ''):
                     cash = float(self.qcashEdit.text())
                 else:
                     cash = 0
