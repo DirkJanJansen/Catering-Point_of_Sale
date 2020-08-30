@@ -4674,11 +4674,11 @@ def salesRequest():
     con = engine.connect()
     
     sel = select([sales])
-    if con.execut(sel).fetchone():
+    if con.execute(sel).fetchone():
         selsales = select([sales]).order_by(sales.c.receiptnumber)
         rpsales = con.execute(selsales)
     else:
-        message = "no records found!"
+        message = "No records found!"
         alertText(message)
         return
     
