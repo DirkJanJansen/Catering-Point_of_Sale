@@ -76,3 +76,4 @@
 2020-08-27 documentation added replace pictures from maingroups and logo
 2020-08-30 catering.py views bug repaired by viewing tableviews with no records in database
 2020-08-30 databases full_catering.backup catering.backup and empty-catering.backup changed for above problems
+2020-08-30 catering.py bug repaired by purchase menu catching submenu-lines
