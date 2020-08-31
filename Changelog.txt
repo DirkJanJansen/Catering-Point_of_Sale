@@ -79,3 +79,4 @@
 2020-08-30 catering.py error handling viewing for empty tables improved
 2020-08-30 catering.py modest calculator error handling improved
 2020-08-30 Documentation_Catering_POS.pdf under Purchasing deliveries addition item_stock in table articles about increase.
+2020-08-31 catering.py import by expiring products first removed barcode in table loss for foreignkey link.

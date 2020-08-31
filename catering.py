@@ -722,6 +722,9 @@ def importMenu():
        Column('paydate', String),
        Column('bookdate', String),
        Column('item_unit', String))
+    loss = Table('loss', metadata,
+       Column('lossID', Integer, primary_key=True),
+       Column('barcode', String))
 
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
@@ -868,6 +871,10 @@ def importMenu():
                             for line in reader:
                                 if line[0].isnumeric():
                                     mbarcode = line[0] 
+                                    selloss = select([loss]).where(loss.c.barcode == mbarcode)
+                                    if con.execute(selloss).fetchone():
+                                        delloss = delete(loss).where(loss.c.barcode == mbarcode)
+                                        con.execute(delloss)
                                     sel = select([articles]).where(articles.c.barcode == mbarcode)
                                     if con.execute(sel).fetchone():
                                         delart = delete(articles).where(articles.c.barcode == mbarcode)
