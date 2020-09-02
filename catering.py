@@ -3571,7 +3571,9 @@ def emplRequest():
                                 ean.save('.\\Barcodes\\employees\\'+emplnr)
                             else:
                                 ean.save('./Barcodes/employees/'+emplnr)
-                        printEan(self)
+                        x1 = 372.9
+                        y1 = 228.5
+                        printEan(self, x1 , y1)
                   
                     def updateAcc():
                         fname = q2Edit.text()
@@ -4492,7 +4494,9 @@ def articleRequest(mflag, btn):
                         else:
                             self.path ='./Barcodes/Articles/'
                             ean.save(self.path+self.mbarcode)
-                        printEan(self)
+                        x1 = 267.3
+                        y1 = 182.3
+                        printEan(self, x1 , y1)
                                  
                     applyBtn = QPushButton('Update')
                     applyBtn.clicked.connect(lambda: updArticle(self))
@@ -5240,7 +5244,9 @@ def emplAccess():
                     con.execute(insacc)
                   
                     self.path = './Barcodes/employees/'
-                    printEan(self)
+                    x1 = 372.9
+                    y1 = 228.5
+                    printEan(self, x1, y1)
                     self.close()
                 else:
                     message = 'Not all fields are filled in!'
@@ -5654,7 +5660,9 @@ def insertArticles():
                         ean.save('.\\Barcodes\\Articles\\'+str(self.mbarcode))
                     else:
                         ean.save('./Barcodes/Articles/'+str(self.mbarcode))
-                    #printEan(self)
+                    #x1 =267.3
+                    #y1 = 182.3
+                    #printEan(self, x1, y1)
                     message =  "Insert succeeded"
                     actionOK(message)
                     self.close()
@@ -6792,11 +6800,11 @@ def choseClient(self):
     win = Widget(data_list, header)
     win.exec_()
     
-def printEan(self):
+def printEan(self, x1 ,y1):
     msgBox=QMessageBox()
     msgBox.setStyleSheet("color: black;  background-color: gainsboro")
     msgBox.setWindowIcon(QIcon('./logos/logo.jpg')) 
-    msgBox.setWindowTitle("Printing clientnumber barcodeID")
+    msgBox.setWindowTitle("Printing barcodeID")
     msgBox.setIcon(QMessageBox.Information)
     msgBox.setFont(QFont("Arial", 10))
     msgBox.setText("Do you want to print the barcode for scanning?");
@@ -6813,7 +6821,7 @@ def printEan(self):
              rect = painter.viewport()
              size = self.pixmap.size()
              size.scale(rect.size(), Qt.KeepAspectRatio)
-             painter.setViewport(rect.x(), rect.y(), 267.3 , 182.3) #aspect and size for barcodes ean 8
+             painter.setViewport(rect.x(), rect.y(), x1 , y1) #aspect and size for barcodes Ean 
              painter.setWindow(self.pixmap.rect())
              painter.drawPixmap(0, 0, self.pixmap)
             
@@ -7015,7 +7023,9 @@ def seatsArrange(self):
                         con.execute(insidx)
                         self.mbarcode = mbarcode
                         self.path = './Barcodes/clients/'
-                        printEan(self)
+                        x1 = 372.9
+                        y1 = 228.5
+                        printEan(self, x1, y1)
                 
             clientBtn = QPushButton('Apply\nSeats')
             clientBtn.clicked.connect(lambda: connectClient(self))
