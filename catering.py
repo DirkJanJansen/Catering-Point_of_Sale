@@ -1977,7 +1977,7 @@ def purchaseMenu():
         Column('orderlineID', Integer,primary_key=True),
         Column('barcode', String),
         Column('description', String),
-        Column('selling_price', Float),
+        Column('item_price', Float),
         Column('item_unit', String),
         Column('order_size', Float),
         Column('ordering_manual', Integer),
