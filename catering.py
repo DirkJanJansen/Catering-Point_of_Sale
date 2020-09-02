@@ -3571,8 +3571,8 @@ def emplRequest():
                                 ean.save('.\\Barcodes\\employees\\'+emplnr)
                             else:
                                 ean.save('./Barcodes/employees/'+emplnr)
-                        x1 = 372.9
-                        y1 = 228.5
+                        x1 = 267.3
+                        y1 = 213.1
                         printEan(self, x1 , y1)
                   
                     def updateAcc():
@@ -4494,8 +4494,8 @@ def articleRequest(mflag, btn):
                         else:
                             self.path ='./Barcodes/Articles/'
                             ean.save(self.path+self.mbarcode)
-                        x1 = 267.3
-                        y1 = 182.3
+                        x1 = 372.9
+                        y1 = 228.5
                         printEan(self, x1 , y1)
                                  
                     applyBtn = QPushButton('Update')
@@ -5244,8 +5244,8 @@ def emplAccess():
                     con.execute(insacc)
                   
                     self.path = './Barcodes/employees/'
-                    x1 = 372.9
-                    y1 = 228.5
+                    x1 = 267.3
+                    y1 = 213.1
                     printEan(self, x1, y1)
                     self.close()
                 else:
@@ -5660,8 +5660,8 @@ def insertArticles():
                         ean.save('.\\Barcodes\\Articles\\'+str(self.mbarcode))
                     else:
                         ean.save('./Barcodes/Articles/'+str(self.mbarcode))
-                    #x1 =267.3
-                    #y1 = 182.3
+                    #x1 = 372.9
+                    #y1 = 228.5
                     #printEan(self, x1, y1)
                     message =  "Insert succeeded"
                     actionOK(message)
@@ -7023,8 +7023,8 @@ def seatsArrange(self):
                         con.execute(insidx)
                         self.mbarcode = mbarcode
                         self.path = './Barcodes/clients/'
-                        x1 = 372.9
-                        y1 = 228.5
+                        x1 = 267.3
+                        y1 = 213.1
                         printEan(self, x1, y1)
                 
             clientBtn = QPushButton('Apply\nSeats')
