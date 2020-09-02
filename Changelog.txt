@@ -81,3 +81,5 @@
 2020-08-30 Documentation_Catering_POS.pdf under Purchasing deliveries addition item_stock in table articles about increase.
 2020-08-31 catering.py import by expiring products first removed barcode in table loss for foreignkey link.
 2020-09-02 catering.py EAN structure for printing EAN8 and EAN13 set to official dimensions
+2020-09-02 databases full_catering.backup catering.backup and empty-catering.backup added selling_price, selling_contents 
+           and item_unit in tables order_lines and sales
