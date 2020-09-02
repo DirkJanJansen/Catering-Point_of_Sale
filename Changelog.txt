@@ -84,3 +84,4 @@
 2020-09-02 databases full_catering.backup catering.backup and empty-catering.backup added selling_price, selling_contents 
            and item_unit in tables order_lines and sales
 2020-09-02 catering.py changed names item_price in selling_price and repaired bug blocking when no stock is present.
+2020-09-02 catering.py repaired counting totals by printing sales and by reentry counting by client changing.
