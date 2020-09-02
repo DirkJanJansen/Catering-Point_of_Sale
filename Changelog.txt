@@ -80,3 +80,4 @@
 2020-08-30 catering.py modest calculator error handling improved
 2020-08-30 Documentation_Catering_POS.pdf under Purchasing deliveries addition item_stock in table articles about increase.
 2020-08-31 catering.py import by expiring products first removed barcode in table loss for foreignkey link.
+2020-09-01 catering.py EAN structure for printing EAN8 and EAN13 set to official dimensions
