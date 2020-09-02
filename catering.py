@@ -5933,7 +5933,6 @@ def checkClient(self):
         Column('short_descr', String),
         Column('number', Float),
         Column('selling_price', Float),
-        Column('selling_price', Float),
         Column('selling_contents', Float),
         Column('sub_total', Float),
         Column('sub_vat', Float),
@@ -5963,9 +5962,9 @@ def checkClient(self):
     self.mvat = 0
     for row in rpord:
         mnumber = row[4]
-        msellingprice = row[6]
+        msellingprice = row[5]
         mshort = row[3]
-        self.mtotal += row[6]
+        self.mtotal += row[7]
         self.mlist.append('{:>3d}'.format(int(mnumber))+' {:<15s}'\
              .format(mshort)+'{:\u2000>12.2f}'.format(msellingprice*int(mnumber)))
         self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
@@ -6158,7 +6157,7 @@ def printReceipt(self):
     rpb = con.execute(selb)
     
     mtotvat = 0
-    
+    mtotal = 0
     def heading(self, mpage):
         head=\
 ('Sales - Ordernumber: '+ str(self.mclient)+' Date : '+str(datetime.datetime.now())[0:10]+' Pagenumber '+str(mpage)+' \n'+
@@ -6192,6 +6191,7 @@ def printReceipt(self):
         msubtotal = row[7]
         msubvat = row[8]
         mtotvat += msubvat
+        mtotal += msubtotal
         open(fbarc,'a').write(str(martnr) +'  '+'{:<40s}'.format(mdescr)+' '+'{:>6d}'\
                  .format(int(mnumber))+'{:>12.2f}'.format(float(mprice))+'{:>12.2f}'\
                  .format(float(msubtotal))+'{:>12.2f}'\
@@ -6199,7 +6199,7 @@ def printReceipt(self):
          
     tail=\
     ('===================================================================================================\n'+
-     'Total  amount to pay inclusive VAT and amount VAT                         '+'{:>12.2f}'.format(self.mtotal)+'{:>12.2f}'.format(mtotvat)+' \n'+
+     'Total  amount to pay inclusive VAT and amount VAT                         '+'{:>12.2f}'.format(mtotal)+'{:>12.2f}'.format(mtotvat)+' \n'+
      '===================================================================================================\n'+\
      'Employee : '+self.mcallname+' **** Thank you for visiting us ***\n') 
     if rgl > 0:
