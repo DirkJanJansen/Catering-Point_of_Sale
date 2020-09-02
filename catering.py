@@ -311,7 +311,7 @@ def countTurnover(mindex):
         Column('barcode', String),
         Column('description', String),
         Column('number', Float),
-        Column('item_price', Float),
+        Column('selling_price', Float),
         Column('sub_total', Float),
         Column('sub_vat', Float),
         Column('callname', String),
@@ -1977,7 +1977,7 @@ def purchaseMenu():
         Column('orderlineID', Integer,primary_key=True),
         Column('barcode', String),
         Column('description', String),
-        Column('item_price', Float),
+        Column('selling_price', Float),
         Column('item_unit', String),
         Column('order_size', Float),
         Column('ordering_manual', Integer),
@@ -4675,7 +4675,7 @@ def salesRequest():
         Column('barcode', String),
         Column('description', String),
         Column('number', Float),
-        Column('item_price', Float),
+        Column('selling_price', Float),
         Column('sub_total', Float),
         Column('sub_vat', Float),
         Column('callname', String),
@@ -4740,7 +4740,7 @@ def salesRequest():
             return None
                                        
     header = ['ID','Receiptnummber','Barcode','Description','Number',\
-              'Item-Price','Sub-Total','Sub-Vat','Callname','Mutation-date']      
+              'Selling-price','Sub-Total','Sub-Vat','Callname','Mutation-date']      
         
     data_list=[]
     for row in rpsales:
@@ -5932,7 +5932,7 @@ def checkClient(self):
         Column('description', String),
         Column('short_descr', String),
         Column('number', Float),
-        Column('item_price', Float),
+        Column('selling_price', Float),
         Column('selling_price', Float),
         Column('selling_contents', Float),
         Column('sub_total', Float),
@@ -6143,7 +6143,7 @@ def printReceipt(self):
         Column('barcode', String),
         Column('description', String),
         Column('number', Float),
-        Column('item_price', Float),
+        Column('selling_price', Float),
         Column('sub_total', Float),
         Column('sub_vat', Float))
     
@@ -6223,7 +6223,7 @@ def payed(self):
         Column('barcode', String),
         Column('description', String),
         Column('number', Float),
-        Column('item_price', Float),
+        Column('selling_price', Float),
         Column('sub_total', Float),
         Column('sub_vat', Float),
         Column('callname', String),
@@ -6235,7 +6235,7 @@ def payed(self):
         Column('barcode', String),
         Column('description', String),
         Column('number', Float),
-        Column('item_price', Float),
+        Column('selling_price', Float),
         Column('sub_total', Float),
         Column('sub_vat', Float),
         Column('mutation_date', String),
@@ -6290,7 +6290,7 @@ def payed(self):
             except:
                 midnr = 1
             ins = insert(sales).values(salesID=midnr, receiptnumber = mrcptnr, barcode = row[1],\
-              description = row[2], number = row[3], item_price = row[4], sub_total = row[5],\
+              description = row[2], number = row[3], selling_price = row[4], sub_total = row[5],\
               sub_vat = row[6], mutation_date = row[7], callname = row[8], clientID = row[9],\
               short_descr = row[10])
             con.execute(ins)
@@ -6408,7 +6408,7 @@ def set_barcodenr(self):
             Column('barcode', String),
             Column('description', String),
             Column('number', Float),
-            Column('item_price', Float),
+            Column('selling_price', Float),
             Column('sub_total', Float),
             Column('sub_vat', Float),
             Column('callname', String),
@@ -6447,6 +6447,7 @@ def set_barcodenr(self):
         if rpart and rpart[3] < mnumber:
             self.albl.setText(str(int(rpart[3]))+' in stock!')
             giveAlarm()
+            self.q1Edit.setSelection(0,13)
             return
         elif rpart and rpart[10]:
             if myear%2 == 1:     #odd year
@@ -6496,7 +6497,7 @@ def set_barcodenr(self):
                 except:
                     midnr = 1
                 insordlines = insert(order_lines).values(ID = midnr, clientID = self.mclient,\
-                  barcode = barcodenr, description = mdescr, short_descr = mshort, number = mnumber, item_price = msellingprice,\
+                  barcode = barcodenr, description = mdescr, short_descr = mshort, number = mnumber, selling_price = msellingprice,\
                   sub_total = mnumber*msellingprice, sub_vat = mnumber*msellingprice*self.mvat,\
                   callname = self.mcallname, mutation_date = mutdate)
                 con.execute(insordlines)
@@ -6633,7 +6634,7 @@ def bigDisplay(self):
                 Column('barcode', String),
                 Column('short_descr', String),
                 Column('number', Float),
-                Column('item_price', Float),
+                Column('selling_price', Float),
                 Column('sub_total', Float),
                 Column('sub_vat', Float),
                 Column('callname', String),
@@ -6697,7 +6698,7 @@ def choseClient(self):
         Column('description', String),
         Column('short_descr', String),
         Column('number', Float),
-        Column('item_price', Float),
+        Column('selling_price', Float),
         Column('sub_total', Float),
         Column('sub_vat', Float),
         Column('callname', String),
