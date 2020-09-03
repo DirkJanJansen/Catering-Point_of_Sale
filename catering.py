@@ -805,7 +805,7 @@ def importMenu():
                                         log = open(str(home)+'/catering_import.log', 'a')
                                         log.write(message)
                                         continue
-                                    elif not checkBarcode(mbarcode):
+                                    elif not checkEan13(mbarcode):
                                         message = mtoday+' new items Barcode '+mbarcode+' is invalid!\n'
                                         log = open(str(home)+'/catering_import.log', 'a')
                                         log.write(message)
@@ -5620,7 +5620,7 @@ def insertArticles():
             grid.addWidget(QLabel('Fill all fields before scanning'), 10, 2)
             
             def insArticle(self):
-                if len(self.q13Edit.text())==13 and checkBarcode(self.q13Edit.text()):
+                if len(self.q13Edit.text())==13 and checkEan13(self.q13Edit.text()):
                     mbarcode = str(self.q13Edit.text())
                 else:
                     mbarcode = str(self.mbarcode)
@@ -6372,7 +6372,7 @@ def checkEan8(c):
     else:
         return False
         
-def checkBarcode(c):
+def checkEan13(c):
     checksum = int(c[0])+int(c[2])+int(c[4])+int(c[6])+int(c[8])+int(c[10])+(int(c[1])+
                 int(c[3])+int(c[5])+int(c[7])+int(c[9])+int(c[11]))*3
     checkdigit = (10-(checksum%10))%10
@@ -6385,7 +6385,7 @@ def set_barcodenr(self):
     barcodenr = str(self.q1Edit.text())
     mnumber = float(self.qspin.value())
     myear = int(str(datetime.datetime.now())[0:4])
-    if len(barcodenr) == 13 and checkBarcode(barcodenr) and self.mcallname and self.mclient:
+    if len(barcodenr) == 13 and checkEan13(barcodenr) and self.mcallname and self.mclient:
         self.q1Edit.setStyleSheet("color:black;  background-color: #F8F7EE")
         metadata = MetaData()
         articles = Table('articles', metadata,
