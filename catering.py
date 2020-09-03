@@ -5646,7 +5646,7 @@ def insertArticles():
                     morderstate = 1
                 else:
                     morderstate = 0
-                if mdescr and mprice and morder_size and mlocation and mcategory:
+                if mdescr and mshort and mprice and morder_size and mcategory:
                     insart = insert(articles).values(barcode=mbarcode,description=mdescr,\
                         short_descr=mshort,item_price=mprice,selling_price=msellprice,\
                         selling_contents=msellcontent,item_unit=munit, minimum_stock=mminstock,\
@@ -6553,7 +6553,7 @@ def set_barcodenr(self):
             self.mtotvat = 0.00
             self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
             self.qtailEdit.setText(self.qtailtext) 
-        else:   #ander is ingelogd dus overloggen
+        else:   #another person logged on, so switch logon
             self.checknr = barcodenr
             logon(self, barcodenr)
             self.albl.setText('')
