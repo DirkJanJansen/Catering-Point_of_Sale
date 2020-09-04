@@ -5340,10 +5340,8 @@ def insertArticles():
             lblhead.setFont(QFont("Arial", 12))
             grid.addWidget(lblhead, 0, 1, 1, 3, Qt.AlignCenter)
             
-            self.mbarcode = mbarcode
-                       
             #barcode
-            self.q1Edit = QLineEdit(str(self.mbarcode)) 
+            self.q1Edit = QLineEdit(str(mbarcode)) 
             self.q1Edit.setFixedWidth(130)
             self.q1Edit.setFont(QFont("Arial",10))
             self.q1Edit.setStyleSheet("color: black")
@@ -5492,6 +5490,7 @@ def insertArticles():
             self.cBox = QCheckBox('Additional product')
             self.cBox.setFont(QFont("Arial",10))
             
+            #barcode overruled
             self.q13Edit = QLineEdit() 
             self.q13Edit.setFixedWidth(130)
             self.q13Edit.setFont(QFont("Arial",10))
@@ -5623,7 +5622,7 @@ def insertArticles():
                 if len(self.q13Edit.text())==13 and checkEan13(self.q13Edit.text()):
                     mbarcode = str(self.q13Edit.text())
                 else:
-                    mbarcode = str(self.mbarcode)
+                    mbarcode = str(self.q1Edit.text())
                 mdescr = self.q2Edit.text()
                 mshort = self.q2aEdit.text()
                 mprice = float(self.q3Edit.text())
@@ -5655,11 +5654,11 @@ def insertArticles():
                         category=mcategory,VAT=mvat, additional = madd,\
                         ordering_manual = morderstate, supplierID = msupplier)
                     con.execute(insart)
-                    ean = barcode.get('ean13',str(self.mbarcode), writer=ImageWriter())
+                    ean = barcode.get('ean13',str(mbarcode), writer=ImageWriter())
                     if sys.platform == 'win32':
-                        ean.save('.\\Barcodes\\Articles\\'+str(self.mbarcode))
+                        ean.save('.\\Barcodes\\Articles\\'+str(mbarcode))
                     else:
-                        ean.save('./Barcodes/Articles/'+str(self.mbarcode))
+                        ean.save('./Barcodes/Articles/'+str(mbarcode))
                     #x1 = 372.9
                     #y1 = 228.5
                     #printEan(self, x1, y1)
