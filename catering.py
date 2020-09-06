@@ -2379,7 +2379,7 @@ def purchaseMenu():
                     elif mconnect == 4: #orders generated all suppliers per supplier
                         selorderline = select([purchase_orderlines, suppliers])\
                          .where(and_(purchase_orderlines.c.orderlineID==orderlinenr,\
-                            purchase_orderlines.c.supplierID==suppliers.c.supplierID))                           .order_by(suppliers.c.company_name)
+                            purchase_orderlines.c.supplierID==suppliers.c.supplierID)).order_by(suppliers.c.company_name)
                         rporderline = con.execute(selorderline).first()
                     else:
                         selorderline = select([purchase_orderlines, suppliers])\
