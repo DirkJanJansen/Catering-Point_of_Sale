@@ -86,3 +86,4 @@
 2020-09-02 catering.py changed names item_price in selling_price and repaired bug blocking when no stock is present.
 2020-09-03 catering.py barcodechecks normalised to EAN13 and EAN8
 2020-09-03 Documentation changed annual_consumption and tables sceenshots sales and order_lines adjusted.
+2020-09-06 catering.py purchasing mtoday in enclosing scope solved module saveHandled
