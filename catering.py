@@ -2610,6 +2610,7 @@ def purchaseMenu():
  
                                 def saveHandled(self):
                                     mnumber=float(self.q9Edit.text())
+                                    mtoday = str(datetime.datetime.now())[0:10]
                                     if mconnect == 1:
                                         selline = select([purchase_orderlines,suppliers])\
                                          .where(and_(purchase_orderlines.c.orderlineID==rporderline[0],\
@@ -2623,7 +2624,6 @@ def purchaseMenu():
                                         msuppliernr = rporderline[13]
                                         msupplier = rporderline[14]
                                         mordered=float(self.q9Edit.text())
-                                        mtoday = str(datetime.datetime.now())[0:10]
                                         upd = update(purchase_orderlines)\
                                           .where(purchase_orderlines.c.orderlineID==rporderline[0])\
                                           .values(ordered=mordered,order_date=mtoday)
