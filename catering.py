@@ -2136,13 +2136,11 @@ def purchaseMenu():
                     mconnect = 4
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('To'):
-                    sel = select([purchase_orderlines,suppliers])\
-                     .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
-                      purchase_orderlines.c.order_date == ''))
+                    sel = select([purchase_orderlines])\
+                     .where(purchase_orderlines.c.order_date == '')
                     if con.execute(sel).fetchone():
-                        selord = select([purchase_orderlines,suppliers])\
-                          .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
-                          purchase_orderlines.c.order_date == '')).order_by(suppliers.c.company_name)
+                        selord = select([purchase_orderlines])\
+                          .where(purchase_orderlines.c.order_date == '').order_by(purchase_orderlines.c.supplierID)
                         rpord = con.execute(selord)
                     else:
                         message = 'No records found!'
@@ -2151,7 +2149,7 @@ def purchaseMenu():
                     mconnect = 5
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('Ordered'):
-                    sel = select([purchase_orderlines,suppliers])\
+                    sel = select([purchase_orderlines.suppliers])\
                      .where(and_(purchase_orderlines.c.supplierID==suppliers.c.supplierID,\
                       purchase_orderlines.c.order_date != '')) 
                     if con.execute(sel).fetchone():
@@ -2166,12 +2164,9 @@ def purchaseMenu():
                     mconnect = 6
                     orderViews(self,rpord, mconnect)
                 elif self.k0Edit.currentText().startswith('All'):
-                    sel = select([purchase_orderlines,suppliers])\
-                     .where(purchase_orderlines.c.supplierID==suppliers.c.supplierID) 
+                    sel = select([purchase_orderlines])
                     if con.execute(sel).fetchone():
-                        selord = select([purchase_orderlines,suppliers])\
-                            .where(purchase_orderlines.c.supplierID==suppliers.c.supplierID)\
-                            .order_by(suppliers.c.company_name)
+                        selord = select([purchase_orderlines]).order_by(purchase_orderlines.c.supplierID)
                         rpord = con.execute(selord)
                     else:
                         message = 'No records found!'
