@@ -2336,7 +2336,7 @@ def purchaseMenu():
                           'Order-size','Ordering-manual','','Bookdate','Ordered',\
                           'Order-date','Deliveries','Delivery-date','Suppliernr',\
                           'Company_name']
-                if mconnect == 2:
+                if mconnect == 2 or mconnect == 5 or mconnect == 7:
                     del header[-2:]
 
                 data_list=[]
@@ -2518,11 +2518,12 @@ def purchaseMenu():
                                     input_validator = QRegExpValidator(reg_ex, self.q13Edit)
                                     self.q13Edit.setValidator(input_validator)
                                 else:
-                                    self.q13Edit = QLineEdit(str(rporderline[13]))
+                                    self.q13Edit = QLineEdit(str(rporderline[6]))
                                     self.q13Edit.setDisabled(True)
                                     self.q13Edit.setFixedWidth(100)
                                     self.q13Edit.setFont(QFont("Arial", 10))
                                     self.q13Edit.setStyleSheet('color: black')
+                                if not(mconnect == 2 or mconnect == 5 or mconnect == 7):
                                     #Company-name
                                     self.q14Edit = QLineEdit(rporderline[14])
                                     self.q14Edit.setFixedWidth(300)
