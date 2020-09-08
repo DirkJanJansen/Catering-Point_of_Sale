@@ -2344,7 +2344,8 @@ def purchaseMenu():
                     data_list += [(row)]
                      
                 if mconnect == 4:
-                    msuppliernr = int(self.k0Edit.currentText()[30:])
+                    mpos = self.k0Edit.currentText().find('\u2003')
+                    msuppliernr = int(self.k0Edit.currentText()[20:mpos])
                     selord = select([purchase_orderlines,suppliers])\
                         .where(and_(purchase_orderlines.c.supplierID==msuppliernr,\
                         purchase_orderlines.c.order_date=='',suppliers.c.supplierID==\

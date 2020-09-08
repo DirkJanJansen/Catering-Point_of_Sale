@@ -88,3 +88,4 @@
 2020-09-03 Documentation changed annual_consumption and tables sceenshots sales and order_lines adjusted.
 2020-09-06 catering.py purchasing solved mtoday in enclosing scope module saveHandled
 2020-09-07 catering.py purchasing supplier linking released by viewing all orders and viewing to order.
+2020-09-08 catering.py error purchase suppliernr repaired by selecting orders supplier.
