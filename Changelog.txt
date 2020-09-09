@@ -89,3 +89,8 @@
 2020-09-06 catering.py purchasing solved mtoday in enclosing scope module saveHandled
 2020-09-07 catering.py purchasing supplier linking released by viewing all orders and viewing to order.
 2020-09-08 catering.py error purchase suppliernr repaired by selecting orders supplier.
+2020-09-09 catering.py import loss changed for booking expired items on table loss category Obsolete.
+2020-09-09 catering.backup, catering_empty.backup and catering_full.backup removed foreignkey link with table articles, 
+           for possibility booking on table loss for deleted items.
+2020-09-09 backups table loss extended with fields item_price
+
