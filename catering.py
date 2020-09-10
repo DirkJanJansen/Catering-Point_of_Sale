@@ -4612,7 +4612,7 @@ def articleRequest(mflag, btn):
                     metadata = MetaData()
                     loss = Table('loss', metadata,
                        Column('lossID', Integer, primary_key=True),
-                       Column('barcode', None, ForeignKey('articles.barcode')),
+                       Column('barcode', String),
                        Column('number', Float),
                        Column('bookdate', String),
                        Column('category', String))
@@ -5701,7 +5701,7 @@ def requestLoss():
     metadata = MetaData()
     loss = Table('loss', metadata,
        Column('lossID', Integer, primary_key=True),
-       Column('barcode', None, ForeignKey('articles.barcode')),
+       Column('barcode', String),
        Column('number', Float),
        Column('bookdate', String),
        Column('category', String))
