@@ -5982,7 +5982,7 @@ def checkClient(self):
         self.qtotalEdit.setText('{:>12.2f}'.format(self.mtotal))
               
         self.view.append(self.mlist[-1])
-    self.mkop.setText('Clientnumber: '+str(self.mclient)+' + '+str(self.mcallname))
+    self.mkop.setText('Client: '+str(self.mclient)+' Empl. '+str(self.mcallname))
 
 def logon(self, barcodenr):
     metadata = MetaData()
@@ -6522,7 +6522,7 @@ def set_barcodenr(self):
                      annual_consumption_1 = articles.c.annual_consumption_1 + mnumber*msellingcontents)
                 con.execute(updart)
             
-            self.mkop.setText('Clientnumber: '+str(self.mclient)+' + '+str(self.mcallname))
+            self.mkop.setText('Client: '+str(self.mclient)+' Empl. '+str(self.mcallname))
             self.mlist.append('{:>3d}'.format(int(mnumber))+' {:<15s}'.format(mshort)+'{:\u2000>12.2f}'.format(msellingprice*int(mnumber)))
             self.mtotal += float(msellingprice)*float(mnumber)
             self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
@@ -6800,9 +6800,8 @@ def choseClient(self):
                 self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
                 self.qtailEdit.setText(self.qtailtext)
                 self.qtotalEdit.setText('{:>12.2f}'.format(self.mtotal))
-                      
                 self.view.append(self.mlist[-1])
-            self.mkop.setText('Clientnumber: '+str(self.mclient)+' + '+str(self.mcallname))
+            self.mkop.setText('Client: '+str(self.mclient)+' Empl. '+str(self.mcallname))
             if sys.platform == 'win32':
                 keyboard.press_and_release('esc')                          #Windows
             else:
@@ -7265,7 +7264,7 @@ def barcodeScan():
                      
             self.mkop = QLineEdit()
             if self.mclient:
-                self.mkop.setText('Clientnumber: '+str(self.mclient)+' + '+str(self.mcallname))
+                self.mkop.setText('Client: '+str(self.mclient)+' Empl. '+str(self.mcallname))
             else:
                 self.mkop.setText('No client selected')
             self.mkop.setReadOnly(True)
