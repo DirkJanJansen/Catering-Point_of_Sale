@@ -4536,6 +4536,8 @@ def articleRequest(mflag, btn):
             
     def bookingLoss(idx):
         mbarcode = idx.data()
+        sel = select([articles]).where(articles.c.barcode == mbarcode)
+        rp = con.execute(sel).first()
         class Widget(QDialog):
             def __init__(self, parent=None):
                 super(Widget, self).__init__(parent)
@@ -4615,10 +4617,14 @@ def articleRequest(mflag, btn):
                        Column('barcode', String),
                        Column('number', Float),
                        Column('bookdate', String),
-                       Column('category', String))
+                       Column('category', String),
+                       Column('item_price', Float),
+                       Column('description', String))
                     
-                    mdescr = qloss.currentText()
+                    mcategory = qloss.currentText()
                     mnumber = qnumber.text()
+                    mprice = rp[3]
+                    mdescription = rp[1]
                     try:
                         lossnr = con.execute(select([func.max(loss.c.lossID, type_=Integer)])).scalar()
                         lossnr += 1
@@ -4628,7 +4634,8 @@ def articleRequest(mflag, btn):
                     
                     if float(mnumber) > 0:                 
                         ins = insert(loss).values(lossID = lossnr, barcode = mbarcode,\
-                            number = mnumber, category = mdescr, bookdate = mbookdate)
+                            number = mnumber, category = mcategory, bookdate = mbookdate,
+                            item_price = mprice, description = mdescription)
                         con.execute(ins)
                         upd = update(articles).where(articles.c.barcode == mbarcode).\
                           values(item_stock = articles.c.item_stock - mnumber)
@@ -5704,19 +5711,15 @@ def requestLoss():
        Column('barcode', String),
        Column('number', Float),
        Column('bookdate', String),
-       Column('category', String))
-    articles = Table('articles', metadata,
-       Column('barcode', String, primary_key=True),
-       Column('description', String),
-       Column('item_price', Float))
-    
+       Column('category', String),
+       Column('item_price', Float),
+       Column('description', String))
+     
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
-    sel = select([loss, articles]).where(articles.c.barcode==loss.c.barcode).\
-        order_by(loss.c.category, loss.c.bookdate)
+    sel = select([loss]).order_by(loss.c.category, loss.c.bookdate)
     if con.execute(sel).fetchone():
-        selloss = select([loss, articles]).where(articles.c.barcode==loss.c.barcode).\
-            order_by(loss.c.category, loss.c.bookdate)
+        selloss = select([loss]).order_by(loss.c.category, loss.c.bookdate)
         rploss = con.execute(selloss)
     else:
         message = "No records found!"
@@ -5768,7 +5771,7 @@ def requestLoss():
                 return self.header[col]
             return None
 
-    header = ['ID','Barcode','Amount','Bookdate','Category','','Description','Item-Price']                                       
+    header = ['ID','Barcode','Amount','Bookdate','Category','Item-Price', 'Description']                                       
     
     data_list=[]
     for row in rploss:
