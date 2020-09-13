@@ -6926,8 +6926,8 @@ def seatsArrange(self):
                 seatlist.append(tindex) 
             
             # remove seats with even occurences
-            seatlist = [seat for seat, count in collections.Counter(seatlist).items() if count%2 == 1]
-            seatlist.sort(reverse=True)
+            #seatlist = [seat for seat, count in collections.Counter(seatlist).items() if count%2 == 1]
+            seatlist.sort()
                                 
             qcbEdit = QComboBox()
             qcbEdit.addItem('Open new table')
