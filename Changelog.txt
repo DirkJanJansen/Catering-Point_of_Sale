@@ -96,7 +96,7 @@
 2020-09-10 catering.py request loss and book loss articles added fields item_price and description for uncoupling foreignkey articles
 2020-09-10 catering.backup and empty_catering.backup and full_catering.backup database changed due to adding fields item_price and description
 2020-09-10 catering.py in display heading callname employee showed for switching between employees.
-2020-09-11 full_catering.backup database table articles barcodes changed in 28 range
-2020-09-13 full_catering.backup partially buttons filled with text 
+2020-09-13 full_catering.backup some buttons text applied
+2020-09-13 catering.py by seatsArrange removed evenb seats occurences, for problems counting even occurences between several clients and callnames.
 
 
