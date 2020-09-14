@@ -1,4 +1,4 @@
-import sys, re, random, barcode, datetime, os, shutil, subprocess, keyboard, collections
+import sys, re, random, barcode, datetime, os, shutil, subprocess, keyboard
 from math import sqrt
 from barcode.writer import ImageWriter 
 from PyQt5.QtCore import Qt, QSize, QRegExp, QAbstractTableModel
@@ -6781,6 +6781,7 @@ def choseClient(self):
      
     def getClientnr(idx):
         self.mclient = idx.data()
+        self.q1Edit.setText('')
         if idx.column() == 0:
             selcl = select([order_lines]).where(order_lines.c.clientID == self.mclient)
             rpcl = con.execute(selcl)
@@ -6925,7 +6926,7 @@ def seatsArrange(self):
             def gettable_seat(tindex):
                 seatlist.append(tindex) 
             
-            # remove seats with even occurences
+            #remove seats with even occurences
             #seatlist = [seat for seat, count in collections.Counter(seatlist).items() if count%2 == 1]
             seatlist.sort()
                                 
