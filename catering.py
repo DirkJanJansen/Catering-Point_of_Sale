@@ -6947,7 +6947,7 @@ def seatsArrange(self):
             def connectClient(self):
                 #remove seats with even occurences
                 self.seatlist = [seat for seat, count in collections.Counter(self.seatlist).items() if count%2 == 1]
-                self.seatlist.sort()
+                self.seatlist.sort(reverse=True)
                 indextext = qcbEdit.currentText()
                 if indextext == 'Open new table':
                     try:
