@@ -1,4 +1,4 @@
-import sys, re, random, barcode, datetime, os, shutil, subprocess, keyboard
+import sys, re, random, barcode, datetime, os, shutil, subprocess, keyboard, collections
 from math import sqrt
 from barcode.writer import ImageWriter 
 from PyQt5.QtCore import Qt, QSize, QRegExp, QAbstractTableModel
@@ -6922,13 +6922,9 @@ def seatsArrange(self):
                 tBtn.clicked.connect(lambda checked, tindex = t : gettable_seat(tindex))
                 t += 1
                 
-            seatlist = []   
+            self.seatlist = []   
             def gettable_seat(tindex):
-                seatlist.append(tindex) 
-            
-            #remove seats with even occurences
-            #seatlist = [seat for seat, count in collections.Counter(seatlist).items() if count%2 == 1]
-            seatlist.sort()
+                self.seatlist.append(tindex) 
                                 
             qcbEdit = QComboBox()
             qcbEdit.addItem('Open new table')
@@ -6948,6 +6944,9 @@ def seatsArrange(self):
                 qcbEdit.setCurrentText(qcbEdit.currentText())
             qcbEdit.currentTextChanged.connect(qclientChanged)
             def connectClient(self):
+                #remove seats with even occurences
+                self.seatlist = [seat for seat, count in collections.Counter(self.seatlist).items() if count%2 == 1]
+                self.seatlist.sort()
                 indextext = qcbEdit.currentText()
                 if indextext == 'Open new table':
                     try:
@@ -6958,21 +6957,21 @@ def seatsArrange(self):
                     self.mclient=int(mclientnr)
                 else:
                     self.mclient=int(indextext[20:])
-                if len(seatlist) == 0:
+                if len(self.seatlist) == 0:
                     self.lblseats.setText('Choose seat arrangement first!')
                     return
                 else:
                     mcheck = 0
                     x = 0
-                    for val in seatlist:
-                        seltab = select([tables_layout]).where(tables_layout.c.ID == seatlist[x])
+                    for val in self.seatlist:
+                        seltab = select([tables_layout]).where(tables_layout.c.ID == self.seatlist[x])
                         rptab = con.execute(seltab).fetchone()
                         occ=rptab[2]
                         if occ == 0:
                             if indextext == 'Open new table':
                                 mcheck = 1
                             upd = update(tables_layout).where(tables_layout.c.ID ==\
-                             seatlist[x]).values(occupied=1,clientID=self.mclient,\
+                             self.seatlist[x]).values(occupied=1,clientID=self.mclient,\
                              callname=self.mcallname)
                             con.execute(upd)
                         else:
@@ -6989,7 +6988,7 @@ def seatsArrange(self):
                                 self.lblseats.setText('Tableseats have been processed!')
                                 if s > 1:
                                     upd = update(tables_layout).where(and_(tables_layout.c.ID ==\
-                                     seatlist[x], tables_layout.c.clientID == self.mclient, \
+                                     self.seatlist[x], tables_layout.c.clientID == self.mclient, \
                                      tables_layout.c.callname == self.mcallname))\
                                      .values(occupied=0,clientID=0,callname='')
                                     con.execute(upd)
@@ -7006,7 +7005,7 @@ def seatsArrange(self):
                                         self.lblseats.setText('Last seat can only be removed by button "TRANSFER PAYED" in mainscreen!')
                                     elif s == 1:
                                         upd = update(tables_layout).where(and_(tables_layout.c.ID ==\
-                                          seatlist[x], tables_layout.c.clientID == self.mclient,\
+                                          self.seatlist[x], tables_layout.c.clientID == self.mclient,\
                                            tables_layout.c.callname == self.mcallname))\
                                            .values(occupied=0,clientID=0,callname='')
                                         con.execute(upd) 
@@ -7015,7 +7014,7 @@ def seatsArrange(self):
                                         con.execute(delol)
                                     else:
                                         upd = update(tables_layout).where(and_(tables_layout.c.ID ==\
-                                          seatlist[x], tables_layout.c.clientID == self.mclient,\
+                                          self.seatlist[x], tables_layout.c.clientID == self.mclient,\
                                            tables_layout.c.callname == self.mcallname))\
                                            .values(occupied=0,clientID=0,callname='')
                                         con.execute(upd) 
