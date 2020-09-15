@@ -100,4 +100,5 @@
 2020-09-13 catering.py by seatsArrange removed evenb seats occurences, for problems counting even occurences between several clients and callnames.
 2020-09-14 catering.py bug solved by switching clients between same employee by applying first line of articles.
 2020-09-15 catering.py improved selecting seats clients by removing last item.
+2020-09-15 catering.py thoroughly tested with seats tables, seems to operate smoothly now!
 
