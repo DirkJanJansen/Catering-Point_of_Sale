@@ -6804,7 +6804,7 @@ def choseClient(self):
                 self.view.append(self.mlist[-1])
             self.mkop.setText('Client: '+str(self.mclient)+' Empl. '+str(self.mcallname))
             if sys.platform == 'win32':
-                keyboard.press_and_release('esc')                          #Windows
+                keyboard.press_and_release('esc')            #Windows
             else:
                subprocess.call(["xdotool", "key", "Escape"]) #Linux
     win = Widget(data_list, header)
@@ -6943,6 +6943,7 @@ def seatsArrange(self):
             def qclientChanged():
                 qcbEdit.setCurrentText(qcbEdit.currentText())
             qcbEdit.currentTextChanged.connect(qclientChanged)
+            
             def connectClient(self):
                 #remove seats with even occurences
                 self.seatlist = [seat for seat, count in collections.Counter(self.seatlist).items() if count%2 == 1]
