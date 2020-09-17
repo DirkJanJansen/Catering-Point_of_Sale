@@ -6931,11 +6931,10 @@ def seatsArrange(self):
             selclient = select([clients]).where(clients.c.employee ==\
                             self.mcallname).order_by(clients.c.clientID)
             rpclient = con.execute(selclient)
-            tablelist = []
+
             for row in rpclient:
                 qcbEdit.addItem('Change seats client '+str(row[0]))
-                tablelist.append(row[1])
-                                       
+                                        
             qcbEdit.setFixedSize(200, 40)
             qcbEdit.setStyleSheet('font: 18px bold; color:black; background-color: #F8F7EE')
             grid.addWidget(qcbEdit, 1, 10, 1, 2, Qt.AlignBottom)

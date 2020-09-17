@@ -101,5 +101,6 @@
 2020-09-14 catering.py bug solved by switching clients between same employee by applying first line of articles.
 2020-09-15 catering.py thoroughly tested with seats tables, seems to operate smoothly now!
 2020-09-17 full_catering.backup in table tables_layout removed unused column barcodeID
+2020-09-17 catering.py in module seatsArrange unused tablelist list removed
 
 
