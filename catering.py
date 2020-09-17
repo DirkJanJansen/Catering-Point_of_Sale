@@ -502,7 +502,9 @@ def turnoverMenu():
     window = Widget()
     window.exec_() 
     
-def switchEmployee(mcallname, lblseats):
+def switchEmployee(self):
+    mcallname = self.mcallname
+    lblseats = self.lblseats
     metadata = MetaData()
     clients = Table('clients', metadata,
         Column('clientID', Integer, primary_key=True),
@@ -519,7 +521,7 @@ def switchEmployee(mcallname, lblseats):
     con = engine.connect()
     selempl = select([employees]).order_by(employees.c.callname)
     rpempl = con.execute(selempl)
-    
+        
     class Widget(QDialog):
         def __init__(self, parent=None):
             super(Widget, self).__init__(parent)
@@ -531,7 +533,8 @@ def switchEmployee(mcallname, lblseats):
                    
             self.setFont(QFont('Arial', 10))
             self.setStyleSheet("background-color: #D9E1DF") 
-                
+        
+            self.mcallname = mcallname
             self.lblseats = lblseats
                 
             grid = QGridLayout()
@@ -555,28 +558,28 @@ def switchEmployee(mcallname, lblseats):
             self.k0Edit.setStyleSheet('color: black; background-color: #F8F7EE')
             
             for row in rpempl:
-                if row[0] != mcallname: 
+                if row[0] != self.mcallname: 
                     self.k0Edit.addItem('Employee takes over: '+row[0])
                 
             def switchServing(self):
                 emplname = self.k0Edit.currentText()[21:]
-                updcl = update(clients).where(clients.c.employee == mcallname)\
+                updcl = update(clients).where(clients.c.employee == self.mcallname)\
                     .values(employee = emplname)
                 con.execute(updcl)
-                updtables = update(tables_layout).where(tables_layout.c.callname==mcallname).\
+                updtables = update(tables_layout).where(tables_layout.c.callname==self.mcallname).\
                   values(callname = emplname) 
                 con.execute(updtables)
-                updorderlines = update(order_lines).where(order_lines.c.callname == mcallname).\
+                updorderlines = update(order_lines).where(order_lines.c.callname == self.mcallname).\
                     values(callname = emplname)
                 con.execute(updorderlines)
-                self.lblseats.setText('Employee '+emplname+' takes over the services from '+mcallname+'!')
+                self.lblseats.setText('Employee '+emplname+' takes over the services from '+self.mcallname+'!')
                 self.close()
                                
             def k0Changed():
                 self.k0Edit.setCurrentText(self.k0Edit.currentText())
             self.k0Edit.currentTextChanged.connect(k0Changed)
             
-            lblcalln = QLabel('Active employee: '+mcallname)
+            lblcalln = QLabel('Active employee: '+self.mcallname)
             lblcalln.setFont(QFont("Arial", 10))
             grid.addWidget(lblcalln, 1, 1, 1, 2)
             
@@ -6392,6 +6395,7 @@ def checkEan13(c):
         return False
     
 def set_barcodenr(self):
+    self.q1Edit.setSelection(0,13)
     barcodenr = str(self.q1Edit.text())
     mnumber = float(self.qspin.value())
     myear = int(str(datetime.datetime.now())[0:4])
@@ -6581,7 +6585,7 @@ def set_barcodenr(self):
         self.albl.setText('Scanning error barcode!')
         giveAlarm()
     
-    self.q1Edit.setSelection(0,13)
+    #self.q1Edit.setSelection(0,13)
     self.qspin.setValue(1)
 
 def bigDisplay(self):
@@ -6700,7 +6704,7 @@ def bigDisplay(self):
     window = widget()
     window.exec_()
 
-def choseClient(self):
+def choseClient(self):  #mflag = 0 bij veranderen client and mflag = 1 bij switchen employee
     metadata = MetaData()
     order_lines = Table('order_lines', metadata,
         Column('ID', Integer(), primary_key=True),
@@ -6781,17 +6785,14 @@ def choseClient(self):
      
     def getClientnr(idx):
         self.mclient = idx.data()
-        self.q1Edit.setText('')
+        self.q1Edit.setText('') 
         if idx.column() == 0:
-            selcl = select([order_lines]).where(order_lines.c.clientID == self.mclient)
-            rpcl = con.execute(selcl)
-            if not rpcl:
-                self.albl.setText('No records!')
-                return
+            selord = select([order_lines]).where(order_lines.c.clientID == self.mclient)
+            rpord = con.execute(selord)
             self.view.setText('')   
             self.mtotal = 0
             self.mvat = 0
-            for row in rpcl:
+            for row in rpord:
                 mnumber = row[4]
                 mprice = row[5]
                 mdescr = row[3]
@@ -7044,7 +7045,7 @@ def seatsArrange(self):
             grid.addWidget(clientBtn, 2, 10, 1, 2)
             
             emplBtn = QPushButton('Switch Employee')
-            emplBtn.clicked.connect(lambda: switchEmployee(mcallname, self.lblseats))
+            emplBtn.clicked.connect(lambda: switchEmployee(self))
             emplBtn.setFixedSize(200, 80)
             emplBtn.setStyleSheet("font: 24px bold; color: black; background-color: #00BFFF")
 
