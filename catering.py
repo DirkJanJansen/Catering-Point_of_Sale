@@ -13,7 +13,8 @@ from sqlalchemy import Table, Column, Integer, String, Boolean, MetaData, create
 
 def refresh(self):
     self.close()
-    seatsArrange(self)
+    route = 0
+    seatsArrange(self, route)
 
 def alertText(message):
     msg = QMessageBox()
@@ -6395,7 +6396,6 @@ def checkEan13(c):
         return False
     
 def set_barcodenr(self):
-    self.q1Edit.setSelection(0,13)
     barcodenr = str(self.q1Edit.text())
     mnumber = float(self.qspin.value())
     myear = int(str(datetime.datetime.now())[0:4])
@@ -6585,7 +6585,7 @@ def set_barcodenr(self):
         self.albl.setText('Scanning error barcode!')
         giveAlarm()
     
-    #self.q1Edit.setSelection(0,13)
+    self.q1Edit.setSelection(0,13)
     self.qspin.setValue(1)
 
 def bigDisplay(self):
@@ -6704,7 +6704,7 @@ def bigDisplay(self):
     window = widget()
     window.exec_()
 
-def choseClient(self):  #mflag = 0 bij veranderen client and mflag = 1 bij switchen employee
+def choseClient(self): 
     metadata = MetaData()
     order_lines = Table('order_lines', metadata,
         Column('ID', Integer(), primary_key=True),
@@ -6836,10 +6836,12 @@ def printEan(self, x1 ,y1):
              painter.setWindow(self.pixmap.rect())
              painter.drawPixmap(0, 0, self.pixmap)
             
-def seatsArrange(self):
+def seatsArrange(self, route):
     if not self.maccess:
         self.albl.setText('Please logon with your barcodecard!')
         return
+    if route:
+        self.q1Edit.setText('')
     mcallname = self.mcallname
     maccess = self.maccess
     mclient = self.mclient
@@ -7048,7 +7050,7 @@ def seatsArrange(self):
             emplBtn.clicked.connect(lambda: switchEmployee(self))
             emplBtn.setFixedSize(200, 80)
             emplBtn.setStyleSheet("font: 24px bold; color: black; background-color: #00BFFF")
-
+            
             grid.addWidget(emplBtn, 3, 10, 1, 2)
 
             closeBtn = QPushButton('Close')
@@ -7234,7 +7236,8 @@ def barcodeScan():
                 self.text += nr
                 self.qcashEdit.setText(self.text)
                                                                          
-            self.q1Edit = QLineEdit('')
+            self.q1Edit = QLineEdit()
+            self.q1Edit.setText('')
             self.q1Edit.setStyleSheet("color: #F8F7EE;  background-color: #F8F7EE")
             self.q1Edit.setFont(QFont("Arial", 12, 75))
             self.q1Edit.setFixedSize(155, 40)
@@ -7507,8 +7510,9 @@ def barcodeScan():
       
             grid.addWidget(self.displayBtn, 2, 7, 1, 1, Qt.AlignRight)
             
+            route = 1
             self.tablesBtn = QPushButton('Open/Change\nTables/Seats')
-            self.tablesBtn.clicked.connect(lambda: seatsArrange(self))
+            self.tablesBtn.clicked.connect(lambda: seatsArrange(self, route))
             self.tablesBtn.setFont(QFont("Arial",12,75))
             self.tablesBtn.setFocusPolicy(Qt.NoFocus)
             self.tablesBtn.setFixedSize(200,150)
@@ -7559,7 +7563,7 @@ def barcodeScan():
             self.clientBtn.setFocusPolicy(Qt.NoFocus)
             self.clientBtn.setFixedSize(200,150)            
             self.clientBtn.setStyleSheet("color:black; background-color: #3498db")
-       
+        
             grid.addWidget(self.clientBtn, 4, 7, 1, 1, Qt.AlignRight)   
             
             lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
