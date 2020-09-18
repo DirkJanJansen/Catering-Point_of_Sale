@@ -103,6 +103,6 @@
 2020-09-17 full_catering.backup in table tables_layout removed unused column barcodeID
 2020-09-17 catering.py in module seatsArrange unused tablelist list removed
 2020-09-17 catering.py gatering orderlines by switching employee fixed
-2020-09-18 catering.py disabled scanning products after switching employee clients before selecting switched employee and client.
+2020-09-18 catering.py disabled scanning products after switching employee + clients before selecting switched employee and client.
 
 
