@@ -614,6 +614,7 @@ def switchEmployee(self):
                 
     window = Widget()
     window.exec_() 
+    
  
 def employeeMenu():
     class Widget(QDialog):
@@ -3843,7 +3844,9 @@ def articleRequest(mflag, btn):
         Column('annual_consumption_1', Float),
         Column('annual_consumption_2', Float),
         Column('VAT', String),
-        Column('additional', Integer))
+        Column('additional', Integer),
+        Column('ordering_manual', Integer),
+        Column('supplierID', Integer))
     article_grouplines = Table('article_grouplines', metadata,
         Column('lineID', Integer, primary_key=True),
         Column('grouplinetext', String))
@@ -3923,11 +3926,11 @@ def articleRequest(mflag, btn):
                 pixmap.scaled(256,256) 
                 return(painter.drawPixmap(option.rect, pixmap))
                                        
-    header = ['Barcode','Description', 'Short Description', 'Item-Price','Selling-Price',\
-              'Selling-contents','Item-Stock', 'Item-Unit','Mininum-Stock','Order-Size',\
-              'Location', 'Article_Group', 'Thumbnail','Category', 'Order-Balance',\
-              'Order-Status' ,'Mutation-Date','Annual-Consumption_1',\
-              'Annual-Consumption_2', 'VAT', 'Additional']    
+    header = ['Barcode','Description','Short Description','Item-Price','Selling-Price',\
+              'Selling-contents','Item-Stock','Item-Unit','Mininum-Stock','Order-Size',\
+              'Location', 'Article_Group','Thumbnail','Category','Order-Balance',\
+              'Order-Status','Mutation-Date','Annual-Consumption_1',\
+              'Annual-Consumption_2','VAT','Additional','Ordering manual','SupplierID']    
         
     data_list=[]
     for row in rparticles:
@@ -4256,9 +4259,11 @@ def articleRequest(mflag, btn):
                     #ordering_manual
                     self.cBoxord = QCheckBox('Ordering - Generate (off) / Manual (on)')
                     self.cBoxord.setFont(QFont("Arial",10))
+                    if rparticle[21]:
+                        self.cBoxord.setChecked(True)
      
                     #supplier ID
-                    self.q7aEdit = QLineEdit('0')
+                    self.q7aEdit = QLineEdit(str(rparticle[22]))
                     self.q7aEdit.setFixedWidth(100)
                     self.q7aEdit.setFont(QFont("Arial",10))
                     self.q7aEdit.setStyleSheet('color: black; background-color: #F8F7EE')
@@ -6553,6 +6558,7 @@ def set_barcodenr(self):
             self.albl.setText('Please logon with your barcodecard!')
         else:
             self.albl.setText('Article not in assortment!')
+            self.q1Edit.setSelection(0,13)
             giveAlarm()
                   
         self.closeBtn.setDisabled(True)
@@ -6592,6 +6598,7 @@ def set_barcodenr(self):
     else:
         #alarm if barcode scan failed
         self.albl.setText('Scanning error barcode!')
+        self.q1Edit.setSelection(0,13)
         giveAlarm()
     
     self.q1Edit.setSelection(0,13)
@@ -6961,7 +6968,7 @@ def seatsArrange(self, routeSeats):
             def connectClient(self):
                 #remove seats with even occurences
                 self.seatlist = [seat for seat, count in collections.Counter(self.seatlist).items() if count%2 == 1]
-                self.seatlist.sort(reverse=True)
+                self.seatlist.sort(reverse=True)  
                 indextext = qcbEdit.currentText()
                 if indextext == 'Open new table':
                     try:
