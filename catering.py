@@ -13,8 +13,8 @@ from sqlalchemy import Table, Column, Integer, String, Boolean, MetaData, create
 
 def refresh(self):
     self.close()
-    route = 0
-    seatsArrange(self, route)
+    routeSeats = 0
+    seatsArrange(self, routeSeats)
 
 def alertText(message):
     msg = QMessageBox()
@@ -575,7 +575,7 @@ def switchEmployee(self):
                 con.execute(updorderlines)
                 self.lblseats.setText('Employee '+emplname+' takes over the services from '+self.mcallname+'!')
                 self.close()
-                               
+                                              
             def k0Changed():
                 self.k0Edit.setCurrentText(self.k0Edit.currentText())
             self.k0Edit.currentTextChanged.connect(k0Changed)
@@ -6439,10 +6439,19 @@ def set_barcodenr(self):
             Column('item_unit', String),
             Column('article_group', String),
             Column('location_warehouse', String))
+        clients = Table('clients', metadata,
+            Column('clientID', Integer,primary_key=True),
+            Column('employee', String))
         
         engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
         con = engine.connect()
-                 
+        
+        selcl = select([clients]).where(and_(clients.c.clientID==self.mclient, clients.c.employee==self.mcallname))
+        rpcl = con.execute(selcl).first() 
+        if not rpcl:
+            self.albl.setText('Switch employee first')
+            self.q1Edit.setText('')
+            return
         selart = select([articles]).where(articles.c.barcode == barcodenr)
         selordlines = select([order_lines]).where(and_(order_lines.c.barcode == barcodenr,\
                 order_lines.c.clientID == self.mclient))
@@ -6704,7 +6713,10 @@ def bigDisplay(self):
     window = widget()
     window.exec_()
 
-def choseClient(self): 
+def choseClient(self):
+    if not self.maccess:
+        self.albl.setText('Please logon with your barcodecard!')
+        return
     metadata = MetaData()
     order_lines = Table('order_lines', metadata,
         Column('ID', Integer(), primary_key=True),
@@ -6836,11 +6848,11 @@ def printEan(self, x1 ,y1):
              painter.setWindow(self.pixmap.rect())
              painter.drawPixmap(0, 0, self.pixmap)
             
-def seatsArrange(self, route):
+def seatsArrange(self, routeSeats):
     if not self.maccess:
         self.albl.setText('Please logon with your barcodecard!')
         return
-    if route:
+    if routeSeats:
         self.q1Edit.setText('')
     mcallname = self.mcallname
     maccess = self.maccess
@@ -7099,7 +7111,7 @@ def barcodeScan():
             self.maccess = 0
             self.mclient = 0
             self.checknr = ''
-             
+                        
             metadata = MetaData()
             params = Table('params', metadata,
                 Column('paramID', Integer(), primary_key=True),
@@ -7484,12 +7496,6 @@ def barcodeScan():
             def getbuttonnr(btnnumber):
                 mflag = 4
                 articleRequest(mflag, btnnumber)
-                
-            def clientLines(self):
-                if self.maccess:
-                    choseClient(self)
-                else:
-                    self.albl.setText('Please logon with your barcodecard!')
                                        
             self.plusminBtn = QPushButton('+')
             self.plusminBtn.setCheckable(True)
@@ -7510,9 +7516,9 @@ def barcodeScan():
       
             grid.addWidget(self.displayBtn, 2, 7, 1, 1, Qt.AlignRight)
             
-            route = 1
+            routeSeats = 1
             self.tablesBtn = QPushButton('Open/Change\nTables/Seats')
-            self.tablesBtn.clicked.connect(lambda: seatsArrange(self, route))
+            self.tablesBtn.clicked.connect(lambda: seatsArrange(self, routeSeats))
             self.tablesBtn.setFont(QFont("Arial",12,75))
             self.tablesBtn.setFocusPolicy(Qt.NoFocus)
             self.tablesBtn.setFixedSize(200,150)
@@ -7558,7 +7564,7 @@ def barcodeScan():
             grid.addWidget(infoBtn, 0, 7, 1, 1, Qt.AlignRight )
            
             self.clientBtn = QPushButton('Select\nClient')
-            self.clientBtn.clicked.connect(lambda: clientLines(self))
+            self.clientBtn.clicked.connect(lambda: choseClient(self))
             self.clientBtn.setFont(QFont("Arial",12,75))
             self.clientBtn.setFocusPolicy(Qt.NoFocus)
             self.clientBtn.setFixedSize(200,150)            
