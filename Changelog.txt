@@ -105,5 +105,6 @@
 2020-09-17 catering.py gatering orderlines by switching employee fixed
 2020-09-18 catering.py disabled scanning products after switching employee clients before selecting switched employee and client.
 2020-09-18 catering.py assigned definitions to module changeArticle ordering_manual and supplierID.
+2020-09-18 full_catering.backup added loss items and avery label as example insert for commercial barcode.
 
 
