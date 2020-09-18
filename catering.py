@@ -6449,7 +6449,7 @@ def set_barcodenr(self):
         selcl = select([clients]).where(and_(clients.c.clientID==self.mclient, clients.c.employee==self.mcallname))
         rpcl = con.execute(selcl).first() 
         if not rpcl:
-            self.albl.setText('Switch employee first')
+            self.albl.setText('Logon switched employee first!')
             self.q1Edit.setText('')
             return
         selart = select([articles]).where(articles.c.barcode == barcodenr)
