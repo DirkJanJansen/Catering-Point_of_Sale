@@ -6112,7 +6112,7 @@ def info():
         Before pushing the TRANSFER PAYED button the bill can be printed and payed by cash
         or by pin transaction.
         For paying by cash a modest calculator is present.
-        The thirst row of the calcultor shows the total sum of the bill.
+        The thirst row of the calculator shows the total sum of the bill.
         The second row under the "TRANSFER PAYED" button must be filled in with the cash, 
         supplied by the customer. By pushing the "REFUND" button the change is calculated.
         In case of incorrect entry the "DEL" button can be applied.
