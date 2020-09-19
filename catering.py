@@ -6450,10 +6450,20 @@ def set_barcodenr(self):
             Column('item_unit', String),
             Column('article_group', String),
             Column('location_warehouse', String))
+        clients = Table('clients', metadata,
+            Column('clientID', Integer, primary_key=True),
+            Column('employee', String))
         
         engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
         con = engine.connect()
         
+        selcl = select([clients]).where(and_(clients.c.clientID==self.mclient,clients.c.employee==self.mcallname))
+        rpcl = con.execute(selcl).first()
+        
+        if not rpcl:
+            self.albl.setText('First logon with switched employee!')
+            return
+         
         selart = select([articles]).where(articles.c.barcode == barcodenr)
         selordlines = select([order_lines]).where(and_(order_lines.c.barcode == barcodenr,\
                 order_lines.c.clientID == self.mclient))
