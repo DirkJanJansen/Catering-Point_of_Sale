@@ -506,6 +506,7 @@ def turnoverMenu():
 def switchEmployee(self):
     mcallname = self.mcallname
     lblseats = self.lblseats
+    self.view.setText('')   
     metadata = MetaData()
     clients = Table('clients', metadata,
         Column('clientID', Integer, primary_key=True),
@@ -522,7 +523,7 @@ def switchEmployee(self):
     con = engine.connect()
     selempl = select([employees]).order_by(employees.c.callname)
     rpempl = con.execute(selempl)
-        
+    
     class Widget(QDialog):
         def __init__(self, parent=None):
             super(Widget, self).__init__(parent)
@@ -614,7 +615,6 @@ def switchEmployee(self):
                 
     window = Widget()
     window.exec_() 
-    
  
 def employeeMenu():
     class Widget(QDialog):
@@ -6460,10 +6460,7 @@ def set_barcodenr(self):
         
         selcl = select([clients]).where(and_(clients.c.clientID==self.mclient, clients.c.employee==self.mcallname))
         rpcl = con.execute(selcl).first() 
-        if not rpcl:
-            self.albl.setText('Logon switched employee first!')
-            self.q1Edit.setText('')
-            return
+
         selart = select([articles]).where(articles.c.barcode == barcodenr)
         selordlines = select([order_lines]).where(and_(order_lines.c.barcode == barcodenr,\
                 order_lines.c.clientID == self.mclient))
@@ -6871,6 +6868,7 @@ def seatsArrange(self, routeSeats):
     mcallname = self.mcallname
     maccess = self.maccess
     mclient = self.mclient
+    mview = self.view
     class widget(QDialog):
         def __init__(self):
             super(widget,self).__init__()
@@ -6887,6 +6885,7 @@ def seatsArrange(self, routeSeats):
             self.mcallname = mcallname
             self.maccess = maccess
             self.mclient = mclient
+            self.view = mview
              
             grid = QGridLayout()
             grid.setSpacing(0)
