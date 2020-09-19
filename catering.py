@@ -506,7 +506,12 @@ def turnoverMenu():
 def switchEmployee(self):
     mcallname = self.mcallname
     lblseats = self.lblseats
-    self.view.setText('')   
+    self.view.setText('')  
+    self.qtailEdit.setText('Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(0.00)) 
+    self.qtotalEdit.setText('')
+    self.qcashEdit.setText('')
+    self.qchangeEdit.setText('')
+  
     metadata = MetaData()
     clients = Table('clients', metadata,
         Column('clientID', Integer, primary_key=True),
@@ -6283,13 +6288,6 @@ def payed(self):
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
     
-    selcl = select([clients]).where(and_(clients.c.clientID==self.mclient, clients.c.employee==self.mcallname))
-    rpcl = con.execute(selcl).first() 
-    if not rpcl:
-        self.albl.setText('Logon switched employee first!')
-        self.q1Edit.setText('')
-        return
- 
     delsal = delete(order_lines).where(and_(order_lines.c.number == 0,\
               order_lines.c.clientID == self.mclient, order_lines.c.callname == self.mcallname))
     con.execute(delsal)
@@ -6340,7 +6338,7 @@ def payed(self):
         self.closeBtn.setStyleSheet("color: black; background-color:  #B0C4DE")
         self.printBtn.setDisabled(True)
         self.printBtn.setStyleSheet("color: grey; background-color: #00FFFF")
-        
+       
         self.mtotal = 0.00
         self.mtotvat = 0.00
         self.mlist = []
@@ -6350,6 +6348,7 @@ def payed(self):
         self.qtailEdit.setText(self.qtailtext)
         self.qtotalEdit.setText('')
         self.qtotalEdit.setPlaceholderText('TOTAL')
+        self.text = ''
         self.qcashEdit.setText('')
         self.qcashEdit.setPlaceholderText('CASH')
         self.qchangeEdit.setText('')
@@ -6451,16 +6450,10 @@ def set_barcodenr(self):
             Column('item_unit', String),
             Column('article_group', String),
             Column('location_warehouse', String))
-        clients = Table('clients', metadata,
-            Column('clientID', Integer,primary_key=True),
-            Column('employee', String))
         
         engine = create_engine('postgresql+psycopg2://postgres:@localhost/catering')
         con = engine.connect()
         
-        selcl = select([clients]).where(and_(clients.c.clientID==self.mclient, clients.c.employee==self.mcallname))
-        rpcl = con.execute(selcl).first() 
-
         selart = select([articles]).where(articles.c.barcode == barcodenr)
         selordlines = select([order_lines]).where(and_(order_lines.c.barcode == barcodenr,\
                 order_lines.c.clientID == self.mclient))
@@ -6869,6 +6862,12 @@ def seatsArrange(self, routeSeats):
     maccess = self.maccess
     mclient = self.mclient
     mview = self.view
+    mqtail = self.qtailEdit
+    mqtotal = self.qtotalEdit
+    self.text = ''
+    mqcash = self.qcashEdit
+    mqchange = self.qchangeEdit
+    
     class widget(QDialog):
         def __init__(self):
             super(widget,self).__init__()
@@ -6886,6 +6885,10 @@ def seatsArrange(self, routeSeats):
             self.maccess = maccess
             self.mclient = mclient
             self.view = mview
+            self.qtailEdit = mqtail
+            self.qtotalEdit = mqtotal
+            self.qcashEdit = mqcash
+            self.qchangeEdit = mqchange
              
             grid = QGridLayout()
             grid.setSpacing(0)
@@ -7184,7 +7187,6 @@ def barcodeScan():
             self.qtextEdit.setAlignment(Qt.AlignCenter)
             self.qtextEdit.setStyleSheet("font: bold 24px; color: white;  background-color: #7f8371")
             grid.addWidget(self.qtextEdit, 5, 4, 1, 3, Qt.AlignBottom)
-            
             def calcChange(self):
                 self.qcashEdit.setText(self.text)
                 if self.qtotalEdit.text():
@@ -7201,7 +7203,7 @@ def barcodeScan():
                     return round(change/rounding) * rounding
                
                 self.qchangeEdit.setText('{:>12.2f}'.format(round_nearest(change, rounding)))
-                
+
             calcBtn = QPushButton('REFUND')
             calcBtn.setFocusPolicy(Qt.NoFocus)
             calcBtn.setFixedSize(200, 100)
