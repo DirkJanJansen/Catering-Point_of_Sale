@@ -107,4 +107,5 @@
 2020-09-18 catering.py assigned definitions to module changeArticle ordering_manual and supplierID.
 2020-09-18 full_catering.backup added loss items and avery label as example insert for commercial barcode.
 2020-09-19 catering.py corrected type error in info
+2020-09-19 catering.py blocked payments after switching employee-clients and not yet select new employee and client
 

@@ -6282,6 +6282,13 @@ def payed(self):
               
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
+    
+    selcl = select([clients]).where(and_(clients.c.clientID==self.mclient, clients.c.employee==self.mcallname))
+    rpcl = con.execute(selcl).first() 
+    if not rpcl:
+        self.albl.setText('Logon switched employee first!')
+        self.q1Edit.setText('')
+        return
  
     delsal = delete(order_lines).where(and_(order_lines.c.number == 0,\
               order_lines.c.clientID == self.mclient, order_lines.c.callname == self.mcallname))
