@@ -6261,21 +6261,6 @@ def payed(self):
         self.closeBtn.setStyleSheet("color: black; background-color:  #B0C4DE")
         self.printBtn.setDisabled(True)
         self.printBtn.setStyleSheet("color: grey; background-color: #00FFFF")
-       
-        self.mtotal = 0.00
-        self.mtotvat = 0.00
-        self.mlist = []
-        self.view.setText('')
-        self.mkop.setText('No client selected')
-        self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
-        self.qtailEdit.setText(self.qtailtext)
-        self.qtotalEdit.setText('')
-        self.qtotalEdit.setPlaceholderText('TOTAL')
-        self.text = ''
-        self.qcashEdit.setText(self.text)
-        self.qcashEdit.setPlaceholderText('CASH')
-        self.qchangeEdit.setText('')
-        self.qchangeEdit.setPlaceholderText('CHANGE') 
         self.albl.setText('Transactions succeeded!')
     else:
         try:
@@ -6287,10 +6272,23 @@ def payed(self):
             con.execute(delclient)
         except Exception: 
             pass
-          
         self.albl.setText('There are no transactions!')
         self.closeBtn.setEnabled(True)
         self.closeBtn.setStyleSheet("color: black; background-color:  #B0C4DE")
+    self.mtotal = 0.00
+    self.mtotvat = 0.00
+    self.mlist = []
+    self.view.setText('')
+    self.mkop.setText('No client selected')
+    self.qtailtext = 'Total  incl. VAT'+'\u2000'*3+'{:\u2000>12.2f}'.format(self.mtotal)
+    self.qtailEdit.setText(self.qtailtext)
+    self.qtotalEdit.setText('')
+    self.qtotalEdit.setPlaceholderText('TOTAL')
+    self.text = ''
+    self.qcashEdit.setText('')
+    self.qcashEdit.setPlaceholderText('CASH')
+    self.qchangeEdit.setText('')
+    self.qchangeEdit.setPlaceholderText('CHANGE') 
 
 def giveAlarm():
     if sys.platform == 'win32':
