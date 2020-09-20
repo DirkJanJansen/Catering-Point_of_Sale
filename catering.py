@@ -5759,7 +5759,6 @@ def requestLoss():
             table_view.setFont(font)
             table_view.resizeColumnsToContents()
             table_view.setSelectionBehavior(QTableView.SelectRows)
-            table_view.setColumnHidden(5,True)
             layout = QVBoxLayout(self)
             layout.addWidget(table_view)
             self.setLayout(layout)
