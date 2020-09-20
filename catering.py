@@ -6272,7 +6272,7 @@ def payed(self):
         self.qtotalEdit.setText('')
         self.qtotalEdit.setPlaceholderText('TOTAL')
         self.text = ''
-        self.qcashEdit.setText('')
+        self.qcashEdit.setText(self.text)
         self.qcashEdit.setPlaceholderText('CASH')
         self.qchangeEdit.setText('')
         self.qchangeEdit.setPlaceholderText('CHANGE') 
