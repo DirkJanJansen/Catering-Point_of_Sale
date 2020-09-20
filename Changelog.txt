@@ -111,4 +111,5 @@
 2020-09-19 catering.py after switching employee-clients replacement emptying ordering display
 2020-09-19 catering.py after paying or switching empty caches for cash payments in modest calculator
 2020-09-20 catering.py module requestLoss added view item_price
+2020-09-20 catering.py unused module bookingLoss Menu removed
 
