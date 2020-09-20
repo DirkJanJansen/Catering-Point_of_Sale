@@ -6261,7 +6261,7 @@ def payed(self):
         self.closeBtn.setStyleSheet("color: black; background-color:  #B0C4DE")
         self.printBtn.setDisabled(True)
         self.printBtn.setStyleSheet("color: grey; background-color: #00FFFF")
-        self.albl.setText('Transactions succeeded!')
+        self.albl.setText('Transactions successful!')
     else:
         try:
             updlayout = update(tables_layout).where(and_(tables_layout.c.clientID == self.mclient,\
