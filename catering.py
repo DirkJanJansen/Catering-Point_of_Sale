@@ -6382,6 +6382,7 @@ def set_barcodenr(self):
         rpcl = con.execute(selcl).first()
         
         if not rpcl:
+            self.q1Edit.setText('')
             self.albl.setText('First logon with switched employee!')
             return
          
