@@ -6274,7 +6274,7 @@ def payed(self):
             pass
         self.albl.setText('There are no transactions!')
         self.closeBtn.setEnabled(True)
-        self.closeBtn.setStyleSheet("color: black; background-color:  #B0C4DE")
+        self.closeBtn.setStyleSheet("color: black; background-color:  #45b39d")
     self.mtotal = 0.00
     self.mtotvat = 0.00
     self.mlist = []

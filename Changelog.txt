@@ -113,5 +113,5 @@
 2020-09-20 catering.py module requestLoss added view item_price
 2020-09-20 catering.py unused module bookingLoss Menu removed
 2020-09-20 catering.py modest calculator also removed caches by no transactions
-2020-09-20 catering.py removed scan after switch employee by no new logon to avoid block with logon
+2020-09-21 catering.py color closeButton after pay changed
 
