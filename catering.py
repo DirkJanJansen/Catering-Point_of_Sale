@@ -2233,7 +2233,7 @@ def purchaseMenu():
                         table_view.resizeColumnsToContents()
                         table_view.setSelectionBehavior(QTableView.SelectRows)
                         table_view.resizeColumnsToContents()
-                        table_view.setColumnWidth(7, 0)
+                        #table_view.setColumnWidth(7, 0)
                         table_view.clicked.connect(orderHandle)
                                       
                         grid.addWidget(table_view, 0, 0, 1, 6)
@@ -2353,10 +2353,11 @@ def purchaseMenu():
                         return None
                          
                 header = ['Orderlinenr','Barcode','Description','Item-price','Item-unit',\
-                          'Order-size','Ordering-manual','','Bookdate','Ordered',\
+                          'Order-size','Ordering-manual','SupplierID','Bookdate','Ordered',\
                           'Order-date','Deliveries','Delivery-date','Suppliernr',\
                           'Company_name']
-                if mconnect == 2 or mconnect == 5 or mconnect == 7:
+                
+                if mconnect == 2 or mconnect==5 or mconnect==7:
                     del header[-2:]
 
                 data_list=[]
@@ -2398,13 +2399,17 @@ def purchaseMenu():
                              .where(and_(purchase_orderlines.c.orderlineID==orderlinenr,\
                                 purchase_orderlines.c.supplierID==suppliers.c.supplierID)).order_by(suppliers.c.company_name)
                             rporderline = con.execute(selorderline).first()
-                        else:
-                            selorderline = select([purchase_orderlines, suppliers])\
-                             .where(and_(purchase_orderlines.c.orderlineID==orderlinenr,\
-                                purchase_orderlines.c.supplierID==suppliers.c.supplierID))\
-                                .order_by(suppliers.c.company_name)
+                        elif mconnect==5 or mconnect==7:
+                            selorderline = select([purchase_orderlines])\
+                             .where(purchase_orderlines.c.orderlineID==orderlinenr)
                             rporderline = con.execute(selorderline).first()
-                            
+                        else:
+                            selorderline = select([purchase_orderlines,suppliers])\
+                             .where(and_(purchase_orderlines.c.orderlineID==orderlinenr,\
+                                suppliers.c.supplierID==purchase_orderlines.c.supplierID)).\
+                                 order_by(suppliers.c.company_name)
+                            rporderline = con.execute(selorderline).first()
+    
                         class MainWindow(QDialog):
                             def __init__(self):
                                 QDialog.__init__(self)
