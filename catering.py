@@ -3438,10 +3438,10 @@ def emplRequest():
         
     def changeemployees(idx):
         emplnr = idx.data()
-        selempl = select([employees]).where(employees.c.barcodeID == emplnr)
-        rpempl = con.execute(selempl).first()
         if idx.column() == 0:
             class Window(QDialog):
+                selempl = select([employees]).where(employees.c.barcodeID == emplnr)
+                rpempl = con.execute(selempl).first()
                 def __init__(self, parent=None):
                     super(Window, self).__init__(parent)
                     

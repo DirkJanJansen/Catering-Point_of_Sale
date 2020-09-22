@@ -114,4 +114,5 @@
 2020-09-20 catering.py unused module bookingLoss Menu removed
 2020-09-20 catering.py modest calculator also removed caches by no transactions
 2020-09-21 catering.py color closeButton after pay changed
+2020-09-22 catering.py by module change employees definition employeeID moved after first column definition to avoid select errors.
 
