@@ -2233,7 +2233,6 @@ def purchaseMenu():
                         table_view.resizeColumnsToContents()
                         table_view.setSelectionBehavior(QTableView.SelectRows)
                         table_view.resizeColumnsToContents()
-                        table_view.setColumnWidth(7, 0)
                         table_view.clicked.connect(orderHandle)
                                       
                         grid.addWidget(table_view, 0, 0, 1, 6)
@@ -2353,7 +2352,7 @@ def purchaseMenu():
                         return None
                          
                 header = ['Orderlinenr','Barcode','Description','Item-price','Item-unit',\
-                          'Order-size','Ordering-manual','','Bookdate','Ordered amounts',\
+                          'Order-size','Ordering-manual','SupplierID','Bookdate','Ordered amounts',\
                           'Order-date','Deliveries','Delivery-date','Suppliernr',\
                           'Company_name']
                 
@@ -2407,7 +2406,8 @@ def purchaseMenu():
                             rporderline = con.execute(selorderline).first()
                         elif mconnect==5 or mconnect==7:
                             selorderline = select([purchase_orderlines])\
-                             .where(purchase_orderlines.c.orderlineID==orderlinenr)
+                             .where(purchase_orderlines.c.orderlineID==orderlinenr)\
+                             .order_by(purchase_orderlines.c.supplierID)
                             rporderline = con.execute(selorderline).first()
     
                         class MainWindow(QDialog):
