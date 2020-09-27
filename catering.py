@@ -1,4 +1,5 @@
-import sys, re, random, barcode, datetime, os, shutil, subprocess, keyboard, collections
+import sys, re, random, barcode, datetime, os, shutil, subprocess, keyboard
+from collections import Counter
 from math import sqrt
 from barcode.writer import ImageWriter 
 from PyQt5.QtCore import Qt, QSize, QRegExp, QAbstractTableModel
@@ -6858,7 +6859,7 @@ def seatsArrange(self, routeSeats):
             seltables = select([tables_layout]).order_by(tables_layout.c.ID)
             rptables = con.execute(seltables)
             t = 0
-            for  row in rptables:
+            for row in rptables:
                 if row[3]:
                     clientnr = '\nClientnr '+str(row[3])
                     client = clientnr
@@ -6915,7 +6916,7 @@ def seatsArrange(self, routeSeats):
             
             def connectClient(self):
                 #remove seats with even occurences
-                self.seatlist = [seat for seat, count in collections.Counter(self.seatlist).items() if count%2 == 1]
+                self.seatlist = [seat for seat, count in Counter(self.seatlist).items() if count%2 == 1]
                 self.seatlist.sort(reverse=True)  
                 indextext = qcbEdit.currentText()
                 if indextext == 'Open new table':
