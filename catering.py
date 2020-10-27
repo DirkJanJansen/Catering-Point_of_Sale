@@ -12,10 +12,10 @@ from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 from sqlalchemy import Table, Column, Integer, String, Boolean, MetaData, create_engine,\
                      Float, select, update,insert, delete, func, and_, ForeignKey
 
-def refresh(self):
+def refresh(self, seatText):
     self.close()
     routeSeats = 0
-    seatsArrange(self, routeSeats)
+    seatsArrange(self, routeSeats, seatText)
 
 def alertText(message):
     msg = QMessageBox()
@@ -6792,7 +6792,7 @@ def printEan(self, x1 ,y1):
              painter.setWindow(self.pixmap.rect())
              painter.drawPixmap(0, 0, self.pixmap)
             
-def seatsArrange(self, routeSeats):
+def seatsArrange(self, routeSeats, seatText):
     if not self.maccess:
         self.albl.setText('Please logon with your barcodecard!')
         return
@@ -6829,13 +6829,14 @@ def seatsArrange(self, routeSeats):
             self.qtotalEdit = mqtotal
             self.qcashEdit = mqcash
             self.qchangeEdit = mqchange
+            self.seatText = seatText
              
             grid = QGridLayout()
             grid.setSpacing(0)
              
             self.lblseats = QLabel(' ')
             self.lblseats.setFont(QFont("Arial", 12, 75))
-            self.lblseats.setText("Notification Bar")
+            self.lblseats.setText(self.seatText)
             self.lblseats.setAlignment(Qt.AlignCenter)
             self.lblseats.setStyleSheet("color: red ; background-color : #39CCCC")
             self.lblseats.setFixedSize(1200, 40)
@@ -6929,7 +6930,8 @@ def seatsArrange(self, routeSeats):
                 else:
                     self.mclient=int(indextext[20:])
                 if len(self.seatlist) == 0:
-                    self.lblseats.setText('Choose seat arrangement first!')
+                    self.seatText = 'Choose seat arrangement first!'
+                    self.lblseats.setText(self.seatText)
                     return
                 else:
                     mcheck = 0
@@ -6945,6 +6947,8 @@ def seatsArrange(self, routeSeats):
                              self.seatlist[x]).values(occupied=1,clientID=self.mclient,\
                              callname=self.mcallname)
                             con.execute(upd)
+                            self.seatText = 'Tableseats have been processed!'
+                            self.lblseats.setText(self.seatText)
                         else:
                             if indextext !=  'Open new table':
                                 selseats = select([tables_layout]).where(and_\
@@ -6956,7 +6960,8 @@ def seatsArrange(self, routeSeats):
                                 for seat in rpseats:
                                     if seat[2]:
                                         s += 1
-                                self.lblseats.setText('Tableseats have been processed!')
+                                self.seatText = 'Tableseats have been processed!'
+                                self.lblseats.setText(self.seatText)
                                 if s > 1:
                                     upd = update(tables_layout).where(and_(tables_layout.c.ID ==\
                                      self.seatlist[x], tables_layout.c.clientID == self.mclient, \
@@ -6973,7 +6978,8 @@ def seatsArrange(self, routeSeats):
                                       clientID == self.mclient, order_lines.c.callname == self.mcallname))
                                     rpol = con.execute(selol).first()
                                     if rpol and s == 1:
-                                        self.lblseats.setText('Last seat can only be removed by button "TRANSFER PAYED" in mainscreen!')
+                                        self.seatText = 'Last seat can only be removed by button "TRANSFER PAYED" in mainscreen!'
+                                        self.lblseats.setText(self.seatText)
                                     elif s == 1:
                                         upd = update(tables_layout).where(and_(tables_layout.c.ID ==\
                                           self.seatlist[x], tables_layout.c.clientID == self.mclient,\
@@ -7006,7 +7012,10 @@ def seatsArrange(self, routeSeats):
                         x1 = 267.3
                         y1 = 213.1
                         printEan(self, x1, y1)
-                refresh(self)
+                
+                seatText = self.seatText
+                refresh(self, seatText)
+                
             clientBtn = QPushButton('Apply\nSeats')
             clientBtn.clicked.connect(lambda: connectClient(self))
             clientBtn.setFixedSize(200, 80)
@@ -7465,8 +7474,9 @@ def barcodeScan():
             grid.addWidget(self.displayBtn, 2, 7, 1, 1, Qt.AlignRight)
             
             routeSeats = 1
+            seatText = "Notification Bar"
             self.tablesBtn = QPushButton('Open/Change\nTables/Seats')
-            self.tablesBtn.clicked.connect(lambda: seatsArrange(self, routeSeats))
+            self.tablesBtn.clicked.connect(lambda: seatsArrange(self, routeSeats, seatText))
             self.tablesBtn.setFont(QFont("Arial",12,75))
             self.tablesBtn.setFocusPolicy(Qt.NoFocus)
             self.tablesBtn.setFixedSize(200,150)
