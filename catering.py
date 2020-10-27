@@ -6908,7 +6908,7 @@ def seatsArrange(self, routeSeats):
                                         
             qcbEdit.setFixedSize(200, 40)
             qcbEdit.setStyleSheet('font: 18px bold; color:black; background-color: #F8F7EE')
-            grid.addWidget(qcbEdit, 1, 10, 1, 2, Qt.AlignBottom)
+            grid.addWidget(qcbEdit, 1, 10, 1, 2, Qt.AlignTop)
             
             def qclientChanged():
                 qcbEdit.setCurrentText(qcbEdit.currentText())
@@ -6917,7 +6917,7 @@ def seatsArrange(self, routeSeats):
             def connectClient(self):
                 #remove seats with even occurences
                 self.seatlist = [seat for seat, count in Counter(self.seatlist).items() if count%2 == 1]
-                self.seatlist.sort(reverse=True)  
+                self.seatlist.sort(reverse=True) #high numbers first 
                 indextext = qcbEdit.currentText()
                 if indextext == 'Open new table':
                     try:
@@ -7006,7 +7006,7 @@ def seatsArrange(self, routeSeats):
                         x1 = 267.3
                         y1 = 213.1
                         printEan(self, x1, y1)
-                
+                refresh(self)
             clientBtn = QPushButton('Apply\nSeats')
             clientBtn.clicked.connect(lambda: connectClient(self))
             clientBtn.setFixedSize(200, 80)
@@ -7027,14 +7027,7 @@ def seatsArrange(self, routeSeats):
             closeBtn.setFixedSize(200, 80)
             
             grid.addWidget(closeBtn, 4, 10, 1, 2)
-            
-            refreshBtn = QPushButton('Refresh')
-            refreshBtn.clicked.connect(lambda: refresh(self))
-            refreshBtn.setFixedSize(200, 40)
-            refreshBtn.setStyleSheet("font: 24px bold; color: black; background-color: #FFD700")
-
-            grid.addWidget(refreshBtn, 1, 10, 1, 2, Qt.AlignTop)
-            
+           
             lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
             lbl3.setFont(QFont("Arial", 10))
             lbl3.setFixedHeight(40)
