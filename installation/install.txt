@@ -1,4 +1,4 @@
-For additional instructions for Linux see file "LINUX Install.txt".
+For additional instructions for Linux see file Linux "LINUX Install.txt".
 For adjustments or  additions see "Changelog.txt".
 
 Install python3,  pyqt5, sqlalchemy, psycopg2 and pypiwin32, pillow, python-barcode and keyboard
@@ -25,7 +25,9 @@ Install postgresql in folder C:\programdata\postgres with password: postgres45 l
 set password in psql with \password   (postgres45)
 set password in pgadmin4: postgres45
 
-Copy folder Catering to C:\ProgramData\  (So you get C:\ProgramData\Catering\)
+
+Rename folder Catering-Point_of_Sale to Catering
+Copy folder Catering to C:\ProgramData\  (So you get C:\ProgramData\Catering\
 Import data with pgrestore-custom.bat.
 The database catering is imported in postgresql.
 pgdrop-bisystem.bat is included for deleting the database catering.
