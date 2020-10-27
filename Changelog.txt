@@ -122,3 +122,4 @@
 2020-09-26 catering.py module imports/expired added prefix - number
 2020-10-27 catering.py in seatsArrange module removed button refresh, table and seats transactions are now automatically
            showed now after each modification.
+           Added changes to preserve notifications.
