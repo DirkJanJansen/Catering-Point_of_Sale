@@ -124,3 +124,4 @@
            showed now after each modification.
            Applied changes to preserve notifications
 2020-10-27 LINUX_install.txt terminal commands applied for backup delete and restore database catering (commands for full_catering.backup)
+2020-10-28 Documentation_Catering_POS.pdf and table_management.png changed for above adjustments
