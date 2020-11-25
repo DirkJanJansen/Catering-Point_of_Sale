@@ -6489,8 +6489,6 @@ def set_barcodenr(self):
             self.plusminBtn.setChecked(False)
             self.plusminBtn.setText('+')
             self.qspin.setRange(1, 99)
-        elif self.maccess == 0 and self.mcallname:
-            self.albl.setText('No permission to execute!')
         elif self.maccess == 0:
             self.albl.setText('Please logon with your barcodecard!')
         else:
@@ -6530,8 +6528,11 @@ def set_barcodenr(self):
         checkClient(self)
     elif not self.mcallname:
         self.albl.setText('Please logon with your barcodecard!')
+    elif self.maccess == 0 and self.mcallname:
+        self.albl.setText('No permission to execute!')
+        giveAlarm() 
     elif self.mclient == 0:
-            self.albl.setText('Compose or choose existing table-arrangement!')
+        self.albl.setText('Compose or choose existing table-arrangement!')
     else:
         #alarm if barcode scan failed
         self.albl.setText('Scanning error barcode!')
