@@ -126,3 +126,4 @@
 2020-10-27 LINUX_install.txt terminal commands applied for backup delete and restore database catering (commands for full_catering.backup)
 2020-10-28 Documentation_Catering_POS.pdf and table_management.png changed for above adjustments
 2020-11-25 catering.py added notification by refusing access to operate employee (access level 0)
+2020-11-26 catering.py by no access employee show red sign

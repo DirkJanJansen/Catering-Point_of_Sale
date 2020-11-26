@@ -6530,7 +6530,9 @@ def set_barcodenr(self):
         self.albl.setText('Please logon with your barcodecard!')
     elif self.maccess == 0 and self.mcallname:
         self.albl.setText('No permission to execute!')
-        giveAlarm() 
+        self.pixmap = QPixmap('./logos/red.png')
+        self.logonstate.setPixmap(self.pixmap.scaled(40,40))
+        giveAlarm()
     elif self.mclient == 0:
         self.albl.setText('Compose or choose existing table-arrangement!')
     else:
