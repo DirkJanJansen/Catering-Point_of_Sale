@@ -128,3 +128,4 @@
 2020-11-25 catering.py added notification by refusing access to operate employee (access level 0)
 2020-11-26 catering.py by no access employee show red sign
 2020-11-29 catering.py buttons replaced to avoid incorrect selections
+2020-11-29 mainScreen.png and Documentation_Catering_POS.png changed for new buttonlayout
