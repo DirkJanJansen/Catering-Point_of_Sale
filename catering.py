@@ -7474,7 +7474,7 @@ def barcodeScan():
             self.displayBtn.setFixedSize(200,150)
             self.displayBtn.setStyleSheet("color: black;  background-color: #A267A1")
       
-            grid.addWidget(self.displayBtn, 2, 7, 1, 1, Qt.AlignRight)
+            grid.addWidget(self.displayBtn, 3, 7, 1, 1, Qt.AlignRight)
             
             routeSeats = 1
             seatText = "Notification Bar"
@@ -7485,7 +7485,7 @@ def barcodeScan():
             self.tablesBtn.setFixedSize(200,150)
             self.tablesBtn.setStyleSheet("color: black;  background-color: #d5bb55")
       
-            grid.addWidget(self.tablesBtn, 3, 7, 1, 1, Qt.AlignRight)
+            grid.addWidget(self.tablesBtn, 4, 7, 1, 1, Qt.AlignRight)
             
             self.printBtn = QPushButton('Printing')
             self.printBtn.clicked.connect(lambda: printReceipt(self))
@@ -7494,7 +7494,7 @@ def barcodeScan():
             self.printBtn.setFixedSize(200,150)
             self.printBtn.setStyleSheet("color: black;  background-color: #00FFFF")
       
-            grid.addWidget(self.printBtn, 1, 7, 1, 1, Qt.AlignRight)
+            grid.addWidget(self.printBtn, 2, 7, 1, 1, Qt.AlignRight)
             
             self.adminBtn = QPushButton('Administration')
             self.adminBtn.setFocusPolicy(Qt.NoFocus)
@@ -7513,7 +7513,7 @@ def barcodeScan():
             self.closeBtn.setFixedSize(200,150)
             self.closeBtn.setStyleSheet("color: black; background-color:   #45b39d")
 
-            grid.addWidget(self.closeBtn, 5, 7, 1, 1, Qt.AlignRight)
+            grid.addWidget(self.closeBtn, 0, 7, 1, 1, Qt.AlignRight)
                                   
             infoBtn = QPushButton('Information')
             infoBtn.clicked.connect(lambda: info())
@@ -7522,7 +7522,7 @@ def barcodeScan():
             infoBtn.setFixedSize(200,150)
             infoBtn.setStyleSheet("color: black;  background-color: #00BFFF")
     
-            grid.addWidget(infoBtn, 0, 7, 1, 1, Qt.AlignRight )
+            grid.addWidget(infoBtn, 1, 7, 1, 1, Qt.AlignRight )
            
             self.clientBtn = QPushButton('Select\nClient')
             self.clientBtn.clicked.connect(lambda: choseClient(self))
@@ -7531,7 +7531,7 @@ def barcodeScan():
             self.clientBtn.setFixedSize(200,150)            
             self.clientBtn.setStyleSheet("color:black; background-color: #3498db")
         
-            grid.addWidget(self.clientBtn, 4, 7, 1, 1, Qt.AlignRight)   
+            grid.addWidget(self.clientBtn, 5, 7, 1, 1, Qt.AlignRight)   
             
             lbl3 = QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl')
             lbl3.setFont(QFont("Arial", 10))
