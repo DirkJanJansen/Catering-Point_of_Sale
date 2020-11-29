@@ -7511,7 +7511,7 @@ def barcodeScan():
             self.closeBtn.setFont(QFont("Arial",12,75))
             self.closeBtn.setFocusPolicy(Qt.NoFocus)
             self.closeBtn.setFixedSize(200,150)
-            self.closeBtn.setStyleSheet("color: black; background-color:   #45b39d")
+            self.closeBtn.setStyleSheet("color: black; background-color:   #B0C4DEd") 
 
             grid.addWidget(self.closeBtn, 0, 7, 1, 1, Qt.AlignRight)
                                   
