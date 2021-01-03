@@ -115,6 +115,7 @@
 2020-09-20 catering.py modest calculator also removed caches by no transactions
 2020-09-21 catering.py color closeButton after pay changed
 2020-09-22 catering.py several modules by tabelview clicking on first column table definition moved after idx.column==0 to avoid wrong selections
+2021-01-03 catering.py changed copyright message
 2020-09-22 catering.py removed bug by selecting suppliers in module all orders view purchasemenu.
 2020-09-22 catering.py view selections repaired purchasemenu all orders vies and yet to order views
 2020-09-25 catering.py module bookingLoss added possibility to book - for warehouse balance by differences
