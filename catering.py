@@ -129,7 +129,7 @@ def reprintForms(path):
               printBtn.setFixedWidth(90)
               printBtn.setStyleSheet("color: black;  background-color: gainsboro")    
                   
-              grid.addWidget(QLabel('\u00A9 2017 all rights reserved dj.jansen@casema.nl'), 4, 0, 1, 3, Qt.AlignCenter)
+              grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 4, 0, 1, 3, Qt.AlignCenter)
                 
               self.setLayout(grid)
               self.setGeometry(900, 200, 150, 150)
@@ -1906,7 +1906,7 @@ def handleInvoices():
                     applyBtn.setFixedWidth(120)
                     applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
                     
-                    grid.addWidget(QLabel('\u00A9 2017 all rights reserved dj.jansen@casema.nl'), 9, 0, 1, 4, Qt.AlignCenter)
+                    grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 9, 0, 1, 4, Qt.AlignCenter)
                     
             mainWin = Window()
             mainWin.exec_() 
