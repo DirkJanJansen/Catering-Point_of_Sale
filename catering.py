@@ -3780,8 +3780,11 @@ def calculationStock():
         con.execute(updpar)
                      
         for row in rparticles:
-            mordersize = round(sqrt(2*row[5]*rppar[4][2])/(row[1]*rppar[5][2]),0)
-            mjrverbr = row[4]
+            try:
+                mordersize = round(sqrt(2*row[5]*rppar[4][2])/(row[1]*rppar[5][2]),0)
+                mjrverbr = row[4]
+            except:
+                mjrverbr = 0
             if row[3] == 1:
                 minstock = round(mjrverbr*1/104, 0) # < 3 days deliverytime
             elif row[3] == 2:
@@ -3809,8 +3812,11 @@ def calculationStock():
         con.execute(updpar)
                    
         for row in rparticles:
-            mordersize = round(sqrt(2*row[5]*rppar[4][2])/(row[1]*rppar[5][2]),0)
-            mjrverbr = row[5]
+            try:
+                mordersize = round(sqrt(2*row[5]*rppar[4][2])/(row[1]*rppar[5][2]),0)
+                mjrverbr = row[5]
+            except:
+                mjrverbr = 0
             if row[3] == 1:
                 minstock = round(mjrverbr*1/104, 0) # < 3 days deliverytime
             elif row[3] == 2:
@@ -7411,9 +7417,11 @@ def barcodeScan():
                     if self.maccess < 2:               #choose buttontext
                         aBtn = QPushButton(row[1].strip()+accent) 
                         btnlist.append(row[3].strip()) #choose barcode
+                        aBtn.clicked.connect(lambda checked, btnbarcode = btnlist[a%18] : getbarcode(btnbarcode))
                     else:    #showbuttonnumber reference and barcode for administrator
                         aBtn = QPushButton(str(row[0])+'\n'+row[2].strip()+'\n'+row[3])
                         btnlist.append(str(row[0]))    #choose buttonnumber
+                        aBtn.clicked.connect(lambda checked, btnnumber = btnlist[a%18] : getbuttonnr(btnnumber)) 
                     aBtn.setFont(QFont("Consolas", 12, 75))
                     aBtn.setStyleSheet('color: black; background-color:'+row[5])
                     aBtn.setFocusPolicy(Qt.NoFocus)
@@ -7431,12 +7439,7 @@ def barcodeScan():
                         grid.addWidget(aBtn, 4, a%3) 
                     elif a < self.index+18:
                         grid.addWidget(aBtn, 5, a%3) 
-                    
-                    if self.maccess < 2:
-                        aBtn.clicked.connect(lambda checked, btnbarcode = btnlist[a%18] : getbarcode(btnbarcode))
-                    else:
-                        aBtn.clicked.connect(lambda checked, btnnumber = btnlist[a%18] : getbuttonnr(btnnumber))                                                                 
-                        
+    
                     a += 1
                                     
             self.btngroup = 1 
