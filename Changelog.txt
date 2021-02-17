@@ -130,4 +130,6 @@
 2020-11-29 catering.py buttons replaced to avoid incorrect selections
 2021-01-03 caterijng.py changed copyright message
 2021-02-04 catering.py calculationStock with determination annual consumption by zero division repaired
+2021-02-17 catering.py changeArticle wrong index changed by category showing and updating
+
 

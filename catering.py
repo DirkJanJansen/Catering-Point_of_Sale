@@ -4324,7 +4324,7 @@ def articleRequest(mflag, btn):
                     self.q11Edit.addItem('6. Stock-driven < 12 weeks')
                     self.q11Edit.addItem('7. Stock-driven < 26 weeks')
                     self.q11Edit.addItem('8. Stock-driven < 52 weeks')
-                    self.q11Edit.setCurrentIndex(rparticle[13]-1)
+                    self.q11Edit.setCurrentIndex(rparticle[13])
          
                     #vat
                     self.q12Edit = QComboBox()
@@ -4494,7 +4494,7 @@ def articleRequest(mflag, btn):
                         mlocation = self.q8Edit.text()
                         martgroup = self.q9Edit.currentText()
                         mthumb = self.q10Edit.text()
-                        mcategory = self.q11Edit.currentIndex()+1
+                        mcategory = self.q11Edit.currentIndex()
                         mvat = self.q12Edit.currentText()
                         msupplier = self.q7aEdit.text()
                         if self.cBox.checkState():
