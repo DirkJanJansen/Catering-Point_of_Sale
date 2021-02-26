@@ -7320,7 +7320,6 @@ def barcodeScan():
                     self.index = self.index%900 
                     self.btngroup = 1
                     self.index -= self.index%90
-                    self.flag = 0
                     getMaingrouppicture()
                     btngroupChange(self)
                         
@@ -7329,15 +7328,11 @@ def barcodeScan():
                     self.index = self.index%900
                     self.btngroup = 1
                     self.index -= self.index%90
-                    self.flag = 0
                     getMaingrouppicture()
                     btngroupChange(self)
                                                                                                         
                 if self.btngroup == 1:
-                    if self.flag == 1:
-                        self.index -= 72
-                        self.flag = 0
-                    self.index += 0
+                    self.index -= self.index%90
                     if self.maccess < 2:
                         self.hBtn = QPushButton(rphbtn[int(self.index/18)][2].strip())
                     else:
@@ -7376,8 +7371,7 @@ def barcodeScan():
                         self.hBtn = QPushButton(str(rphbtn[int(self.index/18)][0])+'\n'+rphbtn[int(self.index/18)][1].strip())
                     self.hBtn.setStyleSheet('color: black; background-color:'+rphbtn[int(self.index/18)][3])
                     self.btngroup = 1
-                    self.flag = 1
-                    
+                             
                 self.hBtn.setFont(QFont("Consolas", 12, 75))
                 self.hBtn.setFocusPolicy(Qt.NoFocus)
                 self.hBtn.setFixedSize(200,150)
@@ -7450,8 +7444,7 @@ def barcodeScan():
                                     
             self.btngroup = 1 
             self.index = 0
-            self.flag = 0
-           
+              
             btngroupChange(self)
                                                      
             def getbarcode(btnbarcode):
