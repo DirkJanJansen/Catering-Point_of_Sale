@@ -7317,13 +7317,19 @@ def barcodeScan():
             def btngroupChange(self):
                 def indexIncrease(self):
                     self.index += 90
-                    self.index = self.index%900
+                    self.index = self.index%900 
+                    self.btngroup = 1
+                    self.index -= self.index%90
+                    self.flag = 0
                     getMaingrouppicture()
                     btngroupChange(self)
                         
                 def indexDecrease(self):
                     self.index -= 90
                     self.index = self.index%900
+                    self.btngroup = 1
+                    self.index -= self.index%90
+                    self.flag = 0
                     getMaingrouppicture()
                     btngroupChange(self)
                                                                                                         

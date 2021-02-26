@@ -131,5 +131,7 @@
 2021-01-03 caterijng.py changed copyright message
 2021-02-04 catering.py calculationStock with determination annual consumption by zero division repaired
 2021-02-17 catering.py changeArticle wrong index changed by category showing and updating
+2021-02-26 catering.py with changing maingroup (big double arrows up or down buttons) always starting with subgroup 1
+           
 
 
