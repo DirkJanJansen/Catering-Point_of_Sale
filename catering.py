@@ -7319,7 +7319,6 @@ def barcodeScan():
                     self.index += 90
                     self.index = self.index%900 
                     self.btngroup = 1
-                    self.index -= self.index%90
                     getMaingrouppicture()
                     btngroupChange(self)
                         
@@ -7327,7 +7326,6 @@ def barcodeScan():
                     self.index -= 90
                     self.index = self.index%900
                     self.btngroup = 1
-                    self.index -= self.index%90
                     getMaingrouppicture()
                     btngroupChange(self)
                                                                                                         
