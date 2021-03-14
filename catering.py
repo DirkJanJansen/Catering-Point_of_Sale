@@ -6063,8 +6063,9 @@ def info():
         ''')
             grid.addWidget(infotext, 1, 0)
                            
-            infotext.setStyleSheet("font: 20px Consolas bold; color: black ; background-color: #D9E1DF")   
+            infotext.setStyleSheet("font: 20px Arial; color: black ; background-color: #D9E1DF")   
             infotext.setFixedSize(1100, 700)
+            infotext.setReadOnly(True)
             grid.addWidget(QLabel('\u00A9 2020 all rights reserved dj.jansen@casema.nl'), 3, 0, 1, 1, Qt.AlignCenter)
             
             cancelBtn = QPushButton('Close')
