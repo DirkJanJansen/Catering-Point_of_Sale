@@ -5970,6 +5970,9 @@ def info():
             super(Widget, self).__init__(parent)
             self.setWindowTitle("Information barcodescan")
             self.setWindowIcon(QIcon('./logos/logo.jpg'))
+            self.setWindowFlags(self.windowFlags()| Qt.WindowSystemMenuHint |
+                                Qt.WindowMinimizeButtonHint) #Qt.WindowMinMaxButtonsHint
+            self.setWindowFlag(Qt.WindowCloseButtonHint,False)
             self.setFont(QFont('Arial', 10))
             grid = QGridLayout()
             grid.setSpacing(20)
@@ -5983,10 +5986,12 @@ def info():
             logo.setPixmap(pixmap)
             grid.addWidget(logo , 0, 0, 1, 1, Qt.AlignRight)
         
-            lbl = QLabel()
-            pixmap = QPixmap('./logos/logo.jpg')
-            lbl.setPixmap(pixmap)
-            grid.addWidget(lbl, 0, 0)
+            pyqt = QLabel()
+            movie = QMovie('./logos/pyqt.gif')
+            pyqt.setMovie(movie)
+            movie.setScaledSize(QSize(240,80))
+            movie.start()
+            grid.addWidget(pyqt, 0 ,0)
             
             infotext = QPlainTextEdit(\
         '''                                                                        User information.
