@@ -4100,27 +4100,35 @@ def articleRequest(mflag, btn):
                         else:
                             mbtnnr = int(self.q2Edit.text())
                         mbtntext = self.q3Edit.toPlainText()
-                        mbtncolor = self.q4Edit.text()
-                        if len(mbtncolor) < 7:
-                            mbtncolor = '#FFFFF0'
-                        mlist = mbtntext.split('\n')
-                        for line in mlist:
-                             if len(line) > 14:
-                                 message = 'No more then 14 characters per line allowed'
-                                 alertText(message)
-                                 break
-                             elif len(mlist) > 4:
-                                 message= 'No more then 4 lines allowed!'
-                                 alertText(message)
-                                 break
-                        else:
+                        if mbtntext.strip() == '':
                             updbtn = update(buttons).where(buttons.c.buttonID==mbtnnr).\
-                             values(barcode=str(mbarcode),buttontext=mbtntext,\
-                              bg_color=mbtncolor,accent=maccent)
+                             values(barcode='', buttontext='',accent=0,bg_color='#FFFFF0')
                             con.execute(updbtn)
-                            message = 'Productbutton text / color changed!'
+                            message = 'Button released empty!'
                             actionOK(message)
                             self.close()
+                        else:
+                            mbtncolor = self.q4Edit.text()
+                            if len(mbtncolor) < 7:
+                                mbtncolor = '#FFFFF0'
+                            mlist = mbtntext.split('\n')
+                            for line in mlist:
+                                 if len(line) > 14:
+                                     message = 'No more then 14 characters per line allowed'
+                                     alertText(message)
+                                     break
+                                 elif len(mlist) > 4:
+                                     message= 'No more then 4 lines allowed!'
+                                     alertText(message)
+                                     break
+                            else:
+                                updbtn = update(buttons).where(buttons.c.buttonID==mbtnnr).\
+                                 values(barcode=str(mbarcode),buttontext=mbtntext,\
+                                  bg_color=mbtncolor,accent=maccent)
+                                con.execute(updbtn)
+                                message = 'Productbutton text / color changed!'
+                                actionOK(message)
+                                self.close()
                                             
                     self.setLayout(grid)
                     self.setGeometry(900, 200, 150, 100)
