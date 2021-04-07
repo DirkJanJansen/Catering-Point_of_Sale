@@ -4050,7 +4050,7 @@ def articleRequest(mflag, btn):
                     grid.addWidget(self.q1Edit, 1, 1)
                      
                     lbl2 = QLabel('Button-Number')
-                    lbl2.setFont(QFont("Arail", 10))
+                    lbl2.setFont(QFont("Arial", 10))
                     grid.addWidget(lbl2, 2, 0, 1, 1, Qt.AlignRight)
                     grid.addWidget(self.q2Edit, 2, 1)
                     
