@@ -136,4 +136,6 @@
 2021-02-27 catering.py switched positions maingroupbuttons previous and next (double arrow buttons)
 2021-03-14 catering.py info screen set readonly
 2021-04-07 catering.py by emptying productbuttons also barcode released empty
+2021-04-08 documentation changed for empty productbuttons
+
 
