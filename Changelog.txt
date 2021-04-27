@@ -132,10 +132,9 @@
 2021-02-04 catering.py calculationStock with determination annual consumption by zero division repaired
 2021-02-17 catering.py changeArticle wrong index changed by category showing and updating
 2021-02-26 catering.py with changing maingroup (big double arrows up or down buttons) always starting with subgroup 1
-2021-02-26 catering.py changing main buttongroups more coherent by coding without guiding-parameter self.flag
+2021-02-26 catering.py changing main buttongroups more coherent by coding without guiding-parameter self.fla
 2021-02-27 catering.py switched positions maingroupbuttons previous and next (double arrow buttons)
-2021-03-14 catering.py info screen set readonly
 2021-04-07 catering.py by emptying productbuttons also barcode released empty
-2021-04-08 documentation changed for empty productbuttons
+2021-04-27 Several screenshots added.
 
 
