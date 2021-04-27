@@ -136,5 +136,6 @@
 2021-02-27 catering.py switched positions maingroupbuttons previous and next (double arrow buttons)
 2021-04-07 catering.py by emptying productbuttons also barcode released empty
 2021-04-27 Several screenshots added.
+2021-04-27 added Screenshot for switching services between employees
 
 
