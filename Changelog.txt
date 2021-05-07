@@ -140,6 +140,6 @@
 2021-04-28 added Screenshot Add_Remove_seats.pdf Changed Select_Client.pdf
 2021-05-04 Removed Add_Removed_seats.png and added Add_seat_16-2.png and Remove_seat_35-3.png
 2021-05-04 Added Screenshot Open_seats_17-1_17-2.png
-2021-05-07 full_catering.backup, by productbuttons removed index for normal users. For administrators index is showed.
+2021-05-07 full_catering.backup, catering.backup and empty_catering.backup: productbuttontext removed index indicator for normal users. For administrators index indicator is showed.
 
 
