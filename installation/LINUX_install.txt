@@ -89,3 +89,8 @@ createdb catering
 
 restore database:
 pg_restore --dbname=catering  --verbose "/home/postgres/Catering/installation/full_catering.backup"
+or for restricted database (Only few articles and functional data):
+pg_restore --dbname=catering  --verbose "/home/postgres/Catering/installation/catering.backup"
+Or for empty database (Only functional data):
+pg_restore --dbname=catering  --verbose "/home/postgres/Catering/installation/empty-catering.backup"
+
