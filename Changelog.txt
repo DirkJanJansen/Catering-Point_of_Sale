@@ -143,4 +143,5 @@
 2021-05-07 full_catering.backup, catering.backup and empty_catering.backup: productbuttontext removed index indicator for normal users.
            For administrators index indicators are showed. (after refresh)
 2021-05-09 added LINUX_install.txt with restore for empty and restricted databases
+2021-05-12 install.txt added for command prompt executing lines for restoring empty database and restricted database
 
