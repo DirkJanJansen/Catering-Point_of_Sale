@@ -30,6 +30,25 @@ Rename folder Catering-Point_of_Sale to Catering
 Copy folder Catering to C:\ProgramData\  (So you get C:\ProgramData\Catering\
 Import data with pgrestore-custom.bat.
 The database catering is imported in postgresql.
+
+Or if you want a empty database from scratch:
+Copy and paste the following lines and return for executing in command terminal (cmd):
+remove database with:
+"C:\ProgramData\postgres\bin\dropdb.exe"  -h localhost -p 5432 -U postgres  -w catering
+create new database
+"C:\ProgramData\postgres\bin\createdb.exe" -h  localhost -p 5432 -U postgres -w catering
+restore empty database (only functional data):
+"C:\ProgramData\postgres\bin\pg_restore.exe" --dbname=catering  --verbose "D:\Sales\Installation\empty-catering.backup"
+
+Or if you want a restricted database from scratch (some articles and functional data):
+Copy and paste the following lines and return for executing in command terminal (cmd):
+remove database with:
+"C:\ProgramData\postgres\bin\dropdb.exe"  -h localhost -p 5432 -U postgres  -w catering
+create new database
+"C:\ProgramData\postgres\bin\createdb.exe" -h  localhost -p 5432 -U postgres -w catering
+restore RESTRICTED database (some articles and functional data):
+"C:\ProgramData\postgres\bin\pg_restore.exe" --dbname=catering  --verbose "D:\Sales\Installation\catering.backup"
+
 pgdrop-bisystem.bat is included for deleting the database catering.
 pgdump-custom.bat is included for backup database. (if you backup rename database name, so you avoid overwriting  
 existing backups)
