@@ -23,7 +23,7 @@ echo.
 echo.
 echo.
 "C:\ProgramData\postgres\bin\createdb.exe" -h  localhost -p 5432 -U postgres -w catering
-"C:\ProgramData\postgres\bin\pg_restore.exe" --dbname=catering  --verbose "C:\ProgramData\Catering\installation\catering.backup"
+"C:\ProgramData\postgres\bin\pg_restore.exe" --dbname=catering  --verbose "C:\ProgramData\Catering\installation\full_catering.backup"
 echo.
 echo Database catering is restored!
 echo.
