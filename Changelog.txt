@@ -144,4 +144,5 @@
            For administrators index indicators are showed. (after refresh)
 2021-05-09 added LINUX_install.txt with restore for empty and restricted databases
 2021-05-12 install.txt added for command prompt executing lines for restoring empty database and restricted database
+2021-05-18 Productbuttuns_insert screenshot changed
 
