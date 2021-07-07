@@ -5670,56 +5670,64 @@ def insertArticles():
             grid.addWidget(QLabel('Fill all fields before scanning'), 10, 2)
             
             def insArticle(self):
+                def writeArticle():
+                    mdescr = self.q2Edit.text()
+                    mshort = self.q2aEdit.text()
+                    mprice = float(self.q3Edit.text())
+                    msellprice = float(self.q3aEdit.text())
+                    msellcontent = float(self.q3bEdit.text())
+                    munit = self.q5Edit.currentText()
+                    mminstock = float(self.q6Edit.text())
+                    morder_size = float(self.q7Edit.text())
+                    mlocation = self.q8Edit.text()
+                    martgroup = self.q9Edit.currentText()
+                    mthumb = self.q10Edit.text()
+                    mcategory = self.q11Edit.currentIndex()+1
+                    mvat = self.q12Edit.currentText()
+                    msupplier = self.q7aEdit.text()
+                    if self.cBox.checkState():
+                        madd = 1
+                    else:
+                        madd = 0
+                    if self.cBoxord.checkState():
+                        morderstate = 1
+                    else:
+                        morderstate = 0
+                    if mdescr and mshort and mprice and morder_size and mcategory:
+                        insart = insert(articles).values(barcode=mbarcode,description=mdescr,\
+                            short_descr=mshort,item_price=mprice,selling_price=msellprice,\
+                            selling_contents=msellcontent,item_unit=munit, minimum_stock=mminstock,\
+                            order_size=morder_size, location_warehouse=mlocation,\
+                            article_group=martgroup,thumbnail=mthumb,\
+                            category=mcategory,VAT=mvat, additional = madd,\
+                            ordering_manual = morderstate, supplierID = msupplier)
+                        con.execute(insart)
+                        ean = barcode.get('ean13',str(mbarcode), writer=ImageWriter())
+                        if sys.platform == 'win32':
+                            ean.save('.\\Barcodes\\Articles\\'+str(mbarcode))
+                        else:
+                            ean.save('./Barcodes/Articles/'+str(mbarcode))
+                        #x1 = 372.9
+                        #y1 = 228.5
+                        #printEan(self, x1, y1)
+                        message =  "Insert succeeded"
+                        actionOK(message)
+                        self.close()
+                    else:
+                        message = 'Not all fields are filled in!'
+                        alertText(message)
+                        self.close()
+                        
                 if len(self.q13Edit.text())==13 and checkEan13(self.q13Edit.text()):
                     mbarcode = str(self.q13Edit.text())
+                    writeArticle()
+                elif len(self.q13Edit.text()) > 0:
+                    message = 'Scan error occurred!'
+                    alertText(message)
                 else:
                     mbarcode = str(self.q1Edit.text())
-                mdescr = self.q2Edit.text()
-                mshort = self.q2aEdit.text()
-                mprice = float(self.q3Edit.text())
-                msellprice = float(self.q3aEdit.text())
-                msellcontent = float(self.q3bEdit.text())
-                munit = self.q5Edit.currentText()
-                mminstock = float(self.q6Edit.text())
-                morder_size = float(self.q7Edit.text())
-                mlocation = self.q8Edit.text()
-                martgroup = self.q9Edit.currentText()
-                mthumb = self.q10Edit.text()
-                mcategory = self.q11Edit.currentIndex()+1
-                mvat = self.q12Edit.currentText()
-                msupplier = self.q7aEdit.text()
-                if self.cBox.checkState():
-                    madd = 1
-                else:
-                    madd = 0
-                if self.cBoxord.checkState():
-                    morderstate = 1
-                else:
-                    morderstate = 0
-                if mdescr and mshort and mprice and morder_size and mcategory:
-                    insart = insert(articles).values(barcode=mbarcode,description=mdescr,\
-                        short_descr=mshort,item_price=mprice,selling_price=msellprice,\
-                        selling_contents=msellcontent,item_unit=munit, minimum_stock=mminstock,\
-                        order_size=morder_size, location_warehouse=mlocation,\
-                        article_group=martgroup,thumbnail=mthumb,\
-                        category=mcategory,VAT=mvat, additional = madd,\
-                        ordering_manual = morderstate, supplierID = msupplier)
-                    con.execute(insart)
-                    ean = barcode.get('ean13',str(mbarcode), writer=ImageWriter())
-                    if sys.platform == 'win32':
-                        ean.save('.\\Barcodes\\Articles\\'+str(mbarcode))
-                    else:
-                        ean.save('./Barcodes/Articles/'+str(mbarcode))
-                    #x1 = 372.9
-                    #y1 = 228.5
-                    #printEan(self, x1, y1)
-                    message =  "Insert succeeded"
-                    actionOK(message)
-                    self.close()
-                else:
-                    message = 'Not all fields are filled in!'
-                    alertText(message)
-                    self.close()
+                    writeArticle()
+
  
             applyBtn = QPushButton('Insert')
             applyBtn.clicked.connect(lambda: insArticle(self))
