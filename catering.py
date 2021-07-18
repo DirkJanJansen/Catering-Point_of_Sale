@@ -1053,9 +1053,9 @@ def articleMenu():
                     btn = 0
                     articleRequest(mflag, btn)
                 elif mindex == 2:
-                    flag = 2
+                    mflag = 2
                     btn = 0
-                    articleRequest(flag, btn)
+                    articleRequest(mflag, btn)
                 elif mindex == 3:
                     requestLoss()
 
@@ -5727,7 +5727,6 @@ def insertArticles():
                 else:
                     mbarcode = str(self.q1Edit.text())
                     writeArticle()
-
  
             applyBtn = QPushButton('Insert')
             applyBtn.clicked.connect(lambda: insArticle(self))
