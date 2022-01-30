@@ -2,7 +2,7 @@ For additional instructions for Linux see file Linux "LINUX Install.txt".
 For adjustments or  additions see "Changelog.txt".
 
 Install python3, 
-Bext items with: pip install
+Next items with: pip install
 pyqt5, sqlalchemy, psycopg2 and pypiwin32, pillow, python-barcode and keyboard
 
 For printing listings change this settings in notepad:
