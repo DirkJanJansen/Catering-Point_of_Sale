@@ -79,7 +79,7 @@ Database backup and restore from terminal
 commands in terminal Ctrl+Alt+t
 
 backup database:
-pg_dump -v --verbose -d  catering -Fc -f  "/home/postgres/Catering/installation/full_catering.backup"
+pg_dump -v --verbose -d  catering -Fc -f  "/home/postgres/Catering/Installation/full_catering.backup"
 
 delete database:
 dropdb catering
@@ -88,9 +88,9 @@ create empty database:
 createdb catering
 
 restore database:
-pg_restore --dbname=catering  --verbose "/home/postgres/Catering/installation/full_catering.backup"
+pg_restore --dbname=catering  --verbose "/home/postgres/Catering/Installation/full_catering.backup"
 or for restricted database (Only few articles and functional data):
-pg_restore --dbname=catering  --verbose "/home/postgres/Catering/installation/catering.backup"
+pg_restore --dbname=catering  --verbose "/home/postgres/Catering/Installation/catering.backup"
 Or for empty database (Only functional data):
-pg_restore --dbname=catering  --verbose "/home/postgres/Catering/installation/empty-catering.backup"
+pg_restore --dbname=catering  --verbose "/home/postgres/Catering/Installation/empty-catering.backup"
 
