@@ -8,7 +8,7 @@ params = Table('params', metadata,
        Column('item', String),
        Column('value', Float))
 
-engine = create_engine('postgresql+psycopg2://postgres@localhost/cashregister')
+engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
 con = engine.connect()
 
 myear = int(str(datetime.date.today())[0:4])
