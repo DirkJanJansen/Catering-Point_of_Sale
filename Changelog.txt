@@ -146,4 +146,5 @@
 2021-05-12 install.txt added for command prompt executing lines for restoring empty database and restricted database
 2021-07-07 catering.py insertArticles  error routine added by faulty scanning barcode.
 2023-03-17 catering.py corrected mismatch by even/odd year if program longer then a year not used
+2023-03-17 catering.py mismatch correction removed and changed by one-time program reset_odd_even.py if problem occurs
 
