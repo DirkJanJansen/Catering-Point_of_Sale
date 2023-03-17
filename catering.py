@@ -1619,7 +1619,7 @@ def newSupplier():
             grid.addWidget(lblq8, 8, 0)
             grid.addWidget(self.q8Edit, 8, 1)
             
-            lblq9= QLabel('Addional country\nbound data\nVAT-number\nChamber of commerce')
+            lblq9= QLabel('myear = int(str(datetime.date.today())[0:4]) country\nbound data\nVAT-number\nChamber of commerce')
             grid.addWidget(lblq9, 9, 0)
             grid.addWidget(self.q9Edit, 9, 1)
           
@@ -3769,7 +3769,9 @@ def calculationStock():
     
     engine = create_engine('postgresql+psycopg2://postgres@localhost/catering')
     con = engine.connect()
-           
+    myear = int(str(datetime.date.today())[0:4])
+    updeven = update(params).where(params.c.paramID == 4).values(value=int(myear % 2))
+    con.execute(updeven)
     selpar = select([params]).order_by(params.c.paramID)
     rppar = con.execute(selpar).fetchall()
     myear = int(str(datetime.date.today())[0:4])
@@ -3780,11 +3782,8 @@ def calculationStock():
         con.execute(updpar)
                      
         for row in rparticles:
-            try:
-                mordersize = round(sqrt(2*row[5]*rppar[4][2])/(row[1]*rppar[5][2]),0)
-                mjrverbr = row[4]
-            except:
-                mjrverbr = 0
+            mordersize = round(sqrt(2*row[5]*rppar[4][2])/(row[1]*rppar[5][2]),0)
+            mjrverbr = row[4]
             if row[3] == 1:
                 minstock = round(mjrverbr*1/104, 0) # < 3 days deliverytime
             elif row[3] == 2:
@@ -3812,11 +3811,8 @@ def calculationStock():
         con.execute(updpar)
                    
         for row in rparticles:
-            try:
-                mordersize = round(sqrt(2*row[5]*rppar[4][2])/(row[1]*rppar[5][2]),0)
-                mjrverbr = row[5]
-            except:
-                mjrverbr = 0
+            mordersize = round(sqrt(2*row[5]*rppar[4][2])/(row[1]*rppar[5][2]),0)
+            mjrverbr = row[5]
             if row[3] == 1:
                 minstock = round(mjrverbr*1/104, 0) # < 3 days deliverytime
             elif row[3] == 2:
