@@ -24,7 +24,8 @@ Adding new products possible by generating barcodes in reserved range, or scanni
 
 *****
 
-Link to Documentation: https://raw.githubusercontent.com/DirkJanJansen/Catering/master/Documentation_Catering_POS.pdf
+Link to Documentation: https://github.com/DirkJanJansen/Catering/tree/master/Documentation_Catering_POS.pdf
+
 
 Link to Screenshots: https://github.com/DirkJanJansen/Catering/tree/master/Screenshots
 
