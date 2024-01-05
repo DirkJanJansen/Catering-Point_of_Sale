@@ -77,7 +77,7 @@ The fonts in Linux differ from Windows. (Install Arial, Comic Sans MS, Times, Sa
 https://www.ostechnix.com/install-microsoft-windows-fonts-ubuntu-16-04/
 Or copy fonts from Windows/Fonts in dir .local/share/fonts
 in terminal sudo fc-cache -r -f
-install Ubuntu tweak tools and increase font with 20% for optimal views
+install Ubuntu tweak tools and increase font with 10% for optimal views
    
 startup files in Linux:
 Copy pos.png from folder Installation in folder /home/postgres/.icons
