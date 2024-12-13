@@ -149,4 +149,5 @@
 2023-03-17 catering.py mismatch correction removed and changed by one-time program reset_odd_even.py if problem occurs
 2023-03-17 reset_odd_even.py message if reset successful.
 2023-03-17 procedure added for starting reset_odd_even.py in install texts
+2024-12-13 Added catering.sh and changed Catering.desktop for adding Virual Environment see LINUX_install.txt
 
