@@ -6,4 +6,4 @@ cd $HOME/Catering
 
 python3 $HOME/Catering/catering.py
 
-source $HOME/venv/bin/deactivate
+deactivate
