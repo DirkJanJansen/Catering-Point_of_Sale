@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Catering
+Comment=Point of Sales for catering purposes
+Path=./Catering
+Exec=bash catering.sh
+Icon=pos
+Terminal=false
+Type=Application
+Categories=Application;
