@@ -2,8 +2,8 @@
 Version=1.0
 Name=Catering
 Comment=Point of Sales for catering purposes
-Path=/home/postgres/Catering
-Exec=bash /home/postgres/Catering/catering.sh
+Path=./Catering
+Exec=bash catering.sh
 Icon=register.png
 Terminal=false
 Type=Application
