@@ -97,6 +97,7 @@ install Ubuntu tweak tools and increase font with 10% for optimal views
 startup files in Linux:
 Copy pos.png from folder Installation in folder /home/postgres/.icons
 Copy Catering.desktop from folder Installation in /home/postgres/.local/share/applications
+Login again, to activate.
 
 All settings that differ from executing in Windows are automatically adjusted for Ubuntu
 
