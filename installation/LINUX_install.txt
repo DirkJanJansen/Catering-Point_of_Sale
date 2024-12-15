@@ -71,7 +71,7 @@ Follow these settings exactly for printlists with more pages
 
 Barcode enabling in linux: (if your barcodescanner stops working by thirst scan like mine)
 Copy file .usbkbd.sh from folder installation in folder /home/postgres ($HOME)
-chmod 600 .usbkbd.sh
+chmod 755 .usbkbd.sh
 If the password changed for Ubuntu from postgres45 change it too in .usbkbd.sh
 Thats all. The script is called with starting Catering.py and the barcodescanner works again.
 
